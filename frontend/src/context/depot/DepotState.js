@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, Fragment, useReducer } from 'react'
 import axios from 'axios';
-import CovidContext from './depotContext';
-import CovidReducer from './depotReducer';
+import DepotContext from './depotContext';
+import DepotReducer from './depotReducer';
 import {
   GET_COVID
 } from '../types'
@@ -12,7 +12,7 @@ const DepotState = props => {
     covidData: [],
     loading: true
   };
-  const [state, dispatch] = useReducer(CovidReducer, initialState);
+  const [state, dispatch] = useReducer(DepotReducer, initialState);
 
   const getCovid = async () => {
     try {
@@ -21,7 +21,6 @@ const DepotState = props => {
         type: GET_COVID,
         payload: res.data
       })
-
     } catch (err) {
       console.error(err.message);
       // res.status(500).send('Server Error');
@@ -30,14 +29,14 @@ const DepotState = props => {
 
 
   return (
-    <CovidContext.Provider value={{
+    <DepotContext.Provider value={{
       covidData: state.covidData,
       loading: state.loading,
       getCovid
     }}>
       {props.children}
 
-    </CovidContext.Provider>
+    </DepotContext.Provider>
   )
 
 }

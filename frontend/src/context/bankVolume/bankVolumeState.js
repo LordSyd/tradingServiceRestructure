@@ -14,8 +14,6 @@ const BankVolumeState = props => {
   };
   const [state, dispatch] = useReducer(bankVolumeReducer, initialState);
 
-
-
   const getPrice = async () => {
     try {
       const res = await axios.get('/api/dashboard/gasStation');
@@ -23,13 +21,11 @@ const BankVolumeState = props => {
         type: GET_GAS_PRICE,
         payload: res.data
       })
-
     } catch (err) {
       console.error(err.message, 'my err?');
       // res.status(500).send('Server Error');
     }
   }
-
 
   return (
     <bankVolumeContext.Provider value={{
@@ -38,10 +34,8 @@ const BankVolumeState = props => {
       getPrice
     }}>
       {props.children}
-
     </bankVolumeContext.Provider>
   )
-
 }
 
 export default BankVolumeState;
