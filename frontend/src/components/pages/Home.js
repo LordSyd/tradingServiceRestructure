@@ -141,7 +141,6 @@ const Home = () => {
             <AktienDetails></AktienDetails>
           </div>
           <div key="corona" className="wrapper-dash">
-            <h2>Depot Information</h2>
             <div className="covid-wrapper">
               <Depot></Depot>
             </div>

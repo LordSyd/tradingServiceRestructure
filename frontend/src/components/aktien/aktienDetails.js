@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect, Fragment } from 'react';
 import AktienDetailsContext from '../../context/aktienDetails/aktienDetailsContext';
 import { css } from "@emotion/react";
 import BeatLoader from "react-spinners/BeatLoader";
-import CustomizedTables from "./aktienTable"
+import CustomizedTablesAktien from "../aktienTable/aktienTable"
 
 const AktienDetails = () => {
   const aktienDetailsContext = useContext(AktienDetailsContext);
@@ -71,7 +71,7 @@ const AktienDetails = () => {
           </div>
         ) :
             <div>
-              {CustomizedTables()}
+              {CustomizedTablesAktien()}
             </div>
         }
 

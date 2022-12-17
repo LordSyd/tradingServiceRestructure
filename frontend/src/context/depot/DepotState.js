@@ -10,7 +10,7 @@ import {
 const DepotState = props => {
   const initialState = {
     covidData: [],
-    loading: true
+    loading: false
   };
   const [state, dispatch] = useReducer(DepotReducer, initialState);
 

@@ -34,12 +34,11 @@ function createData(name, companyValue, price, quantity) {
 
 const rows = [
     createData('Apple', 2000000, 65, 24),
-    createData('Microsoft', 3000000, 70, 37),
+    createData('Microsoft', 2000000, 65, 24),
     createData('Facebook', 2000000, 65, 24),
-    createData('Tesla', 3000000, 70, 67),
 ];
 
-export default function CustomizedTables() {
+export default function CustomizedTablesDepot() {
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
