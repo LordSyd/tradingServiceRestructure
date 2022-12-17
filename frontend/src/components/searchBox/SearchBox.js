@@ -2,7 +2,9 @@ import React, { useState, useContext, useEffect, Fragment } from 'react';
 import SearchBoxContext from '../../context/searchBox/searchBoxContext';
 import BeatLoader from "react-spinners/BeatLoader";
 import { css } from "@emotion/react";
-import RenderGroup from '../searchbar/Searchbar'
+import SearchShare from '../searchbar/searchShare'
+import SearchCustomer from "../searchbar/searchCustomer";
+import addCustomerButton from "../button/addCustomerButton";
 
 const SearchBox = () => {
     const searchBoxContext = useContext(SearchBoxContext)
@@ -32,7 +34,9 @@ const SearchBox = () => {
             ) :
                 (
                     <div>
-                        {RenderGroup()}
+                        {SearchShare()}
+                        {SearchCustomer()}
+                        {addCustomerButton()}
                     </div>
                 )}
         </div>

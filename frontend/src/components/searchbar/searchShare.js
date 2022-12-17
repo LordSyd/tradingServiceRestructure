@@ -19,7 +19,7 @@ const GroupItems = styled('ul')({
     padding: 0,
 });
 
-export default function RenderGroup() {
+export default function SearchShare() {
     const options = top100Films.map((option) => {
         const firstLetter = option.title[0].toUpperCase();
         return {

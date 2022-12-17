@@ -11,7 +11,7 @@ import BeatLoader from "react-spinners/BeatLoader";
 import { css } from "@emotion/react";
 import Depot from '../depot/Depot';
 import BankVolume from '../bankVolume/BankVolume';
-import RenderGroup from '../searchbar/Searchbar'
+import SearchShare from '../searchbar/searchShare'
 
 const Home = () => {
   const authContext = useContext(AuthContext);

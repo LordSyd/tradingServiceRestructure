@@ -2,12 +2,12 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
-export default function addButton() {
+export default function addCustomerButton() {
     return (
         <Box sx={{ '& button': { m: 1 } }}>
             <div>
                 <Button variant="contained" size="small">
-                    Sell Share
+                    Add Customer
                 </Button>
             </div>
         </Box>
