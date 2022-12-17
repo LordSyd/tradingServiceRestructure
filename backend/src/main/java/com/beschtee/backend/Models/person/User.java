@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @MappedSuperclass
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+/*@NoArgsConstructor*/
 public abstract class User {
     @Id
     @SequenceGenerator( //to make it BIGSERIAL and create sequence

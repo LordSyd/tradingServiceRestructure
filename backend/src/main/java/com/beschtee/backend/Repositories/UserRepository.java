@@ -1,10 +1,13 @@
 package com.beschtee.backend.Repositories;
 
-import com.beschtee.backend.Models.Bank;
+import com.beschtee.backend.Models.person.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
-public interface BankRepository extends JpaRepository<Bank, Long> {
+public interface UserRepository extends JpaRepository<Customer, Long> {
+
 
 }
