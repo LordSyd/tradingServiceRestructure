@@ -4,6 +4,7 @@ import { css } from "@emotion/react";
 import BeatLoader from "react-spinners/BeatLoader";
 import CustomizedTablesAktien from "../aktienTable/aktienTable"
 import CustomizedTablesDepot from "../depotTable/depotTable";
+import ButtonAdd from "../button/button"
 
 const Depot = () => {
     const depotContext = useContext(DepotContext);
@@ -32,6 +33,7 @@ const Depot = () => {
                 ) :
                     <div>
                         {CustomizedTablesDepot()}
+                        {ButtonAdd()}
                     </div>
                 }
             </div>

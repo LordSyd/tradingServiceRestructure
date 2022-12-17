@@ -44,7 +44,7 @@ export default function CustomizedTablesDepot() {
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell>Available shares</StyledTableCell>
+                        <StyledTableCell>Your Depot</StyledTableCell>
                         <StyledTableCell align="right">Company Value&nbsp;(EUR)</StyledTableCell>
                         <StyledTableCell align="right">Price&nbsp;(EUR)</StyledTableCell>
                         <StyledTableCell align="right">Quantity&nbsp;(Stk)</StyledTableCell>
