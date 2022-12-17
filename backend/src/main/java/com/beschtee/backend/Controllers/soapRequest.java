@@ -21,7 +21,7 @@ public class soapRequest {
             ObjectFactory objectFactory = new ObjectFactory();
             FindStockQuotesByCompanyName type = new FindStockQuotesByCompanyName();
             type.setPartOfCompanyName(companyName);
-            FindStockQuotesByCompanyNameResponse response = soapClient.getStockQuotes("https://edu.dedisys.org/ds-finance/ws/TradingService");
+            FindStockQuotesByCompanyNameResponse response = soapClient.getStockQuotes("https://edu.dedisys.org/ds-finance/ws/TradingService", objectFactory.createFindStockQuotesByCompanyName(type));
             return response.getReturn();
         }
     }
