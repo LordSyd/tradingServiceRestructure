@@ -1,9 +1,8 @@
 import React, { useState, useContext, useEffect, Fragment } from 'react';
 import AktienDetailsContext from '../../context/aktienDetails/aktienDetailsContext';
-import { Line } from 'react-chartjs-2';
 import { css } from "@emotion/react";
 import BeatLoader from "react-spinners/BeatLoader";
-
+import CustomizedTables from "./aktienTable"
 
 const AktienDetails = () => {
   const aktienDetailsContext = useContext(AktienDetailsContext);
@@ -71,11 +70,9 @@ const AktienDetails = () => {
             <BeatLoader color={color} loading={loading} css={override} size={20}></BeatLoader>
           </div>
         ) :
-          (<div className="line-chart-dash">
             <div>
-              <Line data={data} options={options} />
+              {CustomizedTables()}
             </div>
-          </div>)
         }
 
       </div>

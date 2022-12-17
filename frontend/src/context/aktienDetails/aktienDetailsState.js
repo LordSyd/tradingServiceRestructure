@@ -10,7 +10,7 @@ import {
 const AktienDetailsState = props => {
   const initialState = {
     hourlyForecast: [],
-    loading: true
+    loading: false
   };
   const [state, dispatch] = useReducer(WeatherForecasatReducer, initialState);
 
