@@ -21,8 +21,16 @@ public class TemplateController {
         return "Main";
     }
 
+    @GetMapping("/test")
+    public String goToTestPage() {
+        return "Test";
+    }
+
+/*
     @GetMapping("/**")
     public String redirectToMain() {
         return "redirect:/main";
     }
+
+ */
 }
