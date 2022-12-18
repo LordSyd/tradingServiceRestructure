@@ -42,11 +42,12 @@ const Register = props => {
       setAlert('Passwords do not match', 'danger');
     } else {
       register({
-        firstName,
-        lastName,
-        email,
-        adresse,
-        password
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        address: adresse,
+        password: password,
+        userRole: 'EMPLOYEE'
       });
     }
   };

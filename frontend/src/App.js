@@ -21,7 +21,7 @@ import Register from './components/login/Register';
 import Login from './components/login/Login';
 import About from './components/pages/About'
 import Home from './components/pages/Home';
-
+import './globals'
 //*import states below*//
 import AuthState from './context/auth/AuthState';
 import AlertState from './context/alert/AlertState';

@@ -30,7 +30,7 @@ const AuthState = props => {
     setAuthToken(localStorage.token);
 
     try {
-      const res = await axios.get('/api/auth');
+      const res = await axios.get(`${global.BACKEND_URL}/api/auth`);
 
       dispatch({
         type: USER_LOADED,
@@ -50,7 +50,7 @@ const AuthState = props => {
     };
 
     try {
-      const res = await axios.post('/api/register', formData, config);
+      const res = await axios.post(`${global.BACKEND_URL}/api/register`, formData, config);
 
       dispatch({
         type: REGISTER_SUCCESS,
@@ -75,7 +75,7 @@ const AuthState = props => {
     };
 
     try {
-      const res = await axios.post('/api/auth', formData, config);
+      const res = await axios.post(`${global.BACKEND_URL}/api/auth`, formData, config);
 
       dispatch({
         type: LOGIN_SUCCESS,
