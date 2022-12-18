@@ -62,7 +62,7 @@ const Register = props => {
           <input
             id='name'
             type='text'
-            name='name'
+            name='firstName'
             value={firstName}
             onChange={onChange}
             required
@@ -73,7 +73,7 @@ const Register = props => {
           <input
               id='name'
               type='text'
-              name='name'
+              name='lastName'
               value={lastName}
               onChange={onChange}
               required
@@ -95,7 +95,7 @@ const Register = props => {
           <input
               id='name'
               type='text'
-              name='name'
+              name='adresse'
               value={adresse}
               onChange={onChange}
               required
