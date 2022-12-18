@@ -145,6 +145,12 @@ const Home = () => {
               <Depot></Depot>
             </div>
           </div>
+          <div key="gas" className="wrapper-dash">
+            <h2>Bank Volume</h2>
+            <div className="covid-wrapper">
+              <BankVolume></BankVolume>
+            </div>
+          </div>
         </ResponsiveReactGridLayout>
 
       )}

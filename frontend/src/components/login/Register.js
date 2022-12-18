@@ -22,26 +22,30 @@ const Register = props => {
   }, [error, isAuthenticated, props.history]);
 
   const [user, setUser] = useState({
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
+    adresse: '',
     password: '',
     password2: ''
   });
 
-  const { name, email, password, password2 } = user;
+  const { firstName, lastName, email, adresse, password, password2 } = user;
 
   const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
 
   const onSubmit = e => {
     e.preventDefault();
-    if (name === '' || email === '' || password === '') {
+    if (firstName === '' || email === '' || password === '') {
       setAlert('Please enter all fields', 'danger');
     } else if (password !== password2) {
       setAlert('Passwords do not match', 'danger');
     } else {
       register({
-        name,
+        firstName,
+        lastName,
         email,
+        adresse,
         password
       });
     }
@@ -54,14 +58,25 @@ const Register = props => {
       </h1>
       <form onSubmit={onSubmit}>
         <div className='form-group'>
-          <label htmlFor='name'>Name</label>
+          <label htmlFor='name'>First Name</label>
           <input
             id='name'
             type='text'
             name='name'
-            value={name}
+            value={firstName}
             onChange={onChange}
             required
+          />
+        </div>
+        <div className='form-group'>
+          <label htmlFor='name'>Last Name</label>
+          <input
+              id='name'
+              type='text'
+              name='name'
+              value={lastName}
+              onChange={onChange}
+              required
           />
         </div>
         <div className='form-group'>
@@ -73,6 +88,17 @@ const Register = props => {
             value={email}
             onChange={onChange}
             required
+          />
+        </div>
+        <div className='form-group'>
+          <label htmlFor='name'>Adresse</label>
+          <input
+              id='name'
+              type='text'
+              name='name'
+              value={adresse}
+              onChange={onChange}
+              required
           />
         </div>
         <div className='form-group'>
