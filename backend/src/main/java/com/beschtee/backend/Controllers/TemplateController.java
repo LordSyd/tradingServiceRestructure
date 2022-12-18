@@ -16,12 +16,12 @@ public class TemplateController {
     @Autowired
     private BankService bankService;
 
-    @GetMapping("/main")
+    @GetMapping("/api/dashboard")
     public String goToMainPage() {
         return "Main";
     }
 
-    @GetMapping("/test")
+    @GetMapping("/api/test")
     public String goToTestPage() {
         return "Test";
     }

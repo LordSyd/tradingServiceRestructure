@@ -31,12 +31,12 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/main", "/registration").permitAll()
+                        .requestMatchers("/api/main", "/api/register").permitAll()
                 )
 
                 .authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers("/auth/authenticate")
+                                .requestMatchers("/api/auth")
                                 .permitAll()
                                 .anyRequest().authenticated()
                 )
