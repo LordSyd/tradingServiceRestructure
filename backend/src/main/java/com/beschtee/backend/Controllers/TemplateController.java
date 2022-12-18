@@ -16,13 +16,21 @@ public class TemplateController {
     @Autowired
     private BankService bankService;
 
-    @GetMapping("/main")
+    @GetMapping("/api/dashboard")
     public String goToMainPage() {
         return "Main";
     }
 
+    @GetMapping("/api/test")
+    public String goToTestPage() {
+        return "Test";
+    }
+
+/*
     @GetMapping("/**")
     public String redirectToMain() {
         return "redirect:/main";
     }
+
+ */
 }

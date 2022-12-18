@@ -1,6 +1,6 @@
 package com.beschtee.backend.Models;
 
-import com.beschtee.backend.Models.person.Customer;
+import com.beschtee.backend.Models.person.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,5 +32,5 @@ public class Depot {
 
     @OneToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = true)
-    public Customer customer;
+    public User customer;
 }
