@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 @Configuration
-public class Marshaller {
+public class BeanConfig {
     @Bean
-    public Jaxb2Marshaller marshallerTest()  {
+    public Jaxb2Marshaller marshaller()  {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
         marshaller.setContextPath("com.beschtee.backend.stub");
         return marshaller;

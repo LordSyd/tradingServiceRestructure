@@ -2,7 +2,7 @@
 // Diese Datei wurde mit der JavaTM Architecture for XML Binding(JAXB) Reference Implementation, v2.3.0 generiert 
 // Siehe <a href="https://javaee.github.io/jaxb-v2/">https://javaee.github.io/jaxb-v2/</a> 
 // Änderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
-// Generiert: 2022.12.17 um 05:28:26 PM CET 
+// Generiert: 2022.12.18 um 04:25:04 AM CET 
 //
 
 
@@ -10,7 +10,10 @@ package com.beschtee.backend.stub;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 
 /**
@@ -32,13 +35,11 @@ import javax.xml.bind.annotation.*;
  * 
  * 
  */
-@XmlSeeAlso({FindStockQuotesByCompanyName.class})
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "findStockQuotesByCompanyNameResponse", propOrder = {
     "_return"
 })
-public class
-FindStockQuotesByCompanyNameResponse {
+public class FindStockQuotesByCompanyNameResponse {
 
     @XmlElement(name = "return")
     protected List<PublicStockQuote> _return;
