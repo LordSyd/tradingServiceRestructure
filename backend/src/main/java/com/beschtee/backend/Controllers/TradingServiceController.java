@@ -19,7 +19,7 @@ public class TradingServiceController {
     @Autowired
     private SoapClient soapClient;
 
-    @GetMapping("/new")
+    @GetMapping("/findStock")
     public List<PublicStockQuote> test(@RequestParam String namePart) {
         ObjectFactory objectFactory = new ObjectFactory();
         FindStockQuotesByCompanyName type = new FindStockQuotesByCompanyName();
