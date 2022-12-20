@@ -30,27 +30,9 @@ const BankVolume = () => {
             <BeatLoader color={color} loading={loading} css={override} size={20}></BeatLoader>
           </div>
         ) : (
-
-            <Fragment>
-            <div className="grid-covid">
-                <div><i className="fas fa-gas-pump"> </i> </div>
-                {name}
+            <div>
+              <h1>1.000.000.000</h1>
             </div>
-            <div className="grid-covid">
-                <div><i className="fas fa-dollar-sign"> </i> </div>
-               Diesel: {prices[0].amount}€ || 
-               Super: {prices[1][0].amount}€
-            </div>
-            <div className="grid-covid">
-                <div><i className="fas fa-map-pin"> </i> </div>
-                {location.address}
-            </div>
-
-            <div className="grid-covid">
-                <div><i className="fas fa-car"> </i> </div>
-                Distance: {distance.toFixed(2)} km
-            </div>
-        </Fragment>
         )}
 
 

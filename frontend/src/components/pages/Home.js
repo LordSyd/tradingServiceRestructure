@@ -9,8 +9,9 @@ import { Responsive, WidthProvider } from 'react-grid-layout';
 import useForceUpdate from 'use-force-update';
 import BeatLoader from "react-spinners/BeatLoader";
 import { css } from "@emotion/react";
-import Covid from '../depot/Depot';
-import Gas from '../bankVolume/BankVolume';
+import Depot from '../depot/Depot';
+import BankVolume from '../bankVolume/BankVolume';
+import SearchShare from '../searchbar/searchShare'
 
 const Home = () => {
   const authContext = useContext(AuthContext);
@@ -140,9 +141,14 @@ const Home = () => {
             <AktienDetails></AktienDetails>
           </div>
           <div key="corona" className="wrapper-dash">
-            <h2>Depot Information</h2>
             <div className="covid-wrapper">
-              <Covid></Covid>
+              <Depot></Depot>
+            </div>
+          </div>
+          <div key="gas" className="wrapper-dash">
+            <h2>Bank Volume</h2>
+            <div className="covid-wrapper">
+              <BankVolume></BankVolume>
             </div>
           </div>
         </ResponsiveReactGridLayout>
@@ -175,13 +181,13 @@ const Home = () => {
           <div key="corona" className="wrapper-dash">
             <h2>Depot Information</h2>
             <div className="covid-wrapper">
-              <Covid></Covid>
+              <Depot></Depot>
             </div>
           </div>
           <div key="gas" className="wrapper-dash">
             <h2>Bank Volume</h2>
             <div className="covid-wrapper">
-              <Gas></Gas>
+              <BankVolume></BankVolume>
             </div>
           </div>
         </ResponsiveReactGridLayout>

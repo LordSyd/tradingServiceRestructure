@@ -10,7 +10,7 @@ import {
 const SearchBoxState = props => {
     const initialState = {
         weather: [],
-        loading: true
+        loading: false
     };
     const [state, dispatch] = useReducer(WeatherReducer, initialState);
 

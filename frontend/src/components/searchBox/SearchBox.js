@@ -2,6 +2,9 @@ import React, { useState, useContext, useEffect, Fragment } from 'react';
 import SearchBoxContext from '../../context/searchBox/searchBoxContext';
 import BeatLoader from "react-spinners/BeatLoader";
 import { css } from "@emotion/react";
+import SearchShare from '../searchbar/searchShare'
+import SearchCustomer from "../searchbar/searchCustomer";
+import addCustomerButton from "../button/addCustomerButton";
 
 const SearchBox = () => {
     const searchBoxContext = useContext(SearchBoxContext)
@@ -23,7 +26,6 @@ const SearchBox = () => {
     }, []);
 
     return (
-
         <div className="container-dash">
             {loading ? (
                 <div className="spinner-placement">
@@ -32,14 +34,12 @@ const SearchBox = () => {
             ) :
                 (
                     <div>
-                        <h1>React Search</h1>
+                        {SearchShare()}
+                        {SearchCustomer()}
+                        {addCustomerButton()}
                     </div>
                 )}
-
-
         </div>
-
-
     )
 };
 

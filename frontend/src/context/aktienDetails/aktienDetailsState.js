@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, Fragment, useReducer } from 'react'
 import axios from 'axios';
-import WeatherForecastContext from './aktienDetailsContext';
-import WeatherForecasatReducer from './aktienDetailsReducer';
+import aktienDetailsContext from './aktienDetailsContext';
+import aktienDetailsReducer from './aktienDetailsReducer';
 import {
   GET_HOURLY_WEATHER
 } from '../types'
@@ -10,9 +10,9 @@ import {
 const AktienDetailsState = props => {
   const initialState = {
     hourlyForecast: [],
-    loading: true
+    loading: false
   };
-  const [state, dispatch] = useReducer(WeatherForecasatReducer, initialState);
+  const [state, dispatch] = useReducer(aktienDetailsReducer, initialState);
 
   const getHourlyForecast = async () => {
     try {
@@ -31,7 +31,7 @@ const AktienDetailsState = props => {
 
 
   return (
-    <WeatherForecastContext.Provider value={{
+    <aktienDetailsContext.Provider value={{
       hourlyForecast: state.hourlyForecast,
       loading: state.loading,
       getHourlyForecast
@@ -39,7 +39,7 @@ const AktienDetailsState = props => {
     }}>
       {props.children}
 
-    </WeatherForecastContext.Provider>
+    </aktienDetailsContext.Provider>
   )
 
 }

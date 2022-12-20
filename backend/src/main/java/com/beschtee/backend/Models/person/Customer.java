@@ -1,5 +1,5 @@
 package com.beschtee.backend.Models.person;
-
+/*
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
@@ -12,3 +12,4 @@ import lombok.*;
 @EqualsAndHashCode(callSuper=true)
 public class Customer extends User {
 }
+*/
