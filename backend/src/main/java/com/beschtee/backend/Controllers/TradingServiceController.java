@@ -18,14 +18,39 @@ public class TradingServiceController {
     @Autowired
     private SoapClient soapClient;
 
-    @GetMapping("/api/findStock")
-    public List<PublicStockQuote> test(@RequestParam String namePart) {
+    @GetMapping("/api/findStockByName")
+    public List<PublicStockQuote> findStockByName(@RequestParam String namePart) {
         ObjectFactory objectFactory = new ObjectFactory();
         FindStockQuotesByCompanyName type = new FindStockQuotesByCompanyName();
         type.setPartOfCompanyName(namePart);
 
         FindStockQuotesByCompanyNameResponse response = soapClient.getStock("https://edu.dedisys.org/ds-finance/ws/TradingService",
                 objectFactory.createFindStockQuotesByCompanyName(type));
+        return response.getReturn();
+    }
+
+    @GetMapping("/api/findStocksBySymbol")
+    public List<PublicStockQuote> findStocksBySymbol(@RequestParam List<String> symbols) {
+        ObjectFactory objectFactory = new ObjectFactory();
+        GetStockQuotes type = new GetStockQuotes();
+        for (String symbol : symbols) {
+            type.getSymbols().add(symbol);
+        }
+
+        GetStockQuotesResponse response = soapClient.findStocksBySymbol("https://edu.dedisys.org/ds-finance/ws/TradingService",
+                objectFactory.createGetStockQuotes(type));
+        return response.getReturn();
+    }
+
+
+    @GetMapping("/api/getStockQuoteHistory")
+    public List<PublicStockQuote> getStockQuoteHistory(@RequestParam String symbol) {
+        ObjectFactory objectFactory = new ObjectFactory();
+        GetStockQuoteHistory type = new GetStockQuoteHistory();
+        type.setSymbol(symbol);
+
+        GetStockQuoteHistoryResponse response = soapClient.getStockHistory("https://edu.dedisys.org/ds-finance/ws/TradingService",
+                objectFactory.createGetStockQuoteHistory(type));
         return response.getReturn();
     }
 
