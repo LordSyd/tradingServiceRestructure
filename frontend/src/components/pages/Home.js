@@ -14,6 +14,7 @@ import BankVolume from '../bankVolume/BankVolume';
 import SearchShare from '../searchbar/searchShare'
 import axios from "axios";
 import {REGISTER_SUCCESS} from "../../context/types";
+import setAuthToken from "../../utils/setAuthToken";
 
 const Home = () => {
   const authContext = useContext(AuthContext);
@@ -132,6 +133,7 @@ const Home = () => {
   };*/
   const onStockSearchSubmit = async (namePart) => {
     console.log("onSubmit " + namePart)
+    setAuthToken(localStorage.token)
     try {
       const res = await axios.get(`${global.BACKEND_URL}/api/findStockByName?namePart=${namePart}`);
 
