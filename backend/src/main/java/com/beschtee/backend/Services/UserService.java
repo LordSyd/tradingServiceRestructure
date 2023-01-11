@@ -6,6 +6,7 @@ import com.beschtee.backend.Models.person.UserRole;
 import com.beschtee.backend.Repositories.UserRepository;
 import com.beschtee.backend.Validators.EmailValidator;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,18 +14,33 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
 public class UserService implements UserDetailsService {
     private final String USER_NOT_FOUND_MSG = "User with email %s not found";
+    private final String USER_NOT_EXISTS_MSG = "User with id %s does not exist";
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepository;
     private final EmailValidator emailValidator;
 
+    public User getCurrentUser() {
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userRepository.findById(currentUser.getId()).orElseThrow(()->
+                new IllegalStateException("Current user with email"+ currentUser.getEmail() + " and id "
+                        + currentUser.getId() + " does not exist in the database."));
+    }
+
     public User getUserById(Long id) {
         return userRepository.findById(id).orElseThrow(() ->
-            new IllegalStateException("User with id " + id + " does not exist."));
+            new NoSuchElementException(String.format(USER_NOT_EXISTS_MSG, id))
+        );
+    }
+
+    public User getUserByName(String firstName, String lastName) {
+        return this.userRepository.findUserByFirstNameEqualsAndLastNameEquals(firstName, lastName).orElseThrow(() ->
+                new NoSuchElementException(" User with first name" + firstName +  " last name " + lastName + " not found"));
     }
 
     public List<User> getAllUsers() {
@@ -34,7 +50,7 @@ public class UserService implements UserDetailsService {
     public void deleteUser(Long id) {
         boolean exists = userRepository.existsById(id);
         if (!exists) {
-            throw new IllegalStateException("User with id " + id + " does not exist.");
+            throw new IllegalStateException(String.format(USER_NOT_EXISTS_MSG, id));
         }
         userRepository.deleteById(id);
     }
