@@ -13,16 +13,4 @@ public class TradingServiceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TradingServiceApplication.class, args);
 	}
-/*
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("http://localhost:8080/api/findStockByName?namePart=coca")
-						.allowedOrigins("http://localhost:3000/");
-			}
-		};
-	}
-*/
 }

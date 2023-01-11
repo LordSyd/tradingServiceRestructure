@@ -33,7 +33,9 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http    .cors().configurationSource(corsConfigurationSource())
+        http
+                .cors()
+                //.cors().configurationSource(corsConfigurationSource())
                 .and()
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
@@ -55,7 +57,7 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider())
                 //user jwtAuthFilter before Username and Password Auth Filter
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-        //.httpBasic(); //how authentication
+            //.httpBasic(); //how authentication
         ;
 
         // http.formLogin();
@@ -80,6 +82,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000/"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
