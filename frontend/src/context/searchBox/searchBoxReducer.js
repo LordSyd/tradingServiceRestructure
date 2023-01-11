@@ -1,14 +1,13 @@
 import {
-    GET_WEATHER,
+    GET_STOCKS,
 } from '../types'
 
 
 export default (state, action) =>{
     switch(action.type){
-        case GET_WEATHER:
+        case GET_STOCKS:
             return{
-                ...state,
-                weather: action.payload,
+                stocks: action.payload,
                 loading: false
             }
         default:

@@ -1,10 +1,11 @@
 import React, { useReducer } from 'react'
 import axios from 'axios';
-import WeatherContext from './searchBoxContext';
-import WeatherReducer from './searchBoxReducer';
+import SearchBoxContext from './searchBoxContext';
+import SearchBoxReducer from './searchBoxReducer';
 import {
-    GET_WEATHER,
+    GET_STOCKS,
 } from '../types'
+import setAuthToken from "../../utils/setAuthToken";
 
 
 const SearchBoxState = props => {
@@ -12,13 +13,29 @@ const SearchBoxState = props => {
         weather: [],
         loading: false
     };
-    const [state, dispatch] = useReducer(WeatherReducer, initialState);
+    const [state, dispatch] = useReducer(SearchBoxReducer, initialState);
 
-    const getWeather = async () => {
+    const getStocks = async (namePart) => {
+        console.log("onSubmit " + namePart)
+        setAuthToken(localStorage.token)
+        try {
+            const res = await axios.get(`${global.BACKEND_URL}/api/findStockByName?namePart=${namePart}`);
+
+            dispatch({
+                type: GET_STOCKS,
+                payload: res.data
+            })
+            console.log(res)
+        }catch (e) {
+            console.error(e)
+        }
+    }
+
+    /*const getWeather = async () => {
         try {
             const res = await axios.get('/api/dashboard/tempCurrent');
             dispatch({
-                type: GET_WEATHER,
+                type: GET_STOCKS,
                 payload: res.data
             })
 
@@ -27,17 +44,17 @@ const SearchBoxState = props => {
             // res.status(500).send('Server Error');
         }
     }
-
+*/
 
     return (
-        <WeatherContext.Provider value={{
-            weather: state.weather,
+        <SearchBoxContext.Provider value={{
+            stocks: state.stocks,
             loading: state.loading,
-            getWeather
+            getStocks
         }}>
             {props.children}
 
-        </WeatherContext.Provider>
+        </SearchBoxContext.Provider>
     )
 
 }

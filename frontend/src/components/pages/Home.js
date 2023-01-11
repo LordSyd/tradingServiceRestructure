@@ -22,8 +22,8 @@ const Home = () => {
 
 
   const unAuthlayout = [
-    { i: 'weatherLarge', x: 0, y: 0, w: 6, h: 2, minW: 6, minH:2},
-    { i: 'weatherSmall', x: 8, y: 0, w: 4, h: 2, minW: 4, maxW: 4,minH:2 },
+    { i: 'SearchedAktien', x: 0, y: 0, w: 7, h: 3, minW: 6, minH:2},
+    { i: 'weatherSmall', x: 8, y: 0, w: 3, h: 2, minW: 4, maxW: 4,minH:2 },
     { i: 'standardRss', x: 0, y: 1, w: 3, h: 2, minW: 3, maxW: 4,minH:2 },
     { i: 'spotify', x: 3, y: 1, w: 3, h: 2, minW: 3, maxH: 3,minH:2 },
     { i: 'quote', x: 6, y: 2, w: 4, h: 2, minW: 4, maxH: 3,minH:2 },
@@ -33,8 +33,8 @@ const Home = () => {
   ]
 
   const authLayout = [
-    { i: 'weatherLarge', x: 0, y: 0, w: 6, h: 2, minW: 6,minH:2 },
-    { i: 'weatherSmall', x: 8, y: 0, w: 4, h: 2, minW: 4, maxW: 4, minH:2},
+    { i: 'SearchedAktien', x: 0, y: 0, w: 7, h: 3, minW: 6,minH:2 },
+    { i: 'weatherSmall', x: 8, y: 0, w: 3, h: 2, minW: 4, maxW: 4, minH:2},
     { i: 'notes', x: 0, y: 1, w: 5, h: 2,minH:2 },
     { i: 'notes-form', x: 6, y: 1, w: 5, h: 2,minH:2 },
     { i: 'standardRss', x: 0, y: 2, w: 3, h: 2, minW: 3 ,minH:2 },
@@ -45,8 +45,8 @@ const Home = () => {
   ]
 
   const unAuthlayoutMD = [
-    { i: 'weatherLarge', x: 0, y: 0, w: 10, h: 2, minW: 10,minH:2 },
-    { i: 'weatherSmall', x: 5, y: 1, w: 3, h: 2, minW: 4, maxW: 4,minH:2 },
+    { i: 'SearchedAktien', x: 0, y: 0, w: 8, h: 2, minW: 10,minH:2 },
+    { i: 'weatherSmall', x: 5, y: 1, w: 2, h: 2, minW: 4, maxW: 4,minH:2 },
     { i: 'standardRss', x: 0, y: 1, w: 3, h: 2, minW: 4, maxW: 4,minH:2 },
     { i: 'spotify', x: 2, y: 3, w: 2, h: 2, minW: 1, maxH: 3 },
     { i: 'quote', x: 5, y: 3, w: 2, h: 2, minW: 4, maxH: 3,minH:2 },
@@ -55,8 +55,8 @@ const Home = () => {
   ]
 
   const authLayoutMD = [
-    { i: 'weatherLarge', x: 0, y: 0, w: 10, h: 2, minW: 10,minH:2 },
-    { i: 'weatherSmall', x: 5, y: 1, w: 3, h: 2, minW: 4, maxW: 4, minH:2 },
+    { i: 'SearchedAktien', x: 0, y: 0, w: 8, h: 2, minW: 10,minH:2 },
+    { i: 'weatherSmall', x: 5, y: 1, w: 2, h: 2, minW: 4, maxW: 4, minH:2 },
     { i: 'standardRss', x: 0, y: 1, w: 3, h: 2, minW: 4, maxW: 4 },
     { i: 'notes', x: 0, y: 2, w: 3, h: 2,minH:2 },
     { i: 'notes-form', x: 4, y: 2, w: 3, h: 2,minH:2 },
@@ -126,12 +126,10 @@ const Home = () => {
   }
   const [stocks, setStocks] = useState();
 
- /* const config = {
-    headers: {
-      headers: { Authorization: `Bearer ${localStorage.token}` }
-    }
-  };*/
-  const onStockSearchSubmit = async (namePart) => {
+  const config = {
+      headers: { "Content-Type": 'application/javascript' }
+  };
+  /*const onStockSearchSubmit = async (namePart) => {
     console.log("onSubmit " + namePart)
     setAuthToken(localStorage.token)
     try {
@@ -142,7 +140,7 @@ const Home = () => {
     }catch (e) {
       console.error(e)
     }
-  }
+  }*/
 
   const unAuthLayoutContent = (
     <Fragment>
@@ -158,11 +156,11 @@ const Home = () => {
           onBreakpointChange={onBreakpointChange}
         >
           <div key="searchBox">
-            <SearchBox onSubmit={onStockSearchSubmit}></SearchBox>
+            <SearchBox></SearchBox>
           </div>
-          <div key="aktienDetails">
-            <AktienDetails></AktienDetails>
-          </div>
+
+            <AktienDetails key="SearchedAktien"></AktienDetails >
+
           <div key="depot" className="wrapper-dash">
             <div className="depot-wrapper">
               <Depot></Depot>
@@ -195,9 +193,9 @@ const Home = () => {
           onBreakpointChange={onBreakpointChange}
         >
           <div key="weatherSmall">
-            <SearchBox onSubmit={onStockSearchSubmit}></SearchBox>
+            <SearchBox></SearchBox>
           </div>
-          <div key="weatherLarge">
+          <div key="SearchedAktien">
             <AktienDetails></AktienDetails>
           </div>
 
