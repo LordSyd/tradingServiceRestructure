@@ -12,9 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -55,7 +53,7 @@ public class UserService implements UserDetailsService {
             throw new IllegalStateException("email not valid");
         }
 
-        return this.singUpUser(User.builder()
+        return this.signUpUser(User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .address(request.getAddress())
@@ -67,7 +65,7 @@ public class UserService implements UserDetailsService {
                 .build());
     }
 
-    public User singUpUser(User user) {
+    public User signUpUser(User user) {
         boolean userExists = userRepository.findUserByEmail(user.getEmail()).isPresent();
 
         //TODO: change the way the problem with already existing user is handled

@@ -12,6 +12,8 @@ import { css } from "@emotion/react";
 import Depot from '../depot/Depot';
 import BankVolume from '../bankVolume/BankVolume';
 import SearchShare from '../searchbar/searchShare'
+import axios from "axios";
+import {REGISTER_SUCCESS} from "../../context/types";
 
 const Home = () => {
   const authContext = useContext(AuthContext);
@@ -78,6 +80,7 @@ const Home = () => {
 
   useEffect(() => {
     if (localStorage.token) {
+      console.log('getUser')
       authContext.loadUser();
     }
     setLayout({
@@ -120,6 +123,24 @@ const Home = () => {
   const onBreakpointChange = (all) => {
     //console.log(all, 'breakpoint');
   }
+  const [stocks, setStocks] = useState();
+
+ /* const config = {
+    headers: {
+      headers: { Authorization: `Bearer ${localStorage.token}` }
+    }
+  };*/
+  const onStockSearchSubmit = async (namePart) => {
+    console.log("onSubmit " + namePart)
+    try {
+      const res = await axios.get(`${global.BACKEND_URL}/api/findStockByName?namePart=${namePart}`);
+
+
+      console.log(res)
+    }catch (e) {
+      console.error(e)
+    }
+  }
 
   const unAuthLayoutContent = (
     <Fragment>
@@ -134,20 +155,20 @@ const Home = () => {
           onLayoutChange={onWidthChange}
           onBreakpointChange={onBreakpointChange}
         >
-          <div key="weatherSmall">
-            <SearchBox></SearchBox>
+          <div key="searchBox">
+            <SearchBox onSubmit={onStockSearchSubmit}></SearchBox>
           </div>
-          <div key="weatherLarge">
+          <div key="aktienDetails">
             <AktienDetails></AktienDetails>
           </div>
-          <div key="corona" className="wrapper-dash">
-            <div className="covid-wrapper">
+          <div key="depot" className="wrapper-dash">
+            <div className="depot-wrapper">
               <Depot></Depot>
             </div>
           </div>
           <div key="gas" className="wrapper-dash">
             <h2>Bank Volume</h2>
-            <div className="covid-wrapper">
+            <div className="depot-wrapper">
               <BankVolume></BankVolume>
             </div>
           </div>
@@ -172,7 +193,7 @@ const Home = () => {
           onBreakpointChange={onBreakpointChange}
         >
           <div key="weatherSmall">
-            <SearchBox></SearchBox>
+            <SearchBox onSubmit={onStockSearchSubmit}></SearchBox>
           </div>
           <div key="weatherLarge">
             <AktienDetails></AktienDetails>
@@ -180,13 +201,13 @@ const Home = () => {
 
           <div key="corona" className="wrapper-dash">
             <h2>Depot Information</h2>
-            <div className="covid-wrapper">
+            <div className="depot-wrapper">
               <Depot></Depot>
             </div>
           </div>
           <div key="gas" className="wrapper-dash">
             <h2>Bank Volume</h2>
-            <div className="covid-wrapper">
+            <div className="depot-wrapper">
               <BankVolume></BankVolume>
             </div>
           </div>
@@ -200,7 +221,9 @@ const Home = () => {
   return (
     <Fragment>
       <div>
+
         {isAuthenticated ? authLayoutContet : unAuthLayoutContent}
+
       </div>
     </Fragment>
   )

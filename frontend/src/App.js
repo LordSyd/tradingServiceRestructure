@@ -17,7 +17,7 @@ import { lightTheme, darkTheme } from './components/theme/theme';
 import Alert from './components/layout/Alerts'
 
 //*import pages below *//
-import Register from './components/login/Register';
+import Register from './components/register/Register';
 import Login from './components/login/Login';
 import About from './components/pages/About'
 import Home from './components/pages/Home';
@@ -61,6 +61,7 @@ const App = () => {
                           <div className="container">
                             <Alert></Alert>
                             <Switch>
+                              <PrivateRoute exact path="/" component={Home} />
                               <Route exact path='/' component={Home}></Route>
                               <Route exact path='/about' component={About}></Route>
                               <Route exact path='/login' component={Login}></Route>

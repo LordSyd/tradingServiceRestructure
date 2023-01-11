@@ -24,21 +24,18 @@ const Depot = () => {
 
     const { confCases, deaths, recovered, activeCases, newCases } = covidData;
     return (
-        <Fragment>
             <div className="container-covid">
                 {loading ? (
                     <div className="spinner-placement">
                         <BeatLoader color={color} loading={loading} css={override} size={20}></BeatLoader>
                     </div>
                 ) :
-                    <div>
+                    <Fragment>
                         {CustomizedTablesDepot()}
                         {ButtonAdd()}
-                    </div>
+                    </Fragment>
                 }
             </div>
-        </Fragment>
-
     )
 };
 

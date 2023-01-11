@@ -31,13 +31,15 @@ const AuthState = props => {
 
     try {
       const res = await axios.get(`${global.BACKEND_URL}/api/auth`);
-
       dispatch({
         type: USER_LOADED,
         payload: res.data
       });
     } catch (err) {
-      dispatch({ type: AUTH_ERROR });
+      dispatch({
+        type: USER_LOADED,
+        payload: undefined
+      });
     }
   };
 
@@ -76,7 +78,7 @@ const AuthState = props => {
 
     try {
       const res = await axios.post(`${global.BACKEND_URL}/api/auth`, formData, config);
-
+      console.log(res.data)
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data

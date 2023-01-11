@@ -13,7 +13,7 @@ import NoteContext from '../../context/notes/noteContext';
 
 
     useEffect(()=>{
-         getNotes();
+
            // eslint-disable-next-line
      },[]); 
 

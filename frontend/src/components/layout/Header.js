@@ -12,9 +12,13 @@ const Header = (props) => {
   
           <div className="navbar">
              {themeSelected == "light" ?(
-               <div className="MainLogo">
-                   <img src={mainLogoBlack} alt="firespot" />
-               </div>
+
+                   <img  style={{
+
+                       marginLeft: "auto",
+                       marginRight: "auto",
+                       width: "50%"
+                   }} src={mainLogoBlack} alt="firespot" />
                
              ):(
                <div className="MainLogoWhite">

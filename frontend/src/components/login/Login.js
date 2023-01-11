@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
-import Register from './Register'
+import Register from '../register/Register'
 import AlertContext from '../../context/alert/alertContext';
 import AuthContext from '../../context/auth/authContext';
 import {Link} from 'react-router-dom'
@@ -19,10 +19,12 @@ const Login = (props) =>{
     const authContext = useContext(AuthContext)
     const {login, error, clearErrors, isAuthenticated } = authContext;
 
+
     useEffect(()=>{
+        console.log(isAuthenticated)
         if(isAuthenticated){
             props.history.push('/')
-            getNotes();
+
             //dasboardContext.loadDash();
         }
         console.log(error, ' err')

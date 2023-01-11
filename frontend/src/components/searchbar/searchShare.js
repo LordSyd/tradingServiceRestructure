@@ -1,8 +1,12 @@
 
-import * as React from 'react';
+import React, {useState} from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { lighten, darken, styled } from "@mui/material/styles";
+import Button from "@mui/material/Button";
+import {Link} from "react-router-dom";
+import Box from "@mui/material/Box";
+import {Fragment} from "react";
 
 const GroupHeader = styled('div')(({ theme }) => ({
     position: 'sticky',
@@ -19,17 +23,42 @@ const GroupItems = styled('ul')({
     padding: 0,
 });
 
-export default function SearchShare() {
-    const options = top100Films.map((option) => {
+export default function SearchShare(props) {
+    const [text, setText] = useState("");
+    /*const options = top100Films.map((option) => {
         const firstLetter = option.title[0].toUpperCase();
         return {
             firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
             ...option,
         };
-    });
+    });*/
+    const handleClick = () => {
+
+        props.onSubmit(text)
+
+    }
+
+
 
     return (
-        <Autocomplete
+        <Fragment>
+            <TextField id="filled-basic" label="Filled" variant="filled" value={text} onChange={(e) => {
+                setText(e.target.value);
+            }} />
+            <Box sx={{ '& button': { m: 1 } }}>
+                <div>
+                    <Button variant="contained" size="small" onClick={() => {
+                        handleClick();
+                    }}>
+                        Search Share
+                    </Button>
+                </div>
+            </Box>
+        </Fragment>
+
+
+
+        /*<Autocomplete
             id="grouped-demo"
             options={options.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
             groupBy={(option) => option.firstLetter}
@@ -42,7 +71,7 @@ export default function SearchShare() {
                     <GroupItems>{params.children}</GroupItems>
                 </li>
             )}
-        />
+        />*/
     );
 }
 

@@ -6,7 +6,7 @@ import SearchShare from '../searchbar/searchShare'
 import SearchCustomer from "../searchbar/searchCustomer";
 import addCustomerButton from "../button/addCustomerButton";
 
-const SearchBox = () => {
+const SearchBox = (props) => {
     const searchBoxContext = useContext(SearchBoxContext)
     const { weather, getWeather, loading } = searchBoxContext;
 
@@ -34,7 +34,10 @@ const SearchBox = () => {
             ) :
                 (
                     <div>
-                        {SearchShare()}
+                        <h3>Search Share</h3>
+                        <SearchShare onSubmit={props.onSubmit}/>
+
+                        <h3>Search Customer</h3>
                         {SearchCustomer()}
                         {addCustomerButton()}
                     </div>

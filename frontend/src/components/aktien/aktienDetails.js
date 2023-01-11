@@ -4,15 +4,19 @@ import { css } from "@emotion/react";
 import BeatLoader from "react-spinners/BeatLoader";
 import CustomizedTablesAktien from "../aktienTable/aktienTable"
 
+
 const AktienDetails = () => {
+
   const aktienDetailsContext = useContext(AktienDetailsContext);
   const { hourlyForecast, getHourlyForecast, loading } = aktienDetailsContext;
   const { dt, temp } = hourlyForecast;
 
   useEffect(() => {
     getHourlyForecast();
-    // eslint-disable-next-line
+
+
   }, []);
+
 
 
   const override = css`

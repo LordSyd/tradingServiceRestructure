@@ -41,7 +41,7 @@ const Register = props => {
     } else if (password !== password2) {
       setAlert('Passwords do not match', 'danger');
     } else {
-      register({
+       register({
         firstName: firstName,
         lastName: lastName,
         email: email,

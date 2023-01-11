@@ -36,12 +36,12 @@ import AuthContext from '../../context/auth/authContext'
                 About
                 </Link>
             </li>
-            <li>
+{/*            <li>
                 <Link to="/notes">
                 <i className="far fa-sticky-note"></i>{' '}
                 Notes
                 </Link>
-            </li>
+            </li>*/}
             <li>
                 <a onClick={logOut} href="#!">
                     <i className='fas fa-sign-out-alt' /> {' '}
