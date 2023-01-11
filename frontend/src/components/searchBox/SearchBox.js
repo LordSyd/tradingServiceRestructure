@@ -6,9 +6,9 @@ import SearchShare from '../searchbar/searchShare'
 import SearchCustomer from "../searchbar/searchCustomer";
 import addCustomerButton from "../button/addCustomerButton";
 
-const SearchBox = (props) => {
+const SearchBox = () => {
     const searchBoxContext = useContext(SearchBoxContext)
-    const { weather, getWeather, loading } = searchBoxContext;
+    const { stocks, getStocks, loading } = searchBoxContext;
 
 
     const override = css`
@@ -16,12 +16,14 @@ const SearchBox = (props) => {
         margin: 0 auto;
         border-color: white;
     `;
-
-    const { wind, maxTemp, minTemp, pressure, temp, feelsLike, humidity, icon, name } = weather;
+    const onSubmit = (namePart) => {
+        getStocks(namePart)
+    }
+    /*const { wind, maxTemp, minTemp, pressure, temp, feelsLike, humidity, icon, name } = stocks;*/
 
     let [color, setColor] = useState("#ffffff");
     useEffect(() => {
-        getWeather();
+        /*getStocks();*/
         // eslint-disable-next-line
     }, []);
 
@@ -35,7 +37,7 @@ const SearchBox = (props) => {
                 (
                     <div>
                         <h3>Search Share</h3>
-                        <SearchShare onSubmit={props.onSubmit}/>
+                        <SearchShare onSubmit={onSubmit}/>
 
                         <h3>Search Customer</h3>
                         {SearchCustomer()}

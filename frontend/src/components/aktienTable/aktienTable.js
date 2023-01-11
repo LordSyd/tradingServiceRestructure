@@ -7,6 +7,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import {Fragment, useContext} from "react";
+import SearchBoxContext from "../../context/searchBox/searchBoxContext";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -32,35 +34,46 @@ function createData(name, companyValue, price, quantity) {
     return { name, companyValue, price, quantity };
 }
 
-const rows = [
-    createData('Apple', 2000000, 65, 24),
-];
 
 export default function CustomizedTablesAktien() {
+
+    const searchBoxContext = useContext(SearchBoxContext)
+    const { stocks } = searchBoxContext;
+
     return (
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                <TableHead>
-                    <TableRow>
-                        <StyledTableCell>Available Shares</StyledTableCell>
-                        <StyledTableCell align="right">Company Value&nbsp;(EUR)</StyledTableCell>
-                        <StyledTableCell align="right">Price&nbsp;(EUR)</StyledTableCell>
-                        <StyledTableCell align="right">Quantity&nbsp;(Stk)</StyledTableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row) => (
-                        <StyledTableRow key={row.name}>
-                            <StyledTableCell component="th" scope="row">
-                                {row.name}
-                            </StyledTableCell>
-                            <StyledTableCell align="right">{row.companyValue}</StyledTableCell>
-                            <StyledTableCell align="right">{row.price}</StyledTableCell>
-                            <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-                        </StyledTableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <Fragment>
+            {stocks === undefined
+                ? <Fragment/>
+                :<TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                        <TableHead>
+                            <TableRow>
+                                <StyledTableCell>Company</StyledTableCell>
+                                <StyledTableCell align="right">Float Shares&nbsp;(Stk)</StyledTableCell>
+                                <StyledTableCell align="right">Last Price&nbsp;(EUR)</StyledTableCell>
+                                <StyledTableCell align="right">Market Capitalization&nbsp;(Mrd. EUR)</StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {stocks.map((stock) => (
+                                <StyledTableRow key={stock.companyName}>
+                                    <StyledTableCell component="th" scope="row">
+                                        {stock.companyName}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="right">{stock.floatShares}</StyledTableCell>
+                                    <StyledTableCell align="right">{stock.lastTradePrice}</StyledTableCell>
+                                    <StyledTableCell align="right">{(stock.marketCapitalization/(Math.pow(10, 9))).toFixed(4)}</StyledTableCell>
+                                </StyledTableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            }
+        </Fragment>
+
+
+
+
+
     );
 }

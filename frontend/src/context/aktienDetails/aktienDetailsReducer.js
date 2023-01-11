@@ -1,6 +1,6 @@
 import {
     SEARCH_WEATHER,
-    GET_WEATHER,
+    GET_STOCKS,
     GET_HOURLY_WEATHER
 } from '../types'
 
