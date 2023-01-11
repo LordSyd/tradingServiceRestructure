@@ -1,6 +1,5 @@
 package com.beschtee.backend.Controllers;
 
-
 import com.beschtee.backend.Services.SoapClient;
 import com.beschtee.backend.stub.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-@CrossOrigin
 @RestController
 public class TradingServiceController {
 
