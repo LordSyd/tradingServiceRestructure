@@ -3,13 +3,11 @@ package com.beschtee.backend.Controllers;
 import com.beschtee.backend.Models.Bank;
 import com.beschtee.backend.Services.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-@CrossOrigin
 @RestController
 public class ClientController {
     @Autowired
