@@ -19,8 +19,9 @@ import java.util.NoSuchElementException;
 @Service
 @AllArgsConstructor
 public class UserService implements UserDetailsService {
-    private final String USER_NOT_FOUND_MSG = "User with email %s not found";
-    private final String USER_NOT_EXISTS_MSG = "User with id %s does not exist";
+    private final String USER_NOT_EXISTS_MSG = "%s with email %s not found";
+    private final String CUSTOMER_NOT_EXISTS_MSG = "%1s with id %2s does not exist";
+    private final String USER_NOT_FOUND_BY_NAME_MSG = "%1s with first name %2s and last name %3s not found";
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepository;
     private final EmailValidator emailValidator;
@@ -32,15 +33,36 @@ public class UserService implements UserDetailsService {
                         + currentUser.getId() + " does not exist in the database."));
     }
 
+    public User getCustomerById(Long id) {
+        return userRepository.findUserByIdAndUserRoleEquals(id, UserRole.CUSTOMER).orElseThrow(() ->
+                new NoSuchElementException(String.format(CUSTOMER_NOT_EXISTS_MSG, "Customer", id))
+        );
+    }
+
+    public User getCustomerByName(String firstName, String lastName) {
+        return this.userRepository.findUserByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndUserRole(
+                firstName,
+                lastName,
+                UserRole.CUSTOMER
+        ).orElseThrow(() ->
+                new NoSuchElementException(String.format(USER_NOT_FOUND_BY_NAME_MSG, "Customer", firstName, lastName))
+        );
+    }
+
     public User getUserById(Long id) {
         return userRepository.findById(id).orElseThrow(() ->
-            new NoSuchElementException(String.format(USER_NOT_EXISTS_MSG, id))
+            new NoSuchElementException(String.format(USER_NOT_EXISTS_MSG, "User", id))
         );
     }
 
     public User getUserByName(String firstName, String lastName) {
-        return this.userRepository.findUserByFirstNameEqualsAndLastNameEquals(firstName, lastName).orElseThrow(() ->
-                new NoSuchElementException(" User with first name" + firstName +  " last name " + lastName + " not found"));
+        return this.userRepository.findUserByFirstNameIgnoreCaseAndLastNameIgnoreCase(firstName, lastName).orElseThrow(() ->
+                new NoSuchElementException(String.format(USER_NOT_FOUND_BY_NAME_MSG, "User", firstName, lastName))
+        );
+    }
+
+    public List<User> getAllUsersByRole(UserRole userRole) {
+        return userRepository.findAllByUserRoleEquals(userRole);
     }
 
     public List<User> getAllUsers() {
@@ -50,15 +72,15 @@ public class UserService implements UserDetailsService {
     public void deleteUser(Long id) {
         boolean exists = userRepository.existsById(id);
         if (!exists) {
-            throw new IllegalStateException(String.format(USER_NOT_EXISTS_MSG, id));
+            throw new IllegalStateException(String.format(USER_NOT_EXISTS_MSG, "User", id));
         }
         userRepository.deleteById(id);
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findUserByEmail(email)
-                .orElseThrow(()-> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, email)));
+        return userRepository.findUserByEmailIgnoreCase(email)
+                .orElseThrow(()-> new UsernameNotFoundException(String.format(USER_NOT_EXISTS_MSG, "User", email)));
     }
 
     public User register(RegistrationRequest request) {
@@ -82,7 +104,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User signUpUser(User user) {
-        boolean userExists = userRepository.findUserByEmail(user.getEmail()).isPresent();
+        boolean userExists = userRepository.findUserByEmailIgnoreCase(user.getEmail()).isPresent();
 
         //TODO: change the way the problem with already existing user is handled
         if (userExists) {
@@ -97,6 +119,4 @@ public class UserService implements UserDetailsService {
 
         return savedUser;
     }
-
-
 }
