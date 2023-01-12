@@ -31,5 +31,4 @@ public class Bank {
 
     @Column( name="volume", nullable = false, columnDefinition = "NUMERIC(13,2) default 1000000000.00" )
     public float volume;
-
 }

@@ -6,6 +6,7 @@ import com.beschtee.backend.Models.person.UserRole;
 import com.beschtee.backend.Repositories.UserRepository;
 import com.beschtee.backend.Validators.EmailValidator;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,6 +26,7 @@ public class UserService implements UserDetailsService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepository;
     private final EmailValidator emailValidator;
+    private final DepotService depotService;
 
     public User getCurrentUser() {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -116,6 +118,9 @@ public class UserService implements UserDetailsService {
 
         //saving the user in the database
         User savedUser = userRepository.save(user);
+        if (savedUser.isCustomer()) {
+            depotService.createNewDepot(savedUser);
+        }
 
         return savedUser;
     }

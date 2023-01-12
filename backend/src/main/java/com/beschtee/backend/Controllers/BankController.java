@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
-public class ClientController {
+public class BankController {
     @Autowired
     private RestTemplate restTemplate;
 
@@ -17,15 +17,20 @@ public class ClientController {
     private BankService bankService;
 
 
-    @GetMapping("bank")
+    @GetMapping("api/bank")
     public Bank getBank() {
         Bank bank = bankService.getBank();
         System.out.println(bank);
         return bank;
-
     }
 
-    @PostMapping("bank")
+    @GetMapping("api/bank/volume")
+    public float getBankVolume() {
+        Bank bank = bankService.getBank();
+        return bank.getVolume();
+    }
+
+    @PostMapping("api/bank")
     public Bank createBank(
             //Bank bank
     ) {

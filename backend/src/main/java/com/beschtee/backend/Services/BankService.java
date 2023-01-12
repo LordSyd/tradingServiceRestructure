@@ -27,4 +27,17 @@ public class BankService {
     public Bank getBank() {
         return bankRepository.findById(1L).orElseThrow(() -> new NoSuchElementException("There is no bank in the database"));
     }
+
+    public boolean checkVolume( float amount ) {
+        Bank bank = this.getBank();
+        return bank.getVolume() >= amount;
+    }
+
+    public float decreaseVolume(float amount) {
+        Bank bank = this.getBank();
+        bank.setVolume(bank.getVolume() - amount);
+        bank = bankRepository.save(bank);
+        return bank.getVolume();
+
+    }
 }

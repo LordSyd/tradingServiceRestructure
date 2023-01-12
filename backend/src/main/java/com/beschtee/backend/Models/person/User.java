@@ -86,4 +86,8 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
+    public boolean isCustomer() {
+        return this.userRole.equals(UserRole.CUSTOMER);
+    }
 }
