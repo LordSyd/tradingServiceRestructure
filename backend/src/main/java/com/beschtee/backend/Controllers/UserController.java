@@ -137,6 +137,7 @@ public class UserController {
         }
 
         List<Stock> stocks =  this.stockService.getStocksByDepotId(depotId).stream()
+                .filter(stock -> stock.getQuantity() > 0)
                 .sorted(Comparator.comparing(Stock::getSymbol))
                 .collect(Collectors.toList());
         List<String> symbols = stocks.stream()
