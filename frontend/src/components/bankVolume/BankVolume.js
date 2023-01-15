@@ -7,7 +7,7 @@ import { css } from "@emotion/react";
 
 const BankVolume = () => {
   const bnkVolumeContext = useContext(bankVolumeContext);
-  const { getPrice,loading, gasStation } = bnkVolumeContext;
+  const { getVolume } = bnkVolumeContext;
 
   let [color, setColor] = useState("#ffffff");
   const override = css`
@@ -18,10 +18,10 @@ const BankVolume = () => {
 
 
   useEffect(() => {
-    getPrice();
+    getVolume();
   }, []);
 
-  const { contact, distance, prices, name, location} = gasStation;
+
   return (
     <Fragment>
      <div className="container-covid">

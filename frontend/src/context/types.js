@@ -26,3 +26,4 @@ export const GET_NEWS = 'GET_NEWS';
 export const GET_COVID = 'GET_COVID';
 export const GET_QUOTES = 'GET_QUOTES';
 export const GET_GAS_PRICE ='GET_GAS_PRICE';
+export const GET_BANK_VOLUME = 'GET_BANK_VOLUME';

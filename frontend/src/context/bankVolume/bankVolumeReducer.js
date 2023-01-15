@@ -1,14 +1,14 @@
 import {
-    GET_GAS_PRICE
+    GET_BANK_VOLUME
 } from '../types'
 
 export default (state, action) => {
     switch (action.type) {
 
-        case GET_GAS_PRICE:
+        case GET_BANK_VOLUME:
             return {
                 ...state,
-                gasStation: action.payload,
+                bankVolume: action.payload,
                 loading: false
             }
         default:
