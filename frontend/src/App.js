@@ -48,8 +48,9 @@ const App = () => {
       <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
         <GlobalStyles />
         <NoteState>
+          <GetCustomerState>
             <SearchShareState>
-              <GetCustomerState>
+
               <AktienDetailsState>
                 <DepotState>
                   <BankVolumeState>
@@ -76,8 +77,9 @@ const App = () => {
                   </BankVolumeState>
                 </DepotState>
               </AktienDetailsState>
-              </GetCustomerState>
+
             </SearchShareState>
+          </GetCustomerState>
         </NoteState>
       </ThemeProvider>
     </AuthState>
