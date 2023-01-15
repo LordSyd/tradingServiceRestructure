@@ -39,28 +39,19 @@ function createData(name, companyValue, price, quantity) {
 }
 
 export default function CustomerTable() {
-    const [selectedRow, setSelectedRow] = useState();
-
     const getCustomerContext = useContext(GetCustomerContext);
     const selectedCustomerContext = useContext(SelectedCustomerContext);
 
-    const {selectCustomer} = selectedCustomerContext;
+    const {selectCustomer, selectedCustomer} = selectedCustomerContext;
     const costumers = getCustomerContext.customers;
-    console.log("in table")
-    console.log(getCustomerContext)
+
     function handleClick(event, customer) {
-        console.log("customer")
-        const id = customer.id
-        console.log(id)
-        setSelectedRow(id);
+        console.log(customer)
         selectCustomer(customer);
     }
 
     return (
         <Fragment>
-            {
-                console.log("selected row" + selectedRow)
-            }
             {costumers === undefined
                 ? <Fragment/>
                 :<TableContainer component={Paper}>
@@ -83,15 +74,15 @@ export default function CustomerTable() {
                                             hover
                                             onClick={(event) => handleClick(event, customer)}
                                             role="checkbox"
-                                            aria-checked={customer.id == selectedRow}
+                                            aria-checked={customer.id == selectedCustomer?.id}
                                             tabIndex={-1}
-                                            selected={customer.id == selectedRow}
+                                            selected={customer.id == selectedCustomer?.id}
                                         >
                                             <TableCell padding="checkbox">
                                                 <Checkbox
                                                     color="primary"
-                                                    checked={customer.id == selectedRow}
-                                            />
+                                                    checked={customer.id == selectedCustomer?.id}
+                                                />
                                             </TableCell>
                                             <StyledTableCell align="right" >
                                                 {customer.firstName}
@@ -103,11 +94,11 @@ export default function CustomerTable() {
                                     </Fragment>
                                 )
                             })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            }
-        </Fragment>
+        </TableBody>
+</Table>
+</TableContainer>
+}
+</Fragment>
 
 
 

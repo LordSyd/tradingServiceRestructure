@@ -7,7 +7,7 @@ import { css } from "@emotion/react";
 
 const BankVolume = () => {
   const bnkVolumeContext = useContext(bankVolumeContext);
-  const { getVolume } = bnkVolumeContext;
+  const { getVolume, loading } = bnkVolumeContext;
 
   let [color, setColor] = useState("#ffffff");
   const override = css`
