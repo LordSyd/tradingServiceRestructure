@@ -9,12 +9,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Long> {
 
     ArrayList<Stock> findAllByDepot(Depot depot);
+
+    List<Stock> findStocksByDepot_Id(Long depotId);
 
     Optional<Stock> findStockBySymbolIgnoreCaseAndDepot(String symbol, Depot depot);
 

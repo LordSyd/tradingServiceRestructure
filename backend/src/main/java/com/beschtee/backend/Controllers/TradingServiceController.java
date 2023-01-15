@@ -113,7 +113,7 @@ public class TradingServiceController {
         //depot
 
         //bankVolume aktualisieren
-        bankService.decreaseVolume(buyVolume);
+        bankService.decreaseVolume(pricePerShare * shares);
 
         return ResponseEntity.ok("Customer id " + depot.getCustomer().getId());
     }

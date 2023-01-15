@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -53,5 +54,9 @@ public class StockService {
             double newQuantity = currentState.getQuantity() - quantity;
             currentState.setQuantity(newQuantity);
             return stockRepository.save(currentState);
+    }
+
+    public List<Stock> getStocksByDepotId(Long depotId) {
+        return this.stockRepository.findStocksByDepot_Id(depotId);
     }
 }

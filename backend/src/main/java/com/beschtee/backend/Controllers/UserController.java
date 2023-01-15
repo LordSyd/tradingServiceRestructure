@@ -1,18 +1,23 @@
 package com.beschtee.backend.Controllers;
 
+import com.beschtee.backend.DTOs.StockDTO;
 import com.beschtee.backend.DTOs.UserDTO;
+import com.beschtee.backend.Models.Depot;
+import com.beschtee.backend.Models.Stock;
 import com.beschtee.backend.Models.person.User;
 import com.beschtee.backend.Models.person.UserRole;
+import com.beschtee.backend.Services.StockService;
 import com.beschtee.backend.Services.UserService;
+import com.beschtee.backend.stub.PublicStockQuote;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -24,6 +29,12 @@ public class UserController {
 
     @Autowired
     private final UserService userService;
+
+    @Autowired
+    private final StockService stockService;
+
+    @Autowired
+    private final TradingServiceController tradingServiceController;
 
     /**
      * @return List of all users
@@ -113,5 +124,32 @@ public class UserController {
                     .status(HttpStatus.NOT_FOUND)
                     .body(e.getMessage());
         }
+    }
+
+
+    @GetMapping("/depot")
+    public ResponseEntity getUserDepot(@RequestParam Long depotId) {
+        List<Stock> stocks =  this.stockService.getStocksByDepotId(depotId);
+        List<String> symbols = stocks.stream()
+                .map(Stock::getSymbol)
+                .collect(Collectors.toList());
+        List<Float> prices = this.tradingServiceController.findStocksBySymbol(symbols).stream()
+                .map(PublicStockQuote::getLastTradePrice)
+                .map(BigDecimal::floatValue)
+                .collect(Collectors.toList());
+
+
+        List<StockDTO> stockDTOS = new ArrayList<>();
+        for(int i = 0; i < stocks.size(); i++) {
+            stockDTOS.add(StockDTO.builder()
+                    .companyName(stocks.get(i).getCompanyName())
+                    .quantity(stocks.get(i).getQuantity())
+                    .symbol(stocks.get(i).getSymbol())
+                    .currentPrice(prices.get(i))
+                    .currentStockVolume((float) stocks.get(i).getQuantity() * prices.get(i))
+                    .build()
+            );
+        }
+        return ResponseEntity.ok(stockDTOS);
     }
 }
