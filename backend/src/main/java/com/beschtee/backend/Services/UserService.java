@@ -53,13 +53,11 @@ public class UserService implements UserDetailsService {
         );
     }
 
-    public User getCustomerByName(String firstName, String lastName) {
+    public List<User> getCustomerByName(String firstName, String lastName) {
         return this.userRepository.findUserByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndUserRole(
                 firstName,
                 lastName,
                 UserRole.CUSTOMER
-        ).orElseThrow(() ->
-                new NoSuchElementException(String.format(USER_NOT_FOUND_BY_NAME_MSG, "Customer", firstName, lastName))
         );
     }
 

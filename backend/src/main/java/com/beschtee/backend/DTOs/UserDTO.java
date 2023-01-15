@@ -11,6 +11,7 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     private String address;
+    private String email;
     private UserRole userRole; // to manage
     private Long depotId;
 }

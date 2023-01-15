@@ -77,7 +77,11 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET, path = "/customer/name")
     public ResponseEntity getCustomerByName(@RequestParam String firstName, @RequestParam String lastName) {
         try {
-            return ResponseEntity.ok(this.userService.getUserDTO(this.userService.getCustomerByName(firstName, lastName)));
+            return ResponseEntity.ok(this.userService.getCustomerByName(firstName, lastName)
+                    .stream()
+                    .map(userService::getUserDTO)
+                    .collect(Collectors.toList())
+            );
         } catch ( NoSuchElementException e) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)

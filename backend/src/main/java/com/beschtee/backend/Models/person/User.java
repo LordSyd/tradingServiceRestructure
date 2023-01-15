@@ -98,6 +98,7 @@ public class User implements UserDetails {
                 .firstName(this.getFirstName())
                 .lastName(this.getLastName())
                 .address(this.getAddress())
+                .email(this.getEmail())
                 .userRole(this.getUserRole())
                 .depotId(depotId)
                 .build();
