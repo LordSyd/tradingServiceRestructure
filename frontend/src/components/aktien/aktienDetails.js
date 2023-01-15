@@ -3,6 +3,7 @@ import AktienDetailsContext from '../../context/aktienDetails/aktienDetailsConte
 import { css } from "@emotion/react";
 import BeatLoader from "react-spinners/BeatLoader";
 import CustomizedTablesAktien from "../aktienTable/aktienTable"
+import CustomizedTablesCustomer from "../customerTable/customerTable";
 
 
 const AktienDetails = () => {
@@ -40,8 +41,10 @@ const AktienDetails = () => {
           </div>
         ) :
 
+          <Fragment>
               <CustomizedTablesAktien />
-
+              <CustomizedTablesCustomer />
+          </Fragment>
         }
 
       </div>

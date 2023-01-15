@@ -1,19 +1,19 @@
 import React, { useReducer } from 'react'
 import axios from 'axios';
-import SearchBoxContext from './searchBoxContext';
-import SearchBoxReducer from './searchBoxReducer';
+import SearchShareContext from './searchShareContext';
+import SearchShareReducer from './searchShareReducer';
 import {
     GET_STOCKS,
 } from '../types'
 import setAuthToken from "../../utils/setAuthToken";
 
 
-const SearchBoxState = props => {
+const SearchShareState = props => {
     const initialState = {
         weather: [],
         loading: false
     };
-    const [state, dispatch] = useReducer(SearchBoxReducer, initialState);
+    const [state, dispatch] = useReducer(SearchShareReducer, initialState);
 
     const getStocks = async (namePart) => {
         console.log("onSubmit " + namePart)
@@ -47,16 +47,16 @@ const SearchBoxState = props => {
 */
 
     return (
-        <SearchBoxContext.Provider value={{
+        <SearchShareContext.Provider value={{
             stocks: state.stocks,
             loading: state.loading,
             getStocks
         }}>
             {props.children}
 
-        </SearchBoxContext.Provider>
+        </SearchShareContext.Provider>
     )
 
 }
 
-export default SearchBoxState;
+export default SearchShareState;

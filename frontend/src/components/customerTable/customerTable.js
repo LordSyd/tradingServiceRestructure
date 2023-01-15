@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {Fragment, useContext} from "react";
-import SearchShareContext from "../../context/searchShare/searchShareContext";
+import SearchCustomerContext from "../../context/getCustomer/getCustomerContext";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -35,34 +35,36 @@ function createData(name, companyValue, price, quantity) {
 }
 
 
-export default function CustomizedTablesAktien() {
+export default function CustomizedTablesCustomer() {
 
-    const searchShareContext = useContext(SearchShareContext)
-    const { stocks } = searchShareContext;
+    //const searchCustomerContext = useContext(SearchCustomerContext)
+    //const { customers } = searchCustomerContext;
+    const customers = undefined
 
     return (
         <Fragment>
-            {stocks === undefined
+            {customers === undefined
                 ? <Fragment/>
                 :<TableContainer component={Paper}>
                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
                         <TableHead>
                             <TableRow>
-                                <StyledTableCell>Company</StyledTableCell>
-                                <StyledTableCell align="right">Float Shares&nbsp;(Stk)</StyledTableCell>
-                                <StyledTableCell align="right">Last Price&nbsp;(EUR)</StyledTableCell>
-                                <StyledTableCell align="right">Market Capitalization&nbsp;(Mrd. EUR)</StyledTableCell>
+                                <StyledTableCell>Customer</StyledTableCell>
+                                <StyledTableCell align="right">Customer ID</StyledTableCell>
+                                <StyledTableCell align="right">First Name</StyledTableCell>
+                                <StyledTableCell align="right">Last Name</StyledTableCell>
+                                <StyledTableCell align="right">Address</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {stocks.map((stock) => (
-                                <StyledTableRow key={stock.companyName}>
+                            {customers.map((customer) => (
+                                <StyledTableRow key={customer.id}>
                                     <StyledTableCell component="th" scope="row">
-                                        {stock.companyName}
+                                        {customer.id}
                                     </StyledTableCell>
-                                    <StyledTableCell align="right">{stock.floatShares}</StyledTableCell>
-                                    <StyledTableCell align="right">{stock.lastTradePrice}</StyledTableCell>
-                                    <StyledTableCell align="right">{(stock.marketCapitalization/(Math.pow(10, 9))).toFixed(4)}</StyledTableCell>
+                                    <StyledTableCell align="right">{customer.firstName}</StyledTableCell>
+                                    <StyledTableCell align="right">{customer.lastName}</StyledTableCell>
+                                    <StyledTableCell align="right">{customer.adresse}</StyledTableCell>
                                 </StyledTableRow>
                             ))}
                         </TableBody>

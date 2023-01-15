@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, Fragment } from 'react';
-import SearchBoxContext from '../../context/searchBox/searchBoxContext';
+import SearchBoxContext from '../../context/searchShare/searchShareContext';
 import BeatLoader from "react-spinners/BeatLoader";
 import { css } from "@emotion/react";
 import SearchShare from '../searchbar/searchShare'
@@ -40,7 +40,7 @@ const SearchBox = () => {
                         <SearchShare onSubmit={onSubmit}/>
 
                         <h3>Search Customer</h3>
-                        {SearchCustomer()}
+                        <SearchCustomer onSubmit={onSubmit} />
                         {addCustomerButton()}
                     </div>
                 )}

@@ -15,10 +15,12 @@ import SearchShare from '../searchbar/searchShare'
 import axios from "axios";
 import {REGISTER_SUCCESS} from "../../context/types";
 import setAuthToken from "../../utils/setAuthToken";
+import GetCustomerContext from "../../context/getCustomer/getCustomerContext";
 
 const Home = () => {
   const authContext = useContext(AuthContext);
   const { isAuthenticated, user } = authContext;
+  const getCustomerContext = useContext(GetCustomerContext)
 
 
   const unAuthlayout = [
@@ -125,6 +127,11 @@ const Home = () => {
     //console.log(all, 'breakpoint');
   }
   const [stocks, setStocks] = useState();
+
+  const {getCustomer} = getCustomerContext
+  useEffect(() => {
+    getCustomer()
+  },[]  )
 
   const config = {
       headers: { "Content-Type": 'application/javascript' }

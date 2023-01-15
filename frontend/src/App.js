@@ -25,11 +25,12 @@ import './globals'
 //*import states below*//
 import AuthState from './context/auth/AuthState';
 import AlertState from './context/alert/AlertState';
-import SearchBoxState from './context/searchBox/searchBoxState';
+import SearchShareState from './context/searchShare/searchShareState';
 import NoteState from './context/notes/NoteState';
 import AktienDetailsState from './context/aktienDetails/aktienDetailsState';
 import DepotState from './context/depot/DepotState';
 import BankVolumeState from './context/bankVolume/bankVolumeState';
+import GetCustomerState from "./context/getCustomer/getCustomerState";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -47,7 +48,8 @@ const App = () => {
       <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
         <GlobalStyles />
         <NoteState>
-            <SearchBoxState>
+            <SearchShareState>
+              <GetCustomerState>
               <AktienDetailsState>
                 <DepotState>
                   <BankVolumeState>
@@ -74,7 +76,8 @@ const App = () => {
                   </BankVolumeState>
                 </DepotState>
               </AktienDetailsState>
-            </SearchBoxState>
+              </GetCustomerState>
+            </SearchShareState>
         </NoteState>
       </ThemeProvider>
     </AuthState>
