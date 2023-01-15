@@ -21,7 +21,7 @@ const BankVolume = () => {
     getVolume();
   }, []);
 
-  const { contact, distance, prices, name, location} = gasStation;
+
   return (
     <Fragment>
      <div className="container-covid">
