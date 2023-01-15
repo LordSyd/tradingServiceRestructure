@@ -16,11 +16,14 @@ import axios from "axios";
 import {REGISTER_SUCCESS} from "../../context/types";
 import setAuthToken from "../../utils/setAuthToken";
 import GetCustomerContext from "../../context/getCustomer/getCustomerContext";
+import SelectedCustomerContext from "../../context/selectedCustomer/selectedCustomerContext";
+
 
 const Home = () => {
   const authContext = useContext(AuthContext);
   const { isAuthenticated, user } = authContext;
   const getCustomerContext = useContext(GetCustomerContext)
+  const selectedCustomerContext = useContext(SelectedCustomerContext);
 
 
   const unAuthlayout = [
@@ -129,6 +132,7 @@ const Home = () => {
   const [stocks, setStocks] = useState();
 
   const {getCustomer} = getCustomerContext
+  const {selectedCustomer} = selectedCustomerContext;
   useEffect(() => {
     getCustomer()
   },[]  )
@@ -207,7 +211,12 @@ const Home = () => {
           </div>
 
           <div key="corona" className="wrapper-dash">
-            <h2>Depot Information</h2>
+            {selectedCustomer === undefined
+                ? <Fragment/>
+
+                :<h2>{`${selectedCustomer.firstName} ${selectedCustomer.lastName}'s Depot, Id ${selectedCustomer.id}` }</h2>
+            }
+
             <div className="depot-wrapper">
               <Depot></Depot>
             </div>

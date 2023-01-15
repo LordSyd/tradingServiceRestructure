@@ -31,6 +31,7 @@ import AktienDetailsState from './context/aktienDetails/aktienDetailsState';
 import DepotState from './context/depot/DepotState';
 import BankVolumeState from './context/bankVolume/bankVolumeState';
 import GetCustomerState from "./context/getCustomer/getCustomerState";
+import SelectedCustomerState from "./context/selectedCustomer/selectedCustomerState";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -48,9 +49,9 @@ const App = () => {
       <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
         <GlobalStyles />
         <NoteState>
+        <SelectedCustomerState>
           <GetCustomerState>
             <SearchShareState>
-
               <AktienDetailsState>
                 <DepotState>
                   <BankVolumeState>
@@ -80,6 +81,7 @@ const App = () => {
 
             </SearchShareState>
           </GetCustomerState>
+        </SelectedCustomerState>
         </NoteState>
       </ThemeProvider>
     </AuthState>

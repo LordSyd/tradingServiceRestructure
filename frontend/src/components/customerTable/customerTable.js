@@ -10,6 +10,7 @@ import Paper from '@mui/material/Paper';
 import {Fragment, useContext} from "react";
 import {Checkbox} from "@mui/material";
 import GetCustomerContext from "../../context/getCustomer/getCustomerContext";
+import SelectedCustomerContext from "../../context/selectedCustomer/selectedCustomerContext";
 /*import SearchBoxContext from "../../context/searchBox/searchBoxContext";*/
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -36,36 +37,30 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 function createData(name, companyValue, price, quantity) {
     return { name, companyValue, price, quantity };
 }
-/*
-const costumers = [
-    {
-        name: "test",
-        address: "teststrasse 3",
-        id: "1"
-    },
-    {
-        name: "test 2",
-        address: "teststrasse 5",
-        id: "2"
-    },
-]
-*/
 
 export default function CustomerTable() {
     const [selectedRow, setSelectedRow] = useState();
 
-    /*const searchBoxContext = useContext(SearchBoxContext)
-    const { stocks } = searchBoxContext;*/
     const getCustomerContext = useContext(GetCustomerContext);
+    const selectedCustomerContext = useContext(SelectedCustomerContext);
+
+    const {selectCustomer} = selectedCustomerContext;
     const costumers = getCustomerContext.customers;
     console.log("in table")
     console.log(getCustomerContext)
-    function handleClick(event, id) {
-        setSelectedRow(id)
+    function handleClick(event, customer) {
+        console.log("customer")
+        const id = customer.id
+        console.log(id)
+        setSelectedRow(id);
+        selectCustomer(customer);
     }
 
     return (
         <Fragment>
+            {
+                console.log("selected row" + selectedRow)
+            }
             {costumers === undefined
                 ? <Fragment/>
                 :<TableContainer component={Paper}>
@@ -86,16 +81,16 @@ export default function CustomerTable() {
                                         <StyledTableRow
                                             key={customer.name}
                                             hover
-                                            onClick={(event) => handleClick(event, customer.id)}
+                                            onClick={(event) => handleClick(event, customer)}
                                             role="checkbox"
-                                            aria-checked={customer.id === selectedRow}
+                                            aria-checked={customer.id == selectedRow}
                                             tabIndex={-1}
-                                            selected={customer.id === selectedRow}
+                                            selected={customer.id == selectedRow}
                                         >
                                             <TableCell padding="checkbox">
                                                 <Checkbox
                                                     color="primary"
-                                                    checked={customer.id === selectedRow}
+                                                    checked={customer.id == selectedRow}
                                             />
                                             </TableCell>
                                             <StyledTableCell align="right" >
