@@ -3,7 +3,7 @@ import axios from 'axios';
 import bankVolumeContext from './bankVolumeContext';
 import bankVolumeReducer from './bankVolumeReducer';
 import {
-    GET_GAS_PRICE
+    GET_BANK_VOLUME
 } from '../types'
 
 
@@ -14,11 +14,11 @@ const BankVolumeState = props => {
   };
   const [state, dispatch] = useReducer(bankVolumeReducer, initialState);
 
-  const getPrice = async () => {
+  const getVolume = async () => {
     try {
-      const res = await axios.get('/api/dashboard/gasStation');
+      const res = await axios.get(`${global.BACKEND_URL}/api/bank/volume`);
       dispatch({
-        type: GET_GAS_PRICE,
+        type: GET_BANK_VOLUME,
         payload: res.data
       })
     } catch (err) {
@@ -29,9 +29,9 @@ const BankVolumeState = props => {
 
   return (
     <bankVolumeContext.Provider value={{
-      gasStation: state.gasStation,
+      bankVolume: state.bankVolume,
       loading: state.loading,
-      getPrice
+      getVolume
     }}>
       {props.children}
     </bankVolumeContext.Provider>
