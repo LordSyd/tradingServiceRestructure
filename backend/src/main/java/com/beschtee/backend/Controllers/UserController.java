@@ -6,6 +6,7 @@ import com.beschtee.backend.Models.Depot;
 import com.beschtee.backend.Models.Stock;
 import com.beschtee.backend.Models.person.User;
 import com.beschtee.backend.Models.person.UserRole;
+import com.beschtee.backend.Services.DepotService;
 import com.beschtee.backend.Services.StockService;
 import com.beschtee.backend.Services.UserService;
 import com.beschtee.backend.stub.PublicStockQuote;
@@ -16,10 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -32,6 +30,9 @@ public class UserController {
 
     @Autowired
     private final StockService stockService;
+
+    @Autowired
+    private final DepotService depotService;
 
     @Autowired
     private final TradingServiceController tradingServiceController;
@@ -129,11 +130,20 @@ public class UserController {
 
     @GetMapping("/depot")
     public ResponseEntity getUserDepot(@RequestParam Long depotId) {
-        List<Stock> stocks =  this.stockService.getStocksByDepotId(depotId);
+        if ( userService.getCurrentUser().isCustomer()
+                && ! this.depotService.checkDepotAuthorization(userService.getCurrentUser(), depotId)
+        ) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("DepotId does not match with provided credentials");
+        }
+
+        List<Stock> stocks =  this.stockService.getStocksByDepotId(depotId).stream()
+                .sorted(Comparator.comparing(Stock::getSymbol))
+                .collect(Collectors.toList());
         List<String> symbols = stocks.stream()
                 .map(Stock::getSymbol)
                 .collect(Collectors.toList());
         List<Float> prices = this.tradingServiceController.findStocksBySymbol(symbols).stream()
+                .sorted(Comparator.comparing(PublicStockQuote::getSymbol))
                 .map(PublicStockQuote::getLastTradePrice)
                 .map(BigDecimal::floatValue)
                 .collect(Collectors.toList());
