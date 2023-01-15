@@ -7,6 +7,7 @@ import com.beschtee.backend.Models.person.UserRole;
 import com.beschtee.backend.Services.*;
 import com.beschtee.backend.stub.*;
 import lombok.RequiredArgsConstructor;
+import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -113,18 +114,48 @@ public class TradingServiceController {
 
         //bankVolume aktualisieren
         bankService.decreaseVolume(buyVolume);
-        return ResponseEntity.ok(stock);
+
+        return ResponseEntity.ok("Customer id " + depot.getCustomer().getId());
     }
 
     @PostMapping("/api/sellStock")
-    public BigDecimal sellStock(@RequestParam String symbol, @RequestParam int shares) {
+    public ResponseEntity sellStock(@RequestParam String symbol, @RequestParam int shares, @RequestParam Long depotId) {
+        if ( userService.getCurrentUser().isCustomer()
+                && ! this.depotService.checkDepotAuthorization(userService.getCurrentUser(), depotId)
+        ) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("DepotId does not match with provided credentials");
+        }
+
+        Depot depot = this.depotService.getDepotById(depotId);
+        Stock stock = this.stockService.getStockBySymbolAndDepot(symbol, depot);
+
+        if ( stock == null ) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No shares found with provided symbol and depotId");
+        } else if (! this.stockService.checkQuantity(stock, shares)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Not enough shares to sell");
+        }
+
+        List<PublicStockQuote> stockQuoteList = this.findStocksBySymbol(Collections.singletonList(symbol));
+        if (stockQuoteList.size() == 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No shares exists with provided symbol");
+        }
+
+        //Verkauf
         ObjectFactory objectFactory = new ObjectFactory();
         Sell type = new Sell();
         type.setShares(shares);
         type.setSymbol(symbol);
-
-        SellResponse response = soapClient.sellStock("https://edu.dedisys.org/ds-finance/ws/TradingService",
-                objectFactory.createSell(type));
-        return response.getReturn();
+        float pricePerShare;
+        //Return value: Buys shares and returns the price per share effective for the buying transaction.
+        try {
+            SellResponse response = soapClient.sellStock("https://edu.dedisys.org/ds-finance/ws/TradingService",
+                    objectFactory.createSell(type));
+            stock = this.stockService.updateQuantity(stock, shares, depot);
+            bankService.increaseVolume(response.getReturn().floatValue() * shares);
+            return ResponseEntity.ok("Customer id " + depot.getCustomer().getId());
+            //500 net.froihofer.dsfinance.business.TradingException: Not enough shares available.
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 }

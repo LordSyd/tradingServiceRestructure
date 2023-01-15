@@ -1,6 +1,8 @@
 package com.beschtee.backend.Services;
 
 import com.beschtee.backend.DTOs.RegistrationRequest;
+import com.beschtee.backend.DTOs.UserDTO;
+import com.beschtee.backend.Models.Depot;
 import com.beschtee.backend.Models.person.User;
 import com.beschtee.backend.Models.person.UserRole;
 import com.beschtee.backend.Repositories.UserRepository;
@@ -27,6 +29,16 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final EmailValidator emailValidator;
     private final DepotService depotService;
+
+
+    public UserDTO getUserDTO(User user) {
+        try {
+            Depot depot = this.depotService.getDepotByUser(user);
+            return user.toDTO(depot.getId());
+        } catch (NoSuchElementException e) {
+            return user.toDTO(null);
+        }
+    }
 
     public User getCurrentUser() {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

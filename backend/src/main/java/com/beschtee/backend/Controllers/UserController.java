@@ -1,5 +1,6 @@
 package com.beschtee.backend.Controllers;
 
+import com.beschtee.backend.DTOs.UserDTO;
 import com.beschtee.backend.Models.person.User;
 import com.beschtee.backend.Models.person.UserRole;
 import com.beschtee.backend.Services.UserService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/api/user")
@@ -27,18 +29,22 @@ public class UserController {
      * @return List of all users
      */
     @RequestMapping(method = RequestMethod.GET, path = "/all")
-    public List<User> getUsers() {
-        List<User> users = userService.getAllUsers();
-        return users;
+    public List<UserDTO> getUsers() {
+        return userService.getAllUsers()
+                .stream()
+                .map(userService::getUserDTO)
+                .collect(Collectors.toList());
     }
 
     /**
      * @return List of customers
      */
     @RequestMapping(method = RequestMethod.GET, path = "/customer/all")
-    public List<User> getCustomers() {
-        List<User> users = userService.getAllUsersByRole(UserRole.CUSTOMER);
-        return users;
+    public List<UserDTO> getCustomers() {
+        return userService.getAllUsersByRole(UserRole.CUSTOMER)
+                .stream()
+                .map(userService::getUserDTO)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -49,7 +55,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET, path = "/username")
     public ResponseEntity getUserByUsername(@RequestParam String email) {
         try {
-            return ResponseEntity.ok(this.userService.loadUserByUsername(email));
+            return ResponseEntity.ok(this.userService.getUserDTO( (User) this.userService.loadUserByUsername(email)));
         } catch (NoSuchElementException e) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
@@ -60,7 +66,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET, path = "/customer/id")
     public ResponseEntity getCustomerById(@RequestParam Long id) {
         try {
-            return ResponseEntity.ok(this.userService.getCustomerById(id));
+            return ResponseEntity.ok(this.userService.getUserDTO(this.userService.getCustomerById(id)));
         } catch ( NoSuchElementException e) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
@@ -71,7 +77,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET, path = "/customer/name")
     public ResponseEntity getCustomerByName(@RequestParam String firstName, @RequestParam String lastName) {
         try {
-            return ResponseEntity.ok(this.userService.getCustomerByName(firstName, lastName));
+            return ResponseEntity.ok(this.userService.getUserDTO(this.userService.getCustomerByName(firstName, lastName)));
         } catch ( NoSuchElementException e) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
@@ -86,7 +92,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET, path = "/id")
     public ResponseEntity getUserById(@RequestParam Long id) {
         try {
-            return ResponseEntity.ok(this.userService.getUserById(id));
+            return ResponseEntity.ok(this.userService.getUserDTO(this.userService.getUserById(id)));
         } catch ( NoSuchElementException e) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
@@ -97,7 +103,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET, path = "/name")
     public ResponseEntity getUserByName(@RequestParam String firstName, @RequestParam String lastName) {
         try {
-            return ResponseEntity.ok(this.userService.getUserByName(firstName, lastName));
+            return ResponseEntity.ok(this.userService.getUserDTO(this.userService.getUserByName(firstName, lastName)));
         } catch ( NoSuchElementException e) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)

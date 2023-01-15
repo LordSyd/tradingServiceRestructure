@@ -38,6 +38,13 @@ public class BankService {
         bank.setVolume(bank.getVolume() - amount);
         bank = bankRepository.save(bank);
         return bank.getVolume();
-
     }
+
+    public float increaseVolume(float amount) {
+        Bank bank = this.getBank();
+        bank.setVolume(bank.getVolume() + amount);
+        bank = bankRepository.save(bank);
+        return bank.getVolume();
+    }
+
 }
