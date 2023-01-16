@@ -1,29 +1,37 @@
 
-import * as React from 'react';
+import React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { lighten, darken, styled } from "@mui/material/styles";
 import {Fragment, useContext, useState} from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import GetCustomerContext from "../../context/getCustomer/getCustomerContext";
 
 
-export default function SearchCustomer() {
-    const [text, setText] = useState("");
-    const getCustomerContext = useContext(GetCustomerContext)
-    const {customers, getCustomer} = getCustomerContext;
+
+export default function SearchCustomerByName(props) {
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+
     const handleClick = () => {
-        getCustomer()
-        console.log("get customer")
+        props.onSubmit({
+            firstName,
+            lastName
+        })
     }
 
     return (
         <Fragment>
-            {console.log(customers)}
-            <TextField id="filled-basic" label="Filled" variant="filled" value={text} onChange={(e) => {
-                setText(e.target.value);
+            <div>
+            <TextField id="filled-basic" label="First Name" variant="filled" value={firstName} onChange={(e) => {
+                setFirstName(e.target.value);
             }} />
+            </div>
+            <div>
+            <TextField id="filled-basic" label="Last Name" variant="filled" value={lastName} onChange={(e) => {
+                setLastName(e.target.value);
+            }} />
+            </div>
             <Box sx={{ '& button': { m: 1 } }}>
                 <div>
                     <Button variant="contained" size="small" onClick={() => {

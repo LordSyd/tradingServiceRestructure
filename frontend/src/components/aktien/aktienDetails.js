@@ -4,6 +4,7 @@ import { css } from "@emotion/react";
 import BeatLoader from "react-spinners/BeatLoader";
 import CustomizedTablesAktien from "../aktienTable/aktienTable"
 import CustomizedTablesCustomer from "../customerTable/customerTable";
+import SelectedCustomerContext from "../../context/selectedCustomer/selectedCustomerContext";
 
 
 const AktienDetails = () => {
@@ -31,8 +32,6 @@ const AktienDetails = () => {
 
 
 
-
-
   return (
       <div className="container-dash">
         {loading ? (
@@ -42,7 +41,6 @@ const AktienDetails = () => {
         ) :
 
           <Fragment>
-              <CustomizedTablesAktien />
               <CustomizedTablesCustomer />
           </Fragment>
         }

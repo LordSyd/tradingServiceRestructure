@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,6 +11,8 @@ import {Fragment, useContext} from "react";
 import {Checkbox} from "@mui/material";
 import GetCustomerContext from "../../context/getCustomer/getCustomerContext";
 import SelectedCustomerContext from "../../context/selectedCustomer/selectedCustomerContext";
+import SelectedStockContext from "../../context/selectedStock/SelectedStockContext";
+import SearchBoxContext from "../../context/searchShare/searchShareContext";
 /*import SearchBoxContext from "../../context/searchBox/searchBoxContext";*/
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -34,72 +36,70 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
-function createData(name, companyValue, price, quantity) {
-    return { name, companyValue, price, quantity };
-}
 
-export default function CustomerTable() {
-    const getCustomerContext = useContext(GetCustomerContext);
-    const selectedCustomerContext = useContext(SelectedCustomerContext);
+export default function ClickableStockTable(props) {
 
-    const {selectCustomer, selectedCustomer} = selectedCustomerContext;
-    const costumers = getCustomerContext.customers;
-    console.log("customers")
-    console.log(costumers)
-    function handleClick(event, customer) {
-        console.log(customer)
-        selectCustomer(customer);
+    const selectedStockContext = useContext(SelectedStockContext);
+
+    const {selectStock , selectedStock} = selectedStockContext;
+
+
+    const stocks = props.stocks
+    function handleClick(event, stock) {
+        console.log("selected STock" + selectedStock)
+        console.log(stock)
+        selectStock(stock);
     }
 
     return (
         <Fragment>
-            {costumers === undefined
+            {stocks === undefined
                 ? <Fragment/>
                 :<TableContainer component={Paper}>
                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
                         <TableHead>
                             <TableRow>
                                 <StyledTableCell>Select</StyledTableCell>
-                                <StyledTableCell align="right">Name</StyledTableCell>
-                                <StyledTableCell align="right">Surename</StyledTableCell>
-                                <StyledTableCell align="right">Adresse</StyledTableCell>
-                                <StyledTableCell align="right">ID</StyledTableCell>
+                                <StyledTableCell align="right">Company</StyledTableCell>
+                                <StyledTableCell align="right">Float Shares&nbsp;(Stk)</StyledTableCell>
+                                <StyledTableCell align="right">Last Price&nbsp;(EUR)</StyledTableCell>
+                                <StyledTableCell align="right">Market Capitalization&nbsp;(Mrd. EUR)</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {costumers.map((customer) => {
+                            {stocks.map((stock) => {
                                 return (
                                     <Fragment>
                                         <StyledTableRow
-                                            key={customer.name}
+                                            key={stock.companyName}
                                             hover
-                                            onClick={(event) => handleClick(event, customer)}
+                                            onClick={(event) => handleClick(event, stock)}
                                             role="checkbox"
-                                            aria-checked={customer.id == selectedCustomer?.id}
+                                            aria-checked={stock.symbol === selectedStock?.symbol}
                                             tabIndex={-1}
-                                            selected={customer.id == selectedCustomer?.id}
+                                            selected={stock.symbol === selectedStock?.symbol}
                                         >
                                             <TableCell padding="checkbox">
                                                 <Checkbox
                                                     color="primary"
-                                                    checked={customer.id == selectedCustomer?.id}
+                                                    checked={stock.symbol === selectedStock?.symbol}
                                                 />
                                             </TableCell>
                                             <StyledTableCell align="right" >
-                                                {customer.firstName}
+                                                {stock.companyName}
                                             </StyledTableCell >
-                                            <StyledTableCell align="right">{customer.lastName}</StyledTableCell>
-                                            <StyledTableCell align="right">{customer.address}</StyledTableCell>
-                                            <StyledTableCell align="right">{customer.id}</StyledTableCell>
+                                            <StyledTableCell align="right">{stock.floatShares}</StyledTableCell>
+                                            <StyledTableCell align="right">{stock.lastTradePrice}</StyledTableCell>
+                                            <StyledTableCell align="right">{(stock.marketCapitalization/(Math.pow(10, 9))).toFixed(4)}</StyledTableCell>
                                         </StyledTableRow>
                                     </Fragment>
                                 )
                             })}
-        </TableBody>
-</Table>
-</TableContainer>
-}
-</Fragment>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            }
+        </Fragment>
 
 
 

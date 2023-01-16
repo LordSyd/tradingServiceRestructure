@@ -104,11 +104,12 @@ function createData(name, companyValue, price, quantity) {
 }
 
 
-export default function CustomizedTablesAktien() {
+export default function CustomizedTablesAktien(props) {
+    console.log("depot in table")
 
-    const selectedCustomerContext = useContext(SelectedCustomerContext)
-    const { selectedCustomer } = selectedCustomerContext;
-    const stocks = undefined; //todo change to selectedCustomer.stocks when endpoint done
+    console.log(props.depot)
+
+    const stocks = props.depot; //todo change to selectedCustomer.stocks when endpoint done
     return (
         <Fragment>
             {stocks === undefined
@@ -120,9 +121,9 @@ export default function CustomizedTablesAktien() {
                         <TableHead>
                             <TableRow>
                                 <StyledTableCell>Company</StyledTableCell>
-                                <StyledTableCell align="right">Float Shares&nbsp;(Stk)</StyledTableCell>
-                                <StyledTableCell align="right">Last Price&nbsp;(EUR)</StyledTableCell>
-                                <StyledTableCell align="right">Market Capitalization&nbsp;(Mrd. EUR)</StyledTableCell>
+                                <StyledTableCell align="right">Shares&nbsp;(Stk)</StyledTableCell>
+                                <StyledTableCell align="right">Current Price&nbsp;(EUR/Stock)</StyledTableCell>
+                                <StyledTableCell align="right">Current Volume</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -131,9 +132,9 @@ export default function CustomizedTablesAktien() {
                                     <StyledTableCell component="th" scope="row">
                                         {stock.companyName}
                                     </StyledTableCell>
-                                    <StyledTableCell align="right">{stock.floatShares}</StyledTableCell>
-                                    <StyledTableCell align="right">{stock.lastTradePrice}</StyledTableCell>
-                                    <StyledTableCell align="right">{(stock.marketCapitalization/(Math.pow(10, 9))).toFixed(4)}</StyledTableCell>
+                                    <StyledTableCell align="right">{stock.quantity}</StyledTableCell>
+                                    <StyledTableCell align="right">{stock.currentPrice}</StyledTableCell>
+                                    <StyledTableCell align="right">{stock.currentStockVolume}</StyledTableCell>
                                 </StyledTableRow>
                             ))}
                         </TableBody>
