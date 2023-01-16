@@ -63,7 +63,7 @@ public class SecurityConfig {
                 )
                 //all authenticated users can access depot information
                 .authorizeHttpRequests( auth -> auth
-                        .requestMatchers( "/api/user/depot" )
+                        .requestMatchers( "/api/user/depot", "api/user/username" )
                         .authenticated()
                 )
                 .authorizeHttpRequests( auth -> auth

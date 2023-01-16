@@ -1,6 +1,7 @@
 package com.beschtee.backend.Controllers;
 
 import com.beschtee.backend.DTOs.RegistrationRequest;
+import com.beschtee.backend.DTOs.UserDTO;
 import com.beschtee.backend.Models.person.User;
 import com.beschtee.backend.Services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +16,9 @@ public class RegistrationController {
 
     //we take information (see RegistrationRequest) to register a person
     @RequestMapping(method = RequestMethod.POST)
-    public User register(@RequestBody RegistrationRequest request){
+    public UserDTO register(@RequestBody RegistrationRequest request){
         //return registrationService.register(request);
         User registeredUser = userService.register(request);
-        return registeredUser;
+        return this.userService.getUserDTO(registeredUser);
     }
 }

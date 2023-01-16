@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.nio.file.AccessDeniedException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -66,6 +67,12 @@ public class UserController {
      */
     @RequestMapping(method = RequestMethod.GET, path = "/username")
     public ResponseEntity getUserByUsername(@RequestParam String email) {
+        //check authorization
+        try {
+            this.userService.checkCustomerAuthorizationByEmail(email);
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
         try {
             return ResponseEntity.ok(this.userService.getUserDTO( (User) this.userService.loadUserByUsername(email)));
         } catch (NoSuchElementException e) {
@@ -127,13 +134,13 @@ public class UserController {
         }
     }
 
-
     @GetMapping("/depot")
     public ResponseEntity getUserDepot(@RequestParam Long depotId) {
-        if ( userService.getCurrentUser().isCustomer()
-                && ! this.depotService.checkDepotAuthorization(userService.getCurrentUser(), depotId)
-        ) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("DepotId does not match with provided credentials");
+        //check authorization
+        try {
+            this.userService.checkCustomerAuthorizationByDepot(depotId);
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
 
         List<Stock> stocks =  this.stockService.getStocksByDepotId(depotId).stream()
