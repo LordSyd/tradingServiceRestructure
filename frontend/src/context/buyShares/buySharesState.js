@@ -3,11 +3,13 @@ import axios from 'axios';
 import BuySharesContext from './buySharesContext';
 import BuySharesReducer from './buySharesReducer';
 
+
 import {
     BUY_SHARES,
 } from '../types'
 import setAuthToken from "../../utils/setAuthToken";
 import SelectedCustomerContext from "../selectedCustomer/selectedCustomerContext";
+import BankVolumeContext from "../bankVolume/bankVolumeContext";
 
 
 const BuySharesState = props => {
@@ -18,6 +20,7 @@ const BuySharesState = props => {
     const [state, dispatch] = useReducer(BuySharesReducer, initialState);
 
     const selectedCustomerContext = useContext(SelectedCustomerContext)
+
     const buyShares = async (symbol, shares, depotId) => {
         console.log("onSubmit " + symbol)
         setAuthToken(localStorage.token)
@@ -26,6 +29,7 @@ const BuySharesState = props => {
 
 
             console.log(res)
+            getVolume()
         }catch (e) {
             console.error(e)
         }

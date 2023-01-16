@@ -15,7 +15,7 @@ import AuthContext from '../../context/auth/authContext'
         logout();
     }
     useEffect(()=>{
-        loadUser();
+        /*loadUser();*/
         // eslint-disable-next-line
     },[])
 

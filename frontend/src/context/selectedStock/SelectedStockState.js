@@ -2,7 +2,7 @@ import React, { useReducer } from 'react'
 import SelectedStockContext from "./SelectedStockContext";
 import SelectedStockReducer from "./SelectedStockReducer";
 import {
-STOCK_SELECTED,
+    BUY_STOCK_SELECTED, SELL_STOCK_SELECTED
 } from '../types'
 
 
@@ -13,22 +13,35 @@ const SelectedCustomerState = props => {
     };
     const [state, dispatch] = useReducer(SelectedStockReducer, initialState);
 
-    const selectStock = (stock) => {
+    const buyStockSelect = (stock) => {
 
 
             dispatch({
-                type: STOCK_SELECTED,
+                type: BUY_STOCK_SELECTED,
                 payload: stock
             })
 
 
     }
 
+    const sellStockSelect = (stock) => {
+
+
+        dispatch({
+            type: SELL_STOCK_SELECTED,
+            payload: stock
+        })
+
+
+    }
+
     return (
         <SelectedStockContext.Provider value={{
-            selectedStock: state.selectedStock,
+            buyStockSelected: state.buyStockSelected,
+            sellStockSelected: state.sellStockSelected,
             loading: state.loading,
-            selectStock
+            buyStockSelect,
+            sellStockSelect
         }}>
             {props.children}
 

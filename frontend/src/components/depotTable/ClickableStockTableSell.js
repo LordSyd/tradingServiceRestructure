@@ -37,18 +37,20 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 
-export default function ClickableStockTable(props) {
+export default function ClickableStockTableSell(props) {
 
     const selectedStockContext = useContext(SelectedStockContext);
 
-    const {buyStockSelect , buyStockSelected} = selectedStockContext;
+    const {sellStockSelect , sellStockSelected} = selectedStockContext;
 
 
-    const stocks = props.stocks
+    const stocks = props.depot
+    console.log("sell")
+    console.log(props)
     function handleClick(event, stock) {
-        console.log("selected STock" + buyStockSelected)
+        console.log("selected sell STock" + sellStockSelected)
         console.log(stock)
-        buyStockSelect(stock);
+        sellStockSelect(stock);
     }
 
     return (
@@ -60,10 +62,10 @@ export default function ClickableStockTable(props) {
                         <TableHead>
                             <TableRow>
                                 <StyledTableCell>Select</StyledTableCell>
-                                <StyledTableCell align="right">Company</StyledTableCell>
-                                <StyledTableCell align="right">Float Shares&nbsp;(Stk)</StyledTableCell>
-                                <StyledTableCell align="right">Last Price&nbsp;(EUR)</StyledTableCell>
-                                <StyledTableCell align="right">Market Capitalization&nbsp;(Mrd. EUR)</StyledTableCell>
+                                <StyledTableCell>Company</StyledTableCell>
+                                <StyledTableCell align="right">Shares&nbsp;(Stk)</StyledTableCell>
+                                <StyledTableCell align="right">Current Price&nbsp;(EUR/Stock)</StyledTableCell>
+                                <StyledTableCell align="right">Current Volume</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -75,23 +77,22 @@ export default function ClickableStockTable(props) {
                                             hover
                                             onClick={(event) => handleClick(event, stock)}
                                             role="checkbox"
-                                            aria-checked={stock.symbol === buyStockSelected?.symbol}
+                                            aria-checked={stock.symbol === sellStockSelected?.symbol}
                                             tabIndex={-1}
-                                            selected={stock.symbol === buyStockSelected?.symbol}
+                                            selected={stock.symbol === sellStockSelected?.symbol}
                                         >
                                             <TableCell padding="checkbox">
                                                 <Checkbox
                                                     color="primary"
-                                                    checked={stock.symbol === buyStockSelected?.symbol}
+                                                    checked={stock.symbol === sellStockSelected?.symbol}
                                                 />
                                             </TableCell>
                                             <StyledTableCell align="right" >
                                                 {stock.companyName}
                                             </StyledTableCell >
-                                            <StyledTableCell align="right">{stock.floatShares}</StyledTableCell>
-                                            <StyledTableCell align="right">{stock.lastTradePrice}</StyledTableCell>
-                                            <StyledTableCell align="right">{(stock.marketCapitalization/(Math.pow(10, 9))).toFixed(4)}</StyledTableCell>
-                                        </StyledTableRow>
+                                            <StyledTableCell align="right">{stock.quantity}</StyledTableCell>
+                                            <StyledTableCell align="right">{stock.currentPrice}</StyledTableCell>
+                                            <StyledTableCell align="right">{stock.currentStockVolume}</StyledTableCell>                                        </StyledTableRow>
                                     </Fragment>
                                 )
                             })}
@@ -100,9 +101,6 @@ export default function ClickableStockTable(props) {
                 </TableContainer>
             }
         </Fragment>
-
-
-
 
     );
 }

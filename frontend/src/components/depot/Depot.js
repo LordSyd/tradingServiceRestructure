@@ -6,6 +6,7 @@ import CustomizedTablesAktien from "../aktienTable/aktienTable"
 import CustomizedTablesDepot from "../depotTable/depotTable";
 import SellSharesButton from "../button/sellShareButton"
 import SelectedCustomerContext from "../../context/selectedCustomer/selectedCustomerContext";
+import ClickableStockTableSell from "../depotTable/ClickableStockTableSell";
 
 const Depot = (props) => {
     const depotContext = useContext(DepotContext);
@@ -27,13 +28,17 @@ const Depot = (props) => {
 
 
     const { confCases, deaths, recovered, activeCases, newCases } = covidData;
+    const handleClick = (stock, shares) => {
+        console.log(stock +" "+ shares)
+    }
     return (
             <div className="container-covid">
                 <Fragment>
-                    <CustomizedTablesDepot depot={props.depot}/>
+                    {/*<CustomizedTablesDepot depot={props.depot}/>*/}
+                    <ClickableStockTableSell depot={props.depot}/>
                     {props.depot === undefined
                         ? <Fragment/>
-                        : <SellSharesButton/>
+                        : <SellSharesButton onClick={props.onClickSell}/>
                     }
 
                 </Fragment>

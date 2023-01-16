@@ -28,6 +28,8 @@ import SelectedStockContext from "../../context/selectedStock/SelectedStockConte
 import selectedStockContext from "../../context/selectedStock/SelectedStockContext";
 import SearchBoxContext from "../../context/searchShare/searchShareContext";
 import ClickableStockTable from "../depotTable/ClickableStockTable";
+import bankVolumeContext from "../../context/bankVolume/bankVolumeContext";
+import BankVolumeContext from "../../context/bankVolume/bankVolumeContext";
 
 const style = {
   position: 'absolute',
@@ -41,17 +43,21 @@ const style = {
   p: 4,
 };
 
-const Home = () => {
+const Home = (props) => {
   const authContext = useContext(AuthContext);
   const { isAuthenticated, user } = authContext;
   const getCustomerContext = useContext(GetCustomerContext)
   const selectedCustomerContext = useContext(SelectedCustomerContext);
 
 
-  const [open, setOpen] = React.useState(false);
-  const handleClose = () => setOpen(false);
+  const [openBuyModal, setOpenBuyModal] = React.useState(false);
+  const [openSellModal, setOpenSellModal] = React.useState(false);
 
-  const handleClick = () => setOpen(true);
+  const handleBuyModalClose = () => setOpenBuyModal(false);
+  const handleSellModalClose = () => setOpenSellModal(false);
+
+
+  const handleClick = () => setOpenBuyModal(true);
 
 
 
@@ -109,16 +115,28 @@ const Home = () => {
     currentBreakpoint: 'lg',
   });
 
-  const { mounted, currentBreakpoint, layouts } = unAuth;
+  /*const { mounted, currentBreakpoint, layouts } = unAuth;*/
+  const { mounted, currentBreakpoint, layouts } = authLay;
 
   const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
   useEffect(() => {
-    if (localStorage.token) {
+    if (isAuthenticated) {
       console.log('getUser')
-      authContext.loadUser();
+      /*authContext.loadUser();*/
+      setAuthLay({
+        mounted: true,
+        layouts: {
+          lg: authLayout,
+          md: authLayout,
+          sm: authLayoutMD
+        }
+      })
     }
-    setLayout({
+    else{
+      props.history.push('/login');
+    }
+    /*setLayout({
       mounted: true,
       layouts: {
         lg: unAuthlayout,
@@ -126,16 +144,8 @@ const Home = () => {
         sm: unAuthlayoutMD
 
       }
-    });
+    });*/
 
-    setAuthLay({
-      mounted: true,
-      layouts: {
-        lg: authLayout,
-        md: authLayout,
-        sm: authLayoutMD
-      }
-    })
 
 
 
@@ -187,7 +197,8 @@ const Home = () => {
 
 
   const unAuthLayoutContent = (
-    <Fragment>
+      <div>test</div>
+   /* <Fragment>
       {!mounted ? (
         <div className="spinner-placement">
           <BeatLoader color={color} css={override} size={20}></BeatLoader>
@@ -220,51 +231,79 @@ const Home = () => {
 
       )}
 
-    </Fragment>
+    </Fragment>*/
   )
 
-  const [shares, setShares] = useState(0);
+  const [buySharesNumber, setBuySharesNumber] = useState(0);
+  const [sellSharesNumber, setSellSharesNumber] = useState(0);
   const selectedStockContext = useContext(SelectedStockContext);
-  const {selectedStock} = selectedStockContext
+  const {buyStockSelected,sellStockSelected} = selectedStockContext
   const searchBoxContext = useContext(SearchBoxContext)
   const { stocks, loading } = searchBoxContext;
 
   console.log(selectedCustomer)
+  const bnkVolumeContext = useContext(bankVolumeContext);
+  const { getVolume, bankVolume } = bnkVolumeContext;
 
+
+
+  useEffect(() => {
+    getVolume()
+  }, [bankVolume])
   const buyShares = async () => {
     setAuthToken(localStorage.token)
 
     try {
-      const res = await axios.post(`${global.BACKEND_URL}/api/buyStock?symbol=${selectedStock.symbol}&shares=${shares}&depotId=${Number.parseInt(selectedCustomer.depotId)}`);
+      const res = await axios.post(`${global.BACKEND_URL}/api/buyStock?symbol=${buyStockSelected.symbol}&shares=${buySharesNumber}&depotId=${Number.parseInt(selectedCustomer.depotId)}`);
 
       selectCustomer(selectedCustomer)
+      getVolume();
       console.log(res)
-      handleClose()
+      handleBuyModalClose()
     }catch (e) {
       console.error(e)
     }
 
   }
 
+  const sellShares = async () => {
+    setAuthToken(localStorage.token)
+
+    try {
+      const res = await axios.post(`${global.BACKEND_URL}/api/sellStock?symbol=${sellStockSelected.symbol}&shares=${sellSharesNumber}&depotId=${Number.parseInt(selectedCustomer.depotId)}`);
+
+      selectCustomer(selectedCustomer)
+      getVolume();
+      console.log(res)
+      handleSellModalClose()
+    }catch (e) {
+      console.error(e)
+    }
+
+  }
+
+  const handleClickSell = () => {
+    setOpenSellModal(true);
+  }
   const authLayoutContet = (
     <Fragment>
       <div>
         <Button onClick={handleClick}>Open modal</Button>
         <Modal
-            open={open}
+            open={openBuyModal}
 
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
           <Box sx={style} component="form" autoComplete="off">
             <Typography id="modal-modal-title" variant="h6" component="h4">
-              <h4 >{`Buying Share: ${selectedStock?.companyName}`}</h4>
+              <h4 >{`Buying Share: ${buyStockSelected?.companyName}`}</h4>
               <h5 >{`For Customer: ${selectedCustomer?.firstName} ${selectedCustomer?.lastName}`}</h5>
               <br/>
               <TextField
-                  error={shares === ""}
+                  error={buySharesNumber === ""}
                   required
-                  value={shares}
+                  value={buySharesNumber}
                   id="outlined-required"
                   sx={{input: {color: 'black'} }}
                   label="Number of Shares"
@@ -273,10 +312,42 @@ const Home = () => {
                     shrink: true,
                   }}
                   onChange={(e) => {
-                    setShares(Math.min(Math.max(e.target.value, 0), 999999999));}}
+                    setBuySharesNumber(Math.min(Math.max(e.target.value, 0), 999999999));}}
               />
-              <Button disabled={shares === 0} onClick={buyShares}>Buy Shares</Button>
-              <Button onClick={handleClose}>Abort</Button>
+              <Button disabled={buySharesNumber === 0} onClick={buyShares}>Buy Shares</Button>
+              <Button onClick={handleBuyModalClose}>Abort</Button>
+            </Typography>
+
+
+          </Box>
+        </Modal>
+        <Modal
+            open={openSellModal}
+
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+          <Box sx={style} component="form" autoComplete="off">
+            <Typography id="modal-modal-title" variant="h6" component="h4">
+              <h4 >{`Selling Share: ${sellStockSelected?.companyName}`}</h4>
+              <h5 >{`For Customer: ${selectedCustomer?.firstName} ${selectedCustomer?.lastName}`}</h5>
+              <br/>
+              <TextField
+                  error={sellSharesNumber === ""}
+                  required
+                  value={sellSharesNumber}
+                  id="outlined-required"
+                  sx={{input: {color: 'black'} }}
+                  label="Number of Shares"
+                  type="number"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={(e) => {
+                    setSellSharesNumber(Math.min(Math.max(e.target.value, 0), sellStockSelected.quantity));}}
+              />
+              <Button disabled={sellSharesNumber === 0} onClick={sellShares}>Sell Shares</Button>
+              <Button onClick={handleSellModalClose}>Abort</Button>
             </Typography>
 
 
@@ -307,7 +378,7 @@ const Home = () => {
                 : <Fragment>
                   <h2>{`${selectedCustomer.firstName} ${selectedCustomer.lastName}'s Depot, Id ${selectedCustomer.id}` }</h2>
                   <div className="depot-wrapper">
-                    <Depot depot={selectedCustomer.depot}></Depot>
+                    <Depot depot={selectedCustomer.depot} onClickSell={handleClickSell}></Depot>
                   </div>
                 </Fragment>
             }

@@ -17,6 +17,7 @@ const BankVolumeState = props => {
   const getVolume = async () => {
     try {
       const res = await axios.get(`${global.BACKEND_URL}/api/bank/volume`);
+      console.log("bankvolume " + res.data)
       dispatch({
         type: GET_BANK_VOLUME,
         payload: res.data

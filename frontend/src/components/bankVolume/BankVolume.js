@@ -7,7 +7,7 @@ import { css } from "@emotion/react";
 
 const BankVolume = () => {
   const bnkVolumeContext = useContext(bankVolumeContext);
-  const { getVolume, loading } = bnkVolumeContext;
+  const { getVolume, loading, bankVolume } = bnkVolumeContext;
 
   let [color, setColor] = useState("#ffffff");
   const override = css`
@@ -17,9 +17,7 @@ const BankVolume = () => {
 `;
 
 
-  useEffect(() => {
-    getVolume();
-  }, []);
+
 
 
   return (
@@ -31,14 +29,11 @@ const BankVolume = () => {
           </div>
         ) : (
             <div>
-              <h1>1.000.000.000</h1>
+              <h1>{bankVolume} €</h1>
             </div>
         )}
-
-
       </div>
     </Fragment>
-
   )
 };
 
