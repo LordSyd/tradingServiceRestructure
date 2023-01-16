@@ -4,16 +4,12 @@ import AlertContext from '../../context/alert/alertContext';
 import AuthContext from '../../context/auth/authContext';
 import {Link} from 'react-router-dom'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import NoteContext from '../../context/notes/noteContext';
 
 //import DashboardContext from '../../context/dashboard/dashboardContext';
 
 const Login = (props) =>{
     const alertContext = useContext(AlertContext) 
     const{setAlert} = alertContext;
-
-    const noteContext = useContext(NoteContext);
-    const {getNotes} = noteContext;
 
     //const dasboardContext = useContext(DashboardContext);
     const authContext = useContext(AuthContext)

@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useContext, useState } from 'react';
-import DepotContext from '../../context/depot/depotContext';
 import { css } from "@emotion/react";
 import BeatLoader from "react-spinners/BeatLoader";
 import CustomizedTablesAktien from "../aktienTable/aktienTable"
@@ -9,11 +8,8 @@ import SelectedCustomerContext from "../../context/selectedCustomer/selectedCust
 import ClickableStockTableSell from "../depotTable/ClickableStockTableSell";
 
 const Depot = (props) => {
-    const depotContext = useContext(DepotContext);
-    const { getCovid: getDepot, covidData, loading } = depotContext;
 
     useEffect(() => {
-        getDepot();
         // eslint-disable-next-line
     }, []);
 

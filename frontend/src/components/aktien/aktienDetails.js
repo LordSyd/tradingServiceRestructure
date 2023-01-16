@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect, Fragment } from 'react';
-import AktienDetailsContext from '../../context/aktienDetails/aktienDetailsContext';
 import { css } from "@emotion/react";
 import BeatLoader from "react-spinners/BeatLoader";
 import CustomizedTablesAktien from "../aktienTable/aktienTable"
@@ -9,17 +8,7 @@ import SelectedCustomerContext from "../../context/selectedCustomer/selectedCust
 
 const AktienDetails = () => {
 
-  const aktienDetailsContext = useContext(AktienDetailsContext);
-  const { hourlyForecast, getHourlyForecast, loading } = aktienDetailsContext;
-  const { dt, temp } = hourlyForecast;
-
-  useEffect(() => {
-    getHourlyForecast();
-
-
-  }, []);
-
-
+  const loading = false
 
   const override = css`
         display: block;

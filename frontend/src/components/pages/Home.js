@@ -4,7 +4,6 @@ import GridLayout from 'react-grid-layout';
 import SearchBox from '../searchBox/SearchBox';
 import AktienDetails from '../aktien/aktienDetails';
 import AuthContext from '../../context/auth/authContext';
-import NotesForm from '../notes/NotesForm';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import useForceUpdate from 'use-force-update';
 import BeatLoader from "react-spinners/BeatLoader";
@@ -30,6 +29,7 @@ import SearchBoxContext from "../../context/searchShare/searchShareContext";
 import ClickableStockTable from "../depotTable/ClickableStockTable";
 import bankVolumeContext from "../../context/bankVolume/bankVolumeContext";
 import BankVolumeContext from "../../context/bankVolume/bankVolumeContext";
+import getRoleByEmailContext from "../../context/getRoleByEmail/getRoleByEmailContext";
 
 const style = {
   position: 'absolute',
@@ -177,6 +177,9 @@ const Home = (props) => {
 /*  useEffect(() => {
     getAllCustomers()
   },[]  )*/
+
+  const {getRole} = getRoleByEmailContext
+  console.log(getRole)
 
   const config = {
       headers: { "Content-Type": 'application/javascript' }

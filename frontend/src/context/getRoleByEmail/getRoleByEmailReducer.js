@@ -1,14 +1,14 @@
 import {
-    GET_COVID
+    GET_ROLE
 } from '../types'
 
 export default (state, action) => {
     switch (action.type) {
 
-        case GET_COVID:
+        case GET_ROLE:
             return {
                 ...state,
-                covidData: action.payload,
+                getRole: action.payload,
                 loading: false
             }
         default:
