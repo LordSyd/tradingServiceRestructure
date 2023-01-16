@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -35,5 +37,26 @@ public class StockService {
                     .build()
             );
         }
+    }
+
+    public Stock getStockBySymbolAndDepot(String symbol, Depot depot) {
+        return this.stockRepository.findStockBySymbolIgnoreCaseAndDepot(symbol, depot).orElse(null);
+    }
+
+    public boolean checkQuantity( Stock stock, int sellQuantity ) {
+        return stock.getQuantity() >= sellQuantity;
+    }
+
+    public Stock updateQuantity(Stock stock, int quantity, Depot depot) {
+            Stock currentState = this.stockRepository.findById(stock.getId()).orElseThrow(() ->
+                    new NoSuchElementException("No such stock found")
+            );
+            double newQuantity = currentState.getQuantity() - quantity;
+            currentState.setQuantity(newQuantity);
+            return stockRepository.save(currentState);
+    }
+
+    public List<Stock> getStocksByDepotId(Long depotId) {
+        return this.stockRepository.findStocksByDepot_Id(depotId);
     }
 }

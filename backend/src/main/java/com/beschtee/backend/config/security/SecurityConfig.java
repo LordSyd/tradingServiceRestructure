@@ -45,7 +45,8 @@ public class SecurityConfig {
                 //TODO: for now, access to the register route is not constrained
                 //TODO: after FE and BE are finished, remove register route and uncomment the below constraint for employees only
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/dashboard", "/api/register").permitAll()
+                        .requestMatchers("/api/register")
+                        .permitAll()
                 )
                 //all authenticated users with authority EMPLOYEE can access this route
                 /*
@@ -59,6 +60,11 @@ public class SecurityConfig {
                         auth -> auth
                                 .requestMatchers(HttpMethod.POST, "/api/auth")
                                 .permitAll()
+                )
+                //all authenticated users can access depot information
+                .authorizeHttpRequests( auth -> auth
+                        .requestMatchers( "/api/user/depot" )
+                        .authenticated()
                 )
                 .authorizeHttpRequests( auth -> auth
                     .requestMatchers( "/api/user/**" )

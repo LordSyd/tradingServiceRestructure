@@ -1,5 +1,6 @@
 package com.beschtee.backend.Models.person;
 
+import com.beschtee.backend.DTOs.UserDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -89,5 +90,17 @@ public class User implements UserDetails {
 
     public boolean isCustomer() {
         return this.userRole.equals(UserRole.CUSTOMER);
+    }
+
+    public UserDTO toDTO(Long depotId) {
+        return UserDTO.builder()
+                .id(this.getId())
+                .firstName(this.getFirstName())
+                .lastName(this.getLastName())
+                .address(this.getAddress())
+                .email(this.getEmail())
+                .userRole(this.getUserRole())
+                .depotId(depotId)
+                .build();
     }
 }
