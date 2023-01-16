@@ -46,6 +46,7 @@ export default function ClickableStockTable(props) {
 
     const stocks = props.stocks
     function handleClick(event, stock) {
+        event.preventDefault()
         console.log("selected STock" + buyStockSelected)
         console.log(stock)
         buyStockSelect(stock);
@@ -55,7 +56,7 @@ export default function ClickableStockTable(props) {
         <Fragment>
             {stocks === undefined
                 ? <Fragment/>
-                :<TableContainer component={Paper}>
+                :<TableContainer sx={{overflow: "scroll"}} component={Paper}>
                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
                         <TableHead>
                             <TableRow>
@@ -85,12 +86,12 @@ export default function ClickableStockTable(props) {
                                                     checked={stock.symbol === buyStockSelected?.symbol}
                                                 />
                                             </TableCell>
-                                            <StyledTableCell align="right" >
+                                            <StyledTableCell key={Math.random()} align="right" >
                                                 {stock.companyName}
                                             </StyledTableCell >
-                                            <StyledTableCell align="right">{stock.floatShares}</StyledTableCell>
-                                            <StyledTableCell align="right">{stock.lastTradePrice}</StyledTableCell>
-                                            <StyledTableCell align="right">{(stock.marketCapitalization/(Math.pow(10, 9))).toFixed(4)}</StyledTableCell>
+                                            <StyledTableCell key={Math.random()} align="right">{stock.floatShares}</StyledTableCell>
+                                            <StyledTableCell key={Math.random()} align="right">{stock.lastTradePrice}</StyledTableCell>
+                                            <StyledTableCell key={Math.random()} align="right">{(stock.marketCapitalization/(Math.pow(10, 9))).toFixed(4)}</StyledTableCell>
                                         </StyledTableRow>
                                     </Fragment>
                                 )

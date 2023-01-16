@@ -31,9 +31,6 @@ import GetCustomerState from "./context/getCustomer/getCustomerState";
 import SelectedCustomerState from "./context/selectedCustomer/selectedCustomerState";
 import SelectedStockState from "./context/selectedStock/SelectedStockState";
 
-if (localStorage.token) {
-  setAuthToken(localStorage.token);
-}
 
 const App = () => {
   const [theme, setTheme] = useState('dark');

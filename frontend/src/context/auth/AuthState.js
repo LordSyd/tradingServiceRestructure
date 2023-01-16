@@ -27,6 +27,7 @@ const AuthState = props => {
 
   // Load User
   const loadUser = async () => {
+    //todo use for reauth and set isAuthenticated --> with username/email endpoint
 
     try {
       const res = await axios.get(`${global.BACKEND_URL}/api/auth`);

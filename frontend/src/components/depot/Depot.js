@@ -23,7 +23,7 @@ const Depot = (props) => {
 
 
 
-    const { confCases, deaths, recovered, activeCases, newCases } = covidData;
+
     const handleClick = (stock, shares) => {
         console.log(stock +" "+ shares)
     }

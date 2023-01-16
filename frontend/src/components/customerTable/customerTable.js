@@ -85,12 +85,12 @@ export default function CustomerTable() {
                                                     checked={customer.id == selectedCustomer?.id}
                                                 />
                                             </TableCell>
-                                            <StyledTableCell align="right" >
+                                            <StyledTableCell key={Math.random()} align="right" >
                                                 {customer.firstName}
                                             </StyledTableCell >
-                                            <StyledTableCell align="right">{customer.lastName}</StyledTableCell>
-                                            <StyledTableCell align="right">{customer.address}</StyledTableCell>
-                                            <StyledTableCell align="right">{customer.id}</StyledTableCell>
+                                            <StyledTableCell key={Math.random()} align="right">{customer.lastName}</StyledTableCell>
+                                            <StyledTableCell key={Math.random()} align="right">{customer.address}</StyledTableCell>
+                                            <StyledTableCell key={Math.random()} align="right">{customer.id}</StyledTableCell>
                                         </StyledTableRow>
                                     </Fragment>
                                 )

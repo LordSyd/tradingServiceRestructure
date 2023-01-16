@@ -30,6 +30,8 @@ import ClickableStockTable from "../depotTable/ClickableStockTable";
 import bankVolumeContext from "../../context/bankVolume/bankVolumeContext";
 import BankVolumeContext from "../../context/bankVolume/bankVolumeContext";
 import getRoleByEmailContext from "../../context/getRoleByEmail/getRoleByEmailContext";
+import {Container} from "@mui/system";
+import {Grid} from "@mui/material";
 
 const style = {
   position: 'absolute',
@@ -44,20 +46,66 @@ const style = {
 };
 
 const Home = (props) => {
+
+  const buyShares = async () => {
+    setAuthToken(localStorage.token)
+
+    try {
+      const res = await axios.post(`${global.BACKEND_URL}/api/buyStock?symbol=${buyStockSelected.symbol}&shares=${buySharesNumber}&depotId=${Number.parseInt(selectedCustomer.depotId)}`);
+
+      selectCustomer(selectedCustomer)
+      getVolume();
+      console.log(res)
+      handleBuyModalClose()
+    }catch (e) {
+      console.error(e)
+    }
+
+  }
+
+  const sellShares = async () => {
+    setAuthToken(localStorage.token)
+
+    try {
+      const res = await axios.post(`${global.BACKEND_URL}/api/sellStock?symbol=${sellStockSelected.symbol}&shares=${sellSharesNumber}&depotId=${Number.parseInt(selectedCustomer.depotId)}`);
+
+      selectCustomer(selectedCustomer)
+      getVolume();
+      console.log(res)
+      handleSellModalClose()
+    }catch (e) {
+      console.error(e)
+    }
+
+  }
   const authContext = useContext(AuthContext);
   const { isAuthenticated, user } = authContext;
   const getCustomerContext = useContext(GetCustomerContext)
   const selectedCustomerContext = useContext(SelectedCustomerContext);
 
-
+  const [buySharesNumber, setBuySharesNumber] = useState(0);
+  const [sellSharesNumber, setSellSharesNumber] = useState(0);
+  const selectedStockContext = useContext(SelectedStockContext);
+  const {buyStockSelected,sellStockSelected} = selectedStockContext
+  const searchBoxContext = useContext(SearchBoxContext)
+  const { stocks } = searchBoxContext;
   const [openBuyModal, setOpenBuyModal] = React.useState(false);
   const [openSellModal, setOpenSellModal] = React.useState(false);
 
-  const handleBuyModalClose = () => setOpenBuyModal(false);
-  const handleSellModalClose = () => setOpenSellModal(false);
+  const handleBuyModalClose = (e) => {
+    e.preventDefault()
+    setOpenBuyModal(false)
+  };
+  const handleSellModalClose = (e) => {
+    e.preventDefault()
+    setOpenSellModal(false)
+  };
 
 
-  const handleClick = () => setOpenBuyModal(true);
+  const handleClick = (e) => {
+    e.preventDefault()
+    setOpenBuyModal(true)
+  };
 
 
 
@@ -110,10 +158,10 @@ const Home = (props) => {
     mounted: false,
   })
 
-  const [unAuth, setLayout] = useState({
+  /*const [unAuth, setLayout] = useState({
     mounted: false,
     currentBreakpoint: 'lg',
-  });
+  });*/
 
   /*const { mounted, currentBreakpoint, layouts } = unAuth;*/
   const { mounted, currentBreakpoint, layouts } = authLay;
@@ -121,7 +169,8 @@ const Home = (props) => {
   const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    console.log("reloaded")
+    if (localStorage.token) {
       console.log('getUser')
       /*authContext.loadUser();*/
       setAuthLay({
@@ -237,69 +286,37 @@ const Home = (props) => {
     </Fragment>*/
   )
 
-  const [buySharesNumber, setBuySharesNumber] = useState(0);
-  const [sellSharesNumber, setSellSharesNumber] = useState(0);
-  const selectedStockContext = useContext(SelectedStockContext);
-  const {buyStockSelected,sellStockSelected} = selectedStockContext
-  const searchBoxContext = useContext(SearchBoxContext)
-  const { stocks, loading } = searchBoxContext;
+
 
   console.log(selectedCustomer)
   const bnkVolumeContext = useContext(bankVolumeContext);
   const { getVolume, bankVolume } = bnkVolumeContext;
 
-
+  const handleModalChange = (event ) => {
+      event.preventDefault()
+      setBuySharesNumber(Math.min(Math.max(event.target.value, 0), 999999999))
+  }
 
   useEffect(() => {
     getVolume()
   }, [bankVolume])
-  const buyShares = async () => {
-    setAuthToken(localStorage.token)
 
-    try {
-      const res = await axios.post(`${global.BACKEND_URL}/api/buyStock?symbol=${buyStockSelected.symbol}&shares=${buySharesNumber}&depotId=${Number.parseInt(selectedCustomer.depotId)}`);
-
-      selectCustomer(selectedCustomer)
-      getVolume();
-      console.log(res)
-      handleBuyModalClose()
-    }catch (e) {
-      console.error(e)
-    }
-
-  }
-
-  const sellShares = async () => {
-    setAuthToken(localStorage.token)
-
-    try {
-      const res = await axios.post(`${global.BACKEND_URL}/api/sellStock?symbol=${sellStockSelected.symbol}&shares=${sellSharesNumber}&depotId=${Number.parseInt(selectedCustomer.depotId)}`);
-
-      selectCustomer(selectedCustomer)
-      getVolume();
-      console.log(res)
-      handleSellModalClose()
-    }catch (e) {
-      console.error(e)
-    }
-
-  }
 
   const handleClickSell = () => {
+
     setOpenSellModal(true);
   }
   const authLayoutContet = (
     <Fragment>
-      <div>
         <Button onClick={handleClick}>Open modal</Button>
         <Modal
             open={openBuyModal}
 
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
+            aria-labelledby="buy-modal-title"
+            aria-describedby="buy-modal-description"
         >
           <Box sx={style} component="form" autoComplete="off">
-            <Typography id="modal-modal-title" variant="h6" component="h4">
+            <Typography id="buy-modal-title" variant="h6" component="h4">
               <h4 >{`Buying Share: ${buyStockSelected?.companyName}`}</h4>
               <h5 >{`For Customer: ${selectedCustomer?.firstName} ${selectedCustomer?.lastName}`}</h5>
               <br/>
@@ -314,8 +331,7 @@ const Home = (props) => {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onChange={(e) => {
-                    setBuySharesNumber(Math.min(Math.max(e.target.value, 0), 999999999));}}
+                  onChange={handleModalChange}
               />
               <Button disabled={buySharesNumber === 0} onClick={buyShares}>Buy Shares</Button>
               <Button onClick={handleBuyModalClose}>Abort</Button>
@@ -347,6 +363,7 @@ const Home = (props) => {
                     shrink: true,
                   }}
                   onChange={(e) => {
+                    e.preventDefault()
                     setSellSharesNumber(Math.min(Math.max(e.target.value, 0), sellStockSelected.quantity));}}
               />
               <Button disabled={sellSharesNumber === 0} onClick={sellShares}>Sell Shares</Button>
@@ -356,13 +373,12 @@ const Home = (props) => {
 
           </Box>
         </Modal>
-      </div>
       {!mounted ? (
         <div className="spinner-placement">
           <BeatLoader color={color} css={override} size={20}></BeatLoader>
         </div>
       ) : (
-        <ResponsiveReactGridLayout className="unAuthlayout" layouts={authLay.layouts} rowHeight={150} heigth={500} width={1200}
+        <ResponsiveReactGridLayout measureBeforeMount={true} className="unAuthlayout" layouts={authLay.layouts} rowHeight={150} heigth={500} width={1200}
           breakpoints={{ lg: 1200, md: 1000, sm: 768, xs: 767, xxs: 0 }}
           cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
           onLayoutChange={onWidthChange}
@@ -422,7 +438,7 @@ const Home = (props) => {
     <Fragment>
       <div>
 
-        {isAuthenticated ? authLayoutContet : unAuthLayoutContent}
+        {localStorage.token ? authLayoutContet : unAuthLayoutContent}
 
       </div>
     </Fragment>

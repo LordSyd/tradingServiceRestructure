@@ -129,12 +129,12 @@ export default function CustomizedTablesAktien(props) {
                         <TableBody>
                             {stocks.map((stock) => (
                                 <StyledTableRow key={stock.companyName}>
-                                    <StyledTableCell component="th" scope="row">
+                                    <StyledTableCell key={Math.random()}component="th" scope="row">
                                         {stock.companyName}
                                     </StyledTableCell>
-                                    <StyledTableCell align="right">{stock.quantity}</StyledTableCell>
-                                    <StyledTableCell align="right">{stock.currentPrice}</StyledTableCell>
-                                    <StyledTableCell align="right">{stock.currentStockVolume}</StyledTableCell>
+                                    <StyledTableCell key={Math.random()} align="right">{stock.quantity}</StyledTableCell>
+                                    <StyledTableCell key={Math.random()} align="right">{stock.currentPrice}</StyledTableCell>
+                                    <StyledTableCell key={Math.random()} align="right">{stock.currentStockVolume}</StyledTableCell>
                                 </StyledTableRow>
                             ))}
                         </TableBody>
