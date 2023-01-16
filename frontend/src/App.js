@@ -26,9 +26,6 @@ import './globals'
 import AuthState from './context/auth/AuthState';
 import AlertState from './context/alert/AlertState';
 import SearchShareState from './context/searchShare/searchShareState';
-import NoteState from './context/notes/NoteState';
-import AktienDetailsState from './context/aktienDetails/aktienDetailsState';
-import DepotState from './context/depot/DepotState';
 import BankVolumeState from './context/bankVolume/bankVolumeState';
 import GetCustomerState from "./context/getCustomer/getCustomerState";
 import SelectedCustomerState from "./context/selectedCustomer/selectedCustomerState";
@@ -53,15 +50,10 @@ const App = () => {
     <AuthState>
       <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
         <GlobalStyles />
-        <NoteState>
           <SelectedStockState>
         <SelectedCustomerState>
-
           <GetCustomerState>
             <SearchShareState>
-              <AktienDetailsState>
-                <DepotState>
-
                   <BankVolumeState>
                     <Router>
                       <AlertState>
@@ -83,18 +75,11 @@ const App = () => {
                         </Fragment>
                       </AlertState>
                     </Router>
-
                   </BankVolumeState>
-
-                </DepotState>
-              </AktienDetailsState>
-
             </SearchShareState>
           </GetCustomerState>
-
         </SelectedCustomerState>
           </SelectedStockState>
-        </NoteState>
       </ThemeProvider>
     </AuthState>
 
