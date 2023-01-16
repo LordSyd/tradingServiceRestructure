@@ -17,13 +17,42 @@ import {REGISTER_SUCCESS} from "../../context/types";
 import setAuthToken from "../../utils/setAuthToken";
 import GetCustomerContext from "../../context/getCustomer/getCustomerContext";
 import SelectedCustomerContext from "../../context/selectedCustomer/selectedCustomerContext";
+import CustomizedTablesAktien from "../aktienTable/aktienTable";
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import Button from "@mui/material/Button";
+import BuySharesButton from "../button/BuySharesButton";
+import TextField from "@mui/material/TextField";
+import SelectedStockContext from "../../context/selectedStock/SelectedStockContext";
+import selectedStockContext from "../../context/selectedStock/SelectedStockContext";
+import SearchBoxContext from "../../context/searchShare/searchShareContext";
+import ClickableStockTable from "../depotTable/ClickableStockTable";
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 const Home = () => {
   const authContext = useContext(AuthContext);
   const { isAuthenticated, user } = authContext;
   const getCustomerContext = useContext(GetCustomerContext)
   const selectedCustomerContext = useContext(SelectedCustomerContext);
+
+
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => setOpen(false);
+
+  const handleClick = () => setOpen(true);
+
 
 
   const unAuthlayout = [
@@ -43,7 +72,7 @@ const Home = () => {
     { i: 'notes', x: 0, y: 1, w: 5, h: 2,minH:2 },
     { i: 'notes-form', x: 6, y: 1, w: 5, h: 2,minH:2 },
     { i: 'standardRss', x: 0, y: 2, w: 3, h: 2, minW: 3 ,minH:2 },
-    { i: 'spotify', x: 3, y: 2, w: 3, h: 2, minW: 3, maxH: 3,minH:2 },
+    { i: 'spotify', x: 0, y: 3, w: 12, h: 2, minW: 12, maxH: 2 },
     { i: 'quote', x: 6, y: 2, w: 4, h: 2, minW: 4, maxH: 3,minH:2 },
     { i: 'corona', x: 0, y: 3, w: 12, h: 2, minW: 12, maxH: 2 },
     { i: 'gas', x: 0, y: 3, w: 12, h: 2, minW: 12, maxH: 2 },
@@ -53,7 +82,7 @@ const Home = () => {
     { i: 'SearchedAktien', x: 0, y: 0, w: 8, h: 2, minW: 10,minH:2 },
     { i: 'weatherSmall', x: 5, y: 1, w: 2, h: 2, minW: 4, maxW: 4,minH:2 },
     { i: 'standardRss', x: 0, y: 1, w: 3, h: 2, minW: 4, maxW: 4,minH:2 },
-    { i: 'spotify', x: 2, y: 3, w: 2, h: 2, minW: 1, maxH: 3 },
+    { i: 'spotify', x: 0, y: 3, w: 10, h: 2, minW: 10, maxH: 2},
     { i: 'quote', x: 5, y: 3, w: 2, h: 2, minW: 4, maxH: 3,minH:2 },
     { i: 'corona', x: 0, y: 2, w: 10, h: 2, minW: 10, maxH: 2 },
     { i: 'gas', x: 0, y: 2, w: 10, h: 2, minW: 10, maxH: 2 },
@@ -66,7 +95,7 @@ const Home = () => {
     { i: 'notes', x: 0, y: 2, w: 3, h: 2,minH:2 },
     { i: 'notes-form', x: 4, y: 2, w: 3, h: 2,minH:2 },
     { i: 'corona', x: 0, y: 3, w: 10, h: 2, minW: 10, maxH: 2 },
-    { i: 'spotify', x: 2, y: 4, w: 2, h: 2, minW: 2, maxH: 3 },
+    { i: 'spotify', x: 0, y: 3, w: 10, h: 2, minW: 10, maxH: 2 },
     { i: 'quote', x: 4, y: 4, w: 2, h: 2, minW: 2, maxH: 3 },
     { i: 'gas', x: 4, y: 4, w: 2, h: 2, minW: 2, maxH: 3 },
   ]
@@ -108,6 +137,8 @@ const Home = () => {
       }
     })
 
+
+
     //eslint-disable-next-line
   }, []);
 
@@ -129,13 +160,13 @@ const Home = () => {
   const onBreakpointChange = (all) => {
     //console.log(all, 'breakpoint');
   }
-  const [stocks, setStocks] = useState();
 
-  const {getCustomer} = getCustomerContext
-  const {selectedCustomer} = selectedCustomerContext;
-  useEffect(() => {
-    getCustomer()
-  },[]  )
+
+  const {getAllCustomers} = getCustomerContext
+  const {selectedCustomer, selectCustomer} = selectedCustomerContext;
+/*  useEffect(() => {
+    getAllCustomers()
+  },[]  )*/
 
   const config = {
       headers: { "Content-Type": 'application/javascript' }
@@ -152,6 +183,8 @@ const Home = () => {
       console.error(e)
     }
   }*/
+
+
 
   const unAuthLayoutContent = (
     <Fragment>
@@ -190,8 +223,66 @@ const Home = () => {
     </Fragment>
   )
 
+  const [shares, setShares] = useState(0);
+  const selectedStockContext = useContext(SelectedStockContext);
+  const {selectedStock} = selectedStockContext
+  const searchBoxContext = useContext(SearchBoxContext)
+  const { stocks, loading } = searchBoxContext;
+
+  console.log(selectedCustomer)
+
+  const buyShares = async () => {
+    setAuthToken(localStorage.token)
+
+    try {
+      const res = await axios.post(`${global.BACKEND_URL}/api/buyStock?symbol=${selectedStock.symbol}&shares=${shares}&depotId=${Number.parseInt(selectedCustomer.depotId)}`);
+
+      selectCustomer(selectedCustomer)
+      console.log(res)
+      handleClose()
+    }catch (e) {
+      console.error(e)
+    }
+
+  }
+
   const authLayoutContet = (
     <Fragment>
+      <div>
+        <Button onClick={handleClick}>Open modal</Button>
+        <Modal
+            open={open}
+
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+          <Box sx={style} component="form" autoComplete="off">
+            <Typography id="modal-modal-title" variant="h6" component="h4">
+              <h4 >{`Buying Share: ${selectedStock?.companyName}`}</h4>
+              <h5 >{`For Customer: ${selectedCustomer?.firstName} ${selectedCustomer?.lastName}`}</h5>
+              <br/>
+              <TextField
+                  error={shares === ""}
+                  required
+                  value={shares}
+                  id="outlined-required"
+                  sx={{input: {color: 'black'} }}
+                  label="Number of Shares"
+                  type="number"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={(e) => {
+                    setShares(Math.min(Math.max(e.target.value, 0), 999999999));}}
+              />
+              <Button disabled={shares === 0} onClick={buyShares}>Buy Shares</Button>
+              <Button onClick={handleClose}>Abort</Button>
+            </Typography>
+
+
+          </Box>
+        </Modal>
+      </div>
       {!mounted ? (
         <div className="spinner-placement">
           <BeatLoader color={color} css={override} size={20}></BeatLoader>
@@ -212,14 +303,33 @@ const Home = () => {
 
           <div key="corona" className="wrapper-dash">
             {selectedCustomer === undefined
-                ? <Fragment/>
-
-                :<h2>{`${selectedCustomer.firstName} ${selectedCustomer.lastName}'s Depot, Id ${selectedCustomer.id}` }</h2>
+                ? <h2>No Customer Selected</h2>
+                : <Fragment>
+                  <h2>{`${selectedCustomer.firstName} ${selectedCustomer.lastName}'s Depot, Id ${selectedCustomer.id}` }</h2>
+                  <div className="depot-wrapper">
+                    <Depot depot={selectedCustomer.depot}></Depot>
+                  </div>
+                </Fragment>
             }
 
-            <div className="depot-wrapper">
-              <Depot></Depot>
-            </div>
+
+          </div>
+          <div key="spotify" className="wrapper-dash">
+            <h2>Buy Shares</h2>
+            {selectedCustomer === undefined
+                ? <h2>No Customer Selected</h2>
+                :
+                <Fragment>
+                  { stocks === undefined
+                      ? <h2>Please search for stocks</h2>
+                      :  <div className="depot-wrapper">
+                            <ClickableStockTable stocks={stocks}></ClickableStockTable>
+                            <BuySharesButton handleClick={handleClick}/>
+                         </div>
+                  }
+                </Fragment>
+            }
+
           </div>
           <div key="gas" className="wrapper-dash">
             <h2>Bank Volume</h2>

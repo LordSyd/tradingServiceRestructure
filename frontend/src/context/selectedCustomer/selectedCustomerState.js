@@ -4,6 +4,7 @@ import SelectedCustomerReducer from "./selectedCustomerReducer";
 import {
     CUSTOMER_SELECTED,
 } from '../types'
+import axios from "axios";
 
 const SelectedCustomerState = props => {
     const initialState = {
@@ -14,10 +15,19 @@ const SelectedCustomerState = props => {
 
     const selectCustomer = async (customer) => {
     //todo make call to endpoint for customer depot
+        try {
+            const res = await axios.get(`${global.BACKEND_URL}/api/user/depot?depotId=${customer.depotId}`);
+            customer.depot = res.data;
             dispatch({
                 type: CUSTOMER_SELECTED,
                 payload: customer
             })
+
+            console.log(res)
+        }catch (e) {
+            console.error(e)
+        }
+
 
     }
 

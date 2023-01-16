@@ -1,7 +1,7 @@
 import './App.css';
 import BurgerMenu from './components/layout/BurgerMenu';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import React, { Fragment, useState } from 'react'
+import React, {Fragment, useEffect, useState} from 'react'
 import setAuthToken from './utils/setAuthToken';
 import Header from './components/layout/Header';
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -32,6 +32,7 @@ import DepotState from './context/depot/DepotState';
 import BankVolumeState from './context/bankVolume/bankVolumeState';
 import GetCustomerState from "./context/getCustomer/getCustomerState";
 import SelectedCustomerState from "./context/selectedCustomer/selectedCustomerState";
+import SelectedStockState from "./context/selectedStock/SelectedStockState";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -43,17 +44,24 @@ const App = () => {
     theme === 'light' ? setTheme('dark') : setTheme('light')
   }
 
+  useEffect( () => {
+    /*localStorage.removeItem('token')*/
+
+  }, []);
 
   return (
     <AuthState>
       <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
         <GlobalStyles />
         <NoteState>
+          <SelectedStockState>
         <SelectedCustomerState>
+
           <GetCustomerState>
             <SearchShareState>
               <AktienDetailsState>
                 <DepotState>
+
                   <BankVolumeState>
                     <Router>
                       <AlertState>
@@ -75,13 +83,17 @@ const App = () => {
                         </Fragment>
                       </AlertState>
                     </Router>
+
                   </BankVolumeState>
+
                 </DepotState>
               </AktienDetailsState>
 
             </SearchShareState>
           </GetCustomerState>
+
         </SelectedCustomerState>
+          </SelectedStockState>
         </NoteState>
       </ThemeProvider>
     </AuthState>

@@ -4,9 +4,10 @@ import { css } from "@emotion/react";
 import BeatLoader from "react-spinners/BeatLoader";
 import CustomizedTablesAktien from "../aktienTable/aktienTable"
 import CustomizedTablesDepot from "../depotTable/depotTable";
-import ButtonAdd from "../button/sellShareButton"
+import SellSharesButton from "../button/sellShareButton"
+import SelectedCustomerContext from "../../context/selectedCustomer/selectedCustomerContext";
 
-const Depot = () => {
+const Depot = (props) => {
     const depotContext = useContext(DepotContext);
     const { getCovid: getDepot, covidData, loading } = depotContext;
 
@@ -21,20 +22,23 @@ const Depot = () => {
     border-color: white;
 `;
     let [color, setColor] = useState("#ffffff");
+    /*const selectedCustomerContext = useContext(SelectedCustomerContext)*/
+
+
 
     const { confCases, deaths, recovered, activeCases, newCases } = covidData;
     return (
             <div className="container-covid">
-                {loading ? (
-                    <div className="spinner-placement">
-                        <BeatLoader color={color} loading={loading} css={override} size={20}></BeatLoader>
-                    </div>
-                ) :
-                    <Fragment>
-                        {CustomizedTablesDepot()}
-                        {ButtonAdd()}
-                    </Fragment>
-                }
+                <Fragment>
+                    <CustomizedTablesDepot depot={props.depot}/>
+                    {props.depot === undefined
+                        ? <Fragment/>
+                        : <SellSharesButton/>
+                    }
+
+                </Fragment>
+
+
             </div>
     )
 };

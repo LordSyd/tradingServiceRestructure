@@ -3,13 +3,19 @@ import SearchBoxContext from '../../context/searchShare/searchShareContext';
 import BeatLoader from "react-spinners/BeatLoader";
 import { css } from "@emotion/react";
 import SearchShare from '../searchbar/searchShare'
-import SearchCustomer from "../searchbar/searchCustomer";
-import addCustomerButton from "../button/addCustomerButton";
+import SearchCustomerByName from "../searchbar/searchCustomerByName";
+import SearchCustomerById from "../searchbar/searchCustomerById";
+import AddCustomerButton from "../button/addCustomerButton";
+import GetCustomerContext from "../../context/getCustomer/getCustomerContext";
+
+
+
 
 const SearchBox = () => {
     const searchBoxContext = useContext(SearchBoxContext)
-    const { stocks, getStocks, loading } = searchBoxContext;
-
+    const { getStocks, loading } = searchBoxContext;
+    const getCustomerContext = useContext(GetCustomerContext)
+    const { getCustomersByName, getCustomerById } = getCustomerContext;
 
     const override = css`
         display: block;
@@ -27,6 +33,14 @@ const SearchBox = () => {
         // eslint-disable-next-line
     }, []);
 
+    const onSubmitCustomerName = (customer) => {
+        console.log(customer)
+        getCustomersByName(customer)
+    }
+    const onSubmitCustomerId = (id) => {
+        console.log(Number.parseInt(id))
+        getCustomerById(Number.parseInt(id))
+    }
     return (
         <div className="container-dash">
             {loading ? (
@@ -39,9 +53,11 @@ const SearchBox = () => {
                         <h3>Search Share</h3>
                         <SearchShare onSubmit={onSubmit}/>
 
-                        <h3>Search Customer</h3>
-                        <SearchCustomer onSubmit={onSubmit} />
-                        {addCustomerButton()}
+                        <h3>Search Customer by Name</h3>
+                        <SearchCustomerByName onSubmit={onSubmitCustomerName} />
+                        <h3>Search Customer by ID</h3>
+                        <SearchCustomerById onSubmit={onSubmitCustomerId} />
+                        <AddCustomerButton />
                     </div>
                 )}
         </div>

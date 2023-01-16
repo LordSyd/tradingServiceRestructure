@@ -16,6 +16,8 @@ export const UPDATE_DASH = 'UPDATE_DASH';
 export const LOAD_DASH = 'LOAD_DASH';
 export const GET_STOCKS = 'GET_STOCKS';
 export const GET_CUSTOMER = 'GET_CUSTOMER'
+
+export const STOCK_SELECTED = 'STOCK_SELECTED';
 export const ADD_NOTE = 'ADD_NOTE';
 export const DELETE_NOTE = 'DELETE_NOTE';
 export const GET_NOTES = 'GET_NOTES';
