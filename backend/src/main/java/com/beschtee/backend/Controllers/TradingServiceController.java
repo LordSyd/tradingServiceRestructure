@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.nio.file.AccessDeniedException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -74,12 +75,12 @@ public class TradingServiceController {
 
     @PostMapping("/api/buyStock")
     public ResponseEntity buyStock(@RequestParam String symbol, @RequestParam int shares, @RequestParam Long depotId) {
-        if ( userService.getCurrentUser().isCustomer()
-                && ! this.depotService.checkDepotAuthorization(userService.getCurrentUser(), depotId)
-        ) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("DepotId does not match with provided credentials");
+        //check authorization
+        try {
+            this.userService.checkCustomerAuthorizationByDepot(depotId);
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
-
         Depot depot = this.depotService.getDepotById(depotId);
         List<PublicStockQuote> stockQuoteList = this.findStocksBySymbol(Collections.singletonList(symbol));
         if (stockQuoteList.size() == 0) {
@@ -99,11 +100,11 @@ public class TradingServiceController {
         float pricePerShare;
         //Return value: Buys shares and returns the price per share effective for the buying transaction.
         try {
-             BuyResponse response = soapClient.buyStock("https://edu.dedisys.org/ds-finance/ws/TradingService",
+            BuyResponse response = soapClient.buyStock("https://edu.dedisys.org/ds-finance/ws/TradingService",
                     objectFactory.createBuy(type));
-             pricePerShare = response.getReturn().floatValue();
+            pricePerShare = response.getReturn().floatValue();
 
-             //500 net.froihofer.dsfinance.business.TradingException: Not enough shares available.
+            //500 net.froihofer.dsfinance.business.TradingException: Not enough shares available.
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -120,12 +121,12 @@ public class TradingServiceController {
 
     @PostMapping("/api/sellStock")
     public ResponseEntity sellStock(@RequestParam String symbol, @RequestParam int shares, @RequestParam Long depotId) {
-        if ( userService.getCurrentUser().isCustomer()
-                && ! this.depotService.checkDepotAuthorization(userService.getCurrentUser(), depotId)
-        ) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("DepotId does not match with provided credentials");
+        //check authorization
+        try {
+            this.userService.checkCustomerAuthorizationByDepot(depotId);
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
-
         Depot depot = this.depotService.getDepotById(depotId);
         Stock stock = this.stockService.getStockBySymbolAndDepot(symbol, depot);
 
@@ -157,5 +158,6 @@ public class TradingServiceController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
+
     }
 }
