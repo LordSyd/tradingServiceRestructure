@@ -20,7 +20,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAllByUserRoleEquals(UserRole userRole);
 
     Optional<User> findUserByIdAndUserRoleEquals(Long id, UserRole userRole);
-    Optional<User> findUserByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndUserRole(String firstname, String lastName, UserRole userRole);
+
+    List<User> findUserByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndUserRole(String firstname, String lastName, UserRole userRole);
 
     /*
     @Modifying

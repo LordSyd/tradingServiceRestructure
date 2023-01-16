@@ -40,10 +40,4 @@ public class Stock {
     @Column(name="company_name", nullable = false, columnDefinition = "TEXT")
     public String companyName;
 
-
-
-
-
-
-
 }

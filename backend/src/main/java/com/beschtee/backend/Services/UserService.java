@@ -1,12 +1,16 @@
 package com.beschtee.backend.Services;
 
 import com.beschtee.backend.DTOs.RegistrationRequest;
+import com.beschtee.backend.DTOs.UserDTO;
+import com.beschtee.backend.Models.Depot;
 import com.beschtee.backend.Models.person.User;
 import com.beschtee.backend.Models.person.UserRole;
 import com.beschtee.backend.Repositories.UserRepository;
 import com.beschtee.backend.Validators.EmailValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,6 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -28,6 +33,41 @@ public class UserService implements UserDetailsService {
     private final EmailValidator emailValidator;
     private final DepotService depotService;
 
+    public boolean checkCustomerAuthorizationByDepot(Long depotId) throws AccessDeniedException {
+        User user = this.getCurrentUser();
+        if ( user.isCustomer()
+                && ! this.depotService.checkDepotAuthorization(user, depotId)
+        ) {
+            throw new AccessDeniedException("DepotId does not match with provided credentials");
+        } else {
+            return false;
+        }
+    }
+
+    public boolean checkCustomerAuthorizationByEmail(String userName) throws AccessDeniedException {
+        User user = this.getCurrentUser();
+        if ( user.isCustomer()
+                && ! this.checkUserAuthorization(user, userName)
+        ) {
+            throw new AccessDeniedException("Email does not match with provided credentials");
+        } else {
+            return false;
+        }
+    }
+
+    public boolean checkUserAuthorization(User customer, String email) {
+        return this.getUserById(customer.getId()).getUsername().equals(email);
+    }
+
+    public UserDTO getUserDTO(User user) {
+        try {
+            Depot depot = this.depotService.getDepotByUser(user);
+            return user.toDTO(depot.getId());
+        } catch (NoSuchElementException e) {
+            return user.toDTO(null);
+        }
+    }
+
     public User getCurrentUser() {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userRepository.findById(currentUser.getId()).orElseThrow(()->
@@ -41,13 +81,11 @@ public class UserService implements UserDetailsService {
         );
     }
 
-    public User getCustomerByName(String firstName, String lastName) {
+    public List<User> getCustomerByName(String firstName, String lastName) {
         return this.userRepository.findUserByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndUserRole(
                 firstName,
                 lastName,
                 UserRole.CUSTOMER
-        ).orElseThrow(() ->
-                new NoSuchElementException(String.format(USER_NOT_FOUND_BY_NAME_MSG, "Customer", firstName, lastName))
         );
     }
 
