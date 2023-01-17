@@ -6,7 +6,7 @@ import CustomizedTablesCustomer from "../customerTable/customerTable";
 import SelectedCustomerContext from "../../context/selectedCustomer/selectedCustomerContext";
 
 
-const AktienDetails = () => {
+const CustomerDetails = () => {
 
   const loading = false
 
@@ -38,4 +38,4 @@ const AktienDetails = () => {
   )
 };
 
-export default AktienDetails;
+export default CustomerDetails;

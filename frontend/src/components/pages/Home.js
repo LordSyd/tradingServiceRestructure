@@ -2,7 +2,7 @@ import React, { useContext, useEffect, Fragment, useReducer, useState } from 're
 
 import GridLayout from 'react-grid-layout';
 import SearchBox from '../searchBox/SearchBox';
-import AktienDetails from '../aktien/aktienDetails';
+import CustomerDetails from '../customer/customerDetails';
 import AuthContext from '../../context/auth/authContext';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import useForceUpdate from 'use-force-update';
@@ -31,7 +31,8 @@ import bankVolumeContext from "../../context/bankVolume/bankVolumeContext";
 import BankVolumeContext from "../../context/bankVolume/bankVolumeContext";
 import getRoleByEmailContext from "../../context/getRoleByEmail/getRoleByEmailContext";
 import {Container, useTheme} from "@mui/system";
-import {Grid} from "@mui/material";
+import Grid from '@mui/material/Grid'; // Grid version 1
+import Grid2 from '@mui/material/Unstable_Grid2'; // Grid version 2
 import {styled} from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 
@@ -514,10 +515,10 @@ const Home = (props) => {
       ) : (
         <Fragment>
           <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={2}>
+            <Grid container spacing={0}>
               <Grid xs={8}>
                 <Item> {customers
-                    ? <AktienDetails></AktienDetails>
+                    ? <CustomerDetails></CustomerDetails>
                     : <h2>Please Search for customers</h2>
                 }</Item>
               </Grid>
@@ -532,17 +533,12 @@ const Home = (props) => {
               </Grid>
             </Grid>
           </Box>
-          <div key="weatherSmall">
-            <SearchBox></SearchBox>
-          </div>
-          <div key="SearchedAktien">
-            {customers
-                ? <AktienDetails></AktienDetails>
-                : <h2>Please Search for customers</h2>
-            }
 
-          </div>
-
+          <Fragment>
+            <Box sx={{ flexGrow: 1 }}>
+              <Grid container spacing={0}>
+                <Grid xs={12}>
+                  <Item>
           <div key="corona" className="wrapper-dash">
             {selectedCustomer === undefined
                 ? <h2>No Customer Selected</h2>
@@ -553,9 +549,22 @@ const Home = (props) => {
                   </div>
                 </Fragment>
             }
-
-
           </div>
+                  </Item>
+                </Grid>
+              </Grid>
+            </Box>
+          </Fragment>
+
+          <Grid xs={4}>
+            <Item>xs=4</Item>
+          </Grid>
+
+          <Fragment>
+            <Box sx={{ flexGrow: 1 }}>
+              <Grid container spacing={0}>
+                <Grid xs={12}>
+                  <Item>
           <div key="spotify" className="wrapper-dash">
             <h2>Buy Shares</h2>
             {selectedCustomer === undefined
@@ -571,14 +580,33 @@ const Home = (props) => {
                   }
                 </Fragment>
             }
-
           </div>
+                  </Item>
+                </Grid>
+              </Grid>
+            </Box>
+          </Fragment>
+
+          <Grid xs={4}>
+            <Item>xs=4</Item>
+          </Grid>
+
+          <Fragment>
+            <Box sx={{ flexGrow: 1 }}>
+              <Grid container spacing={0}>
+                <Grid xs={12}>
+                  <Item>
           <div key="gas" className="wrapper-dash">
             <h2>Bank Volume</h2>
             <div className="depot-wrapper">
               <BankVolume></BankVolume>
             </div>
           </div>
+                  </Item>
+                </Grid>
+              </Grid>
+            </Box>
+          </Fragment>
         </Fragment>
 
       )}
