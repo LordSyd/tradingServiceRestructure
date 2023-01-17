@@ -22,7 +22,7 @@ const AktienDetails = () => {
 
 
   return (
-      <div className="container-dash">
+      <Fragment >
         {loading ? (
           <div className="spinner-placement">
             <BeatLoader color={color} loading={loading} css={override} size={20}></BeatLoader>
@@ -34,7 +34,7 @@ const AktienDetails = () => {
           </Fragment>
         }
 
-      </div>
+      </Fragment>
   )
 };
 

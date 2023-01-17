@@ -32,6 +32,8 @@ import BankVolumeContext from "../../context/bankVolume/bankVolumeContext";
 import getRoleByEmailContext from "../../context/getRoleByEmail/getRoleByEmailContext";
 import {Container} from "@mui/system";
 import {Grid} from "@mui/material";
+import {styled} from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
 
 const style = {
   position: 'absolute',
@@ -44,6 +46,14 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
 
 const Home = (props) => {
 
@@ -79,9 +89,12 @@ const Home = (props) => {
 
   }
   const authContext = useContext(AuthContext);
-  const { isAuthenticated, user } = authContext;
+  const { isAuthenticated, user, loadUser, loading, email} = authContext;
   const getCustomerContext = useContext(GetCustomerContext)
   const selectedCustomerContext = useContext(SelectedCustomerContext);
+
+  const {customers} = getCustomerContext
+  const {selectedCustomer, selectCustomer} = selectedCustomerContext;
 
   const [buySharesNumber, setBuySharesNumber] = useState(0);
   const [sellSharesNumber, setSellSharesNumber] = useState(0);
@@ -92,12 +105,49 @@ const Home = (props) => {
   const [openBuyModal, setOpenBuyModal] = React.useState(false);
   const [openSellModal, setOpenSellModal] = React.useState(false);
 
-  const handleBuyModalClose = (e) => {
-    e.preventDefault()
+  const [authLay, setAuthLay] = useState({
+    mounted: false,
+  })
+
+  useEffect(() => {
+
+    const loadUserAsync = async () => {
+      console.log('getUser')
+      await loadUser();
+      setAuthLay({
+        mounted: true,
+        layouts: {
+          lg: authLayout,
+          md: authLayout,
+          sm: authLayoutMD
+        }
+      });
+    }
+
+    if (!user) {
+      console.log("pushback")
+      loadUserAsync();
+    }
+    if (!localStorage.token || isAuthenticated === false) {
+      console.log("pushback")
+      props.history.push('/login');
+    }
+
+
+
+
+
+
+
+
+
+    //eslint-disable-next-line
+  }, []);
+
+  const handleBuyModalClose = () => {
     setOpenBuyModal(false)
   };
-  const handleSellModalClose = (e) => {
-    e.preventDefault()
+  const handleSellModalClose = () => {
     setOpenSellModal(false)
   };
 
@@ -154,9 +204,7 @@ const Home = (props) => {
     { i: 'gas', x: 4, y: 4, w: 2, h: 2, minW: 2, maxH: 3 },
   ]
 
-  const [authLay, setAuthLay] = useState({
-    mounted: false,
-  })
+
 
   /*const [unAuth, setLayout] = useState({
     mounted: false,
@@ -168,38 +216,7 @@ const Home = (props) => {
 
   const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
-  useEffect(() => {
-    console.log("reloaded")
-    if (localStorage.token) {
-      console.log('getUser')
-      /*authContext.loadUser();*/
-      setAuthLay({
-        mounted: true,
-        layouts: {
-          lg: authLayout,
-          md: authLayout,
-          sm: authLayoutMD
-        }
-      })
-    }
-    else{
-      props.history.push('/login');
-    }
-    /*setLayout({
-      mounted: true,
-      layouts: {
-        lg: unAuthlayout,
-        md: unAuthlayout,
-        sm: unAuthlayoutMD
 
-      }
-    });*/
-
-
-
-
-    //eslint-disable-next-line
-  }, []);
 
   const override = css`
       display: block;
@@ -221,8 +238,7 @@ const Home = (props) => {
   }
 
 
-  const {getAllCustomers} = getCustomerContext
-  const {selectedCustomer, selectCustomer} = selectedCustomerContext;
+
 /*  useEffect(() => {
     getAllCustomers()
   },[]  )*/
@@ -248,43 +264,8 @@ const Home = (props) => {
 
 
 
-  const unAuthLayoutContent = (
-      <div>test</div>
-   /* <Fragment>
-      {!mounted ? (
-        <div className="spinner-placement">
-          <BeatLoader color={color} css={override} size={20}></BeatLoader>
-        </div>
-      ) : (
-        <ResponsiveReactGridLayout className="unAuthlayout" layouts={layouts} rowHeight={150} heigth={500} width={1200}
-          breakpoints={{ lg: 1200, md: 1000, sm: 768, xs: 767, xxs: 0 }}
-          cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
-          onLayoutChange={onWidthChange}
-          onBreakpointChange={onBreakpointChange}
-        >
-          <div key="searchBox">
-            <SearchBox></SearchBox>
-          </div>
 
-            <AktienDetails key="SearchedAktien"></AktienDetails >
 
-          <div key="depot" className="wrapper-dash">
-            <div className="depot-wrapper">
-              <Depot></Depot>
-            </div>
-          </div>
-          <div key="gas" className="wrapper-dash">
-            <h2>Bank Volume</h2>
-            <div className="depot-wrapper">
-              <BankVolume></BankVolume>
-            </div>
-          </div>
-        </ResponsiveReactGridLayout>
-
-      )}
-
-    </Fragment>*/
-  )
 
 
 
@@ -306,9 +287,133 @@ const Home = (props) => {
 
     setOpenSellModal(true);
   }
-  const authLayoutContet = (
+
+
+  const unAuthLayoutContent =  () => {
+    if (!selectedCustomer) {
+      selectCustomer(user)
+    }
+
+    return(<Fragment>
+      <Modal
+          open={openBuyModal}
+
+          aria-labelledby="buy-modal-title"
+          aria-describedby="buy-modal-description"
+      >
+        <Box sx={style} component="form" autoComplete="off">
+          <Typography id="buy-modal-title" variant="h6" component="h4">
+            <h4 >{`Buying Share: ${buyStockSelected?.companyName}`}</h4>
+            <br/>
+            <TextField
+                error={buySharesNumber === ""}
+                required
+                value={buySharesNumber}
+                id="outlined-required"
+                sx={{input: {color: 'black'} }}
+                label="Number of Shares"
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={handleModalChange}
+            />
+            <Button disabled={buySharesNumber === 0} onClick={buyShares}>Buy Shares</Button>
+            <Button onClick={handleBuyModalClose}>Abort</Button>
+          </Typography>
+
+
+        </Box>
+      </Modal>
+      <Modal
+          open={openSellModal}
+
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+      >
+        <Box sx={style} component="form" autoComplete="off">
+          <Typography id="modal-modal-title" variant="h6" component="h4">
+            <h4 >{`Selling Share: ${sellStockSelected?.companyName}`}</h4>
+            <br/>
+            <TextField
+                error={sellSharesNumber === ""}
+                required
+                value={sellSharesNumber}
+                id="outlined-required"
+                sx={{input: {color: 'black'} }}
+                label="Number of Shares"
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={(e) => {
+                  e.preventDefault()
+                  setSellSharesNumber(Math.min(Math.max(e.target.value, 0), sellStockSelected.quantity));}}
+            />
+            <Button disabled={sellSharesNumber === 0} onClick={sellShares}>Sell Shares</Button>
+            <Button onClick={handleSellModalClose}>Abort</Button>
+          </Typography>
+
+
+        </Box>
+      </Modal>
+      {!mounted || !selectedCustomer ? (
+          <div className="spinner-placement">
+            <BeatLoader color={color} css={override} size={20}></BeatLoader>
+          </div>
+      ) : (
+
+          <Fragment
+          >
+            <div key="weatherSmall">
+              <SearchBox customer={true}></SearchBox>
+            </div>
+
+            <div key="spotify" className="wrapper-dash">
+              <h2>Buy Shares</h2>
+
+              <Fragment>
+                { stocks === undefined
+                    ? <h2>Please search for stocks</h2>
+                    :  <div className="depot-wrapper">
+                      <ClickableStockTable stocks={stocks}></ClickableStockTable>
+                      <BuySharesButton handleClick={handleClick}/>
+                    </div>
+                }
+              </Fragment>
+
+
+            </div>
+
+            <div key="corona" className="wrapper-dash">
+
+              <Fragment>
+                <h2>{`${user.firstName} ${user.lastName}'s Depot, Id ${user.id}` }</h2>
+                <div className="depot-wrapper">
+                  <Depot depot={selectedCustomer.depot} onClickSell={handleClickSell}></Depot>
+                </div>
+              </Fragment>
+
+
+
+            </div>
+
+            <div key="gas" className="wrapper-dash">
+              <h2>Bank Volume</h2>
+              <div className="depot-wrapper">
+                <BankVolume></BankVolume>
+              </div>
+            </div>
+          </Fragment>
+
+      )}
+    </Fragment>)
+  }
+
+
+
+  const authLayoutContent = (
     <Fragment>
-        <Button onClick={handleClick}>Open modal</Button>
         <Modal
             open={openBuyModal}
 
@@ -378,17 +483,32 @@ const Home = (props) => {
           <BeatLoader color={color} css={override} size={20}></BeatLoader>
         </div>
       ) : (
-        <ResponsiveReactGridLayout measureBeforeMount={true} className="unAuthlayout" layouts={authLay.layouts} rowHeight={150} heigth={500} width={1200}
-          breakpoints={{ lg: 1200, md: 1000, sm: 768, xs: 767, xxs: 0 }}
-          cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
-          onLayoutChange={onWidthChange}
-          onBreakpointChange={onBreakpointChange}
-        >
+        <Fragment>
+         {/* <Box sx={{ flexGrow: 1 }}>
+            <Grid container spacing={2}>
+              <Grid xs={8}>
+                <Item>xs=8</Item>
+              </Grid>
+              <Grid xs={4}>
+                <Item>xs=4</Item>
+              </Grid>
+              <Grid xs={4}>
+                <Item>xs=4</Item>
+              </Grid>
+              <Grid xs={8}>
+                <Item>xs=8</Item>
+              </Grid>
+            </Grid>
+          </Box>*/}
           <div key="weatherSmall">
             <SearchBox></SearchBox>
           </div>
           <div key="SearchedAktien">
-            <AktienDetails></AktienDetails>
+            {customers
+                ? <AktienDetails></AktienDetails>
+                : <h2>Please Search for customers</h2>
+            }
+
           </div>
 
           <div key="corona" className="wrapper-dash">
@@ -427,7 +547,7 @@ const Home = (props) => {
               <BankVolume></BankVolume>
             </div>
           </div>
-        </ResponsiveReactGridLayout>
+        </Fragment>
 
       )}
     </Fragment>
@@ -438,7 +558,12 @@ const Home = (props) => {
     <Fragment>
       <div>
 
-        {localStorage.token ? authLayoutContet : unAuthLayoutContent}
+        {!user
+            ? <div className="spinner-placement">
+                <BeatLoader color={color} css={override} size={20}></BeatLoader>
+              </div>
+
+            : user.userRole === "EMPLOYEE" ? authLayoutContent : unAuthLayoutContent()}
 
       </div>
     </Fragment>

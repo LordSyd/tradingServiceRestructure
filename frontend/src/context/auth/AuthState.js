@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, {useContext, useReducer} from 'react';
 import axios from 'axios';
 import AuthContext from './authContext';
 import authReducer from './authReducer';
@@ -15,22 +15,32 @@ import {
 } from '../types';
 
 const AuthState = props => {
+
   const initialState = {
     token: localStorage.getItem('token'),
     isAuthenticated: null,
     loading: true,
     user: null,
-    error: null
+    error: null,
+    email: null
   };
+
+const authContext = useContext(AuthContext);
+
 
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  // Load User
-  const loadUser = async () => {
-    //todo use for reauth and set isAuthenticated --> with username/email endpoint
 
+  // Load User
+  const loadUser = async (email, token) => {
+
+    setAuthToken(token?? localStorage.token);
+    let stateEmail = email?? localStorage.email
     try {
-      const res = await axios.get(`${global.BACKEND_URL}/api/auth`);
+
+      const res = await axios.get(`${global.BACKEND_URL}/api/user/username?email=${stateEmail}`);
+      console.log("aut email")
+      console.log(res)
       dispatch({
         type: USER_LOADED,
         payload: res.data
@@ -78,12 +88,13 @@ const AuthState = props => {
 
     try {
       const res = await axios.post(`${global.BACKEND_URL}/api/auth`, formData, config);
-      console.log(res.data)
+      console.log(formData)
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: res.data
+        payload: {token : res.data, email: formData.email}
       });
 
+      /*loadUser(formData.email, res.data)*/
       /*loadUser();*/
     } catch (err) {
       dispatch({
@@ -107,6 +118,7 @@ const AuthState = props => {
         loading: state.loading,
         user: state.user,
         error: state.error,
+        email: state.email,
         register,
         loadUser,
         login,

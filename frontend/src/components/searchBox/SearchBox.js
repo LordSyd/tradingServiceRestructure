@@ -11,7 +11,7 @@ import GetCustomerContext from "../../context/getCustomer/getCustomerContext";
 
 
 
-const SearchBox = () => {
+const SearchBox = (props) => {
     const searchBoxContext = useContext(SearchBoxContext)
     const { getStocks, loading } = searchBoxContext;
     const getCustomerContext = useContext(GetCustomerContext)
@@ -53,11 +53,18 @@ const SearchBox = () => {
                         <h3>Search Share</h3>
                         <SearchShare onSubmit={onSubmit}/>
 
-                        <h3>Search Customer by Name</h3>
-                        <SearchCustomerByName onSubmit={onSubmitCustomerName} />
-                        <h3>Search Customer by ID</h3>
-                        <SearchCustomerById onSubmit={onSubmitCustomerId} />
-                        <AddCustomerButton />
+                        {props.customer
+                            ? <Fragment/>
+                            : <Fragment>
+
+                            <h3>Search Customer by Name</h3>
+                            <SearchCustomerByName onSubmit={onSubmitCustomerName} />
+                            <h3>Search Customer by ID</h3>
+                            <SearchCustomerById onSubmit={onSubmitCustomerId} />
+                            <AddCustomerButton />
+                            </Fragment>
+                        }
+
                     </div>
                 )}
         </div>

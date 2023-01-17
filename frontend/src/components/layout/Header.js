@@ -10,7 +10,10 @@ const Header = (props) => {
    return (
       <Fragment>
   
-          <div className="navbar">
+          <div style={{
+              "display": "flex",
+              "justifyContent": "center"
+          }}>
              {themeSelected == "light" ?(
 
                    <img  style={{
@@ -21,9 +24,14 @@ const Header = (props) => {
                    }} src={mainLogoBlack} alt="firespot" />
                
              ):(
-               <div className="MainLogoWhite">
-                   <img src={mainLogoBlack} alt="firespot" />
-               </div>
+
+                   <img  style={{
+
+                       marginLeft: "auto",
+                       marginRight: "auto",
+                       width: "25%"
+                   }} src={mainLogoBlack} alt="firespot" />
+
              )}
           
           </div>

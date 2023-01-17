@@ -20,10 +20,14 @@ import {
         };
       case REGISTER_SUCCESS:
       case LOGIN_SUCCESS:
-        localStorage.setItem('token', action.payload);
+        console.log("login success")
+        console.log(action.payload)
+        localStorage.setItem('token', action.payload.token);
+        localStorage.setItem('email', action.payload.email);
         return {
           ...state,
-          ...action.payload,
+          token: action.payload.token,
+          email: action.payload.email,
           isAuthenticated: true,
           loading: false
         };
@@ -31,14 +35,17 @@ import {
       case AUTH_ERROR:
       case LOGIN_FAIL:
       case LOGOUT:
+        console.log("auth Error")
         localStorage.removeItem('token');
+        localStorage.removeItem('email');
         return {
           ...state,
           token: null,
           isAuthenticated: false,
           loading: false,
           user: null,
-          error: action.payload
+          error: action.payload,
+          email:null
         };
       case CLEAR_ERRORS:
         return {
