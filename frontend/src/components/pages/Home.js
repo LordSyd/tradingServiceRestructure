@@ -71,8 +71,11 @@ const style = {
 
 
 const Home = (props) => {
+  const [authLay, setAuthLay] = useState({
+    mounted: false,
+  })
 
-
+  const { mounted, currentBreakpoint, layouts } = authLay;
   const Item = styled(Paper)(({ theme }) => {
 
     console.log("theme")
@@ -135,15 +138,8 @@ const Home = (props) => {
   const [openBuyModal, setOpenBuyModal] = React.useState(false);
   const [openSellModal, setOpenSellModal] = React.useState(false);
 
-  const [authLay, setAuthLay] = useState({
-    mounted: false,
-  })
-
   useEffect(() => {
-
-    const loadUserAsync = async () => {
-      console.log('getUser')
-      await loadUser();
+    if (user) {
       setAuthLay({
         mounted: true,
         layouts: {
@@ -152,6 +148,15 @@ const Home = (props) => {
           sm: authLayoutMD
         }
       });
+    }
+  }, [user])
+
+  useEffect(() => {
+
+    const loadUserAsync = async () => {
+      console.log('getUser')
+      await loadUser();
+
     }
 
     if (!user) {
@@ -162,14 +167,6 @@ const Home = (props) => {
       console.log("pushback")
       props.history.push('/login');
     }
-
-
-
-
-
-
-
-
 
     //eslint-disable-next-line
   }, []);
@@ -186,8 +183,6 @@ const Home = (props) => {
     e.preventDefault()
     setOpenBuyModal(true)
   };
-
-
 
   const unAuthlayout = [
     { i: 'SearchedAktien', x: 0, y: 0, w: 7, h: 3, minW: 6, minH:2},
@@ -242,7 +237,7 @@ const Home = (props) => {
   });*/
 
   /*const { mounted, currentBreakpoint, layouts } = unAuth;*/
-  const { mounted, currentBreakpoint, layouts } = authLay;
+
 
   const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
