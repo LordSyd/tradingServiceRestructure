@@ -132,9 +132,9 @@ export default function CustomizedTablesAktien(props) {
                                     <StyledTableCell key={Math.random()}component="th" scope="row">
                                         {stock.companyName}
                                     </StyledTableCell>
-                                    <StyledTableCell key={Math.random()} align="right">{stock.quantity}</StyledTableCell>
-                                    <StyledTableCell key={Math.random()} align="right">{stock.currentPrice}</StyledTableCell>
-                                    <StyledTableCell key={Math.random()} align="right">{stock.currentStockVolume}</StyledTableCell>
+                                    <StyledTableCell key={Math.random()} align="right">{stock.quantity.toLocaleString('de-DE')}</StyledTableCell>
+                                    <StyledTableCell key={Math.random()} align="right">{stock.currentPrice.toLocaleString('de-DE')}</StyledTableCell>
+                                    <StyledTableCell key={Math.random()} align="right">{stock.currentStockVolume.toLocaleString('de-DE')}</StyledTableCell>
                                 </StyledTableRow>
                             ))}
                         </TableBody>
