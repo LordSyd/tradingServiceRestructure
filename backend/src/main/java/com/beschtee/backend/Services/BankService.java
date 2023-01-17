@@ -5,6 +5,7 @@ import com.beschtee.backend.Repositories.BankRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
@@ -30,19 +31,22 @@ public class BankService {
 
     public boolean checkVolume( float amount ) {
         Bank bank = this.getBank();
-        return bank.getVolume() >= amount;
+        if(bank.getVolume().compareTo(BigDecimal.valueOf(amount))==1 || bank.getVolume().compareTo(BigDecimal.valueOf(amount))==0) {
+            return true;
+        }
+        return false;
     }
 
-    public float decreaseVolume(float amount) {
+    public BigDecimal decreaseVolume(float amount) {
         Bank bank = this.getBank();
-        bank.setVolume(bank.getVolume() - amount);
+        bank.setVolume(bank.getVolume().subtract(BigDecimal.valueOf(amount)));
         bank = bankRepository.save(bank);
         return bank.getVolume();
     }
 
-    public float increaseVolume(float amount) {
+    public BigDecimal increaseVolume(float amount) {
         Bank bank = this.getBank();
-        bank.setVolume(bank.getVolume() + amount);
+        bank.setVolume(bank.getVolume().add(BigDecimal.valueOf(amount)));
         bank = bankRepository.save(bank);
         return bank.getVolume();
     }
