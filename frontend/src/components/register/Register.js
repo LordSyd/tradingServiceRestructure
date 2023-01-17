@@ -15,7 +15,7 @@ const Register = props => {
     if (!isAuthenticated) {
       props.history.push('/login');
     }
-    if (user.userRole === "CUSTOMER"){
+    if (user?.userRole === "CUSTOMER"){
       props.history.push('/');
     }
 
