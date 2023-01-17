@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+
 //asdf
 @Entity
 @Table(
@@ -30,5 +33,5 @@ public class Bank {
     public Long id;
 
     @Column( name="volume", nullable = false, columnDefinition = "NUMERIC(13,2) default 1000000000.00" )
-    public float volume;
+    public BigDecimal volume;
 }

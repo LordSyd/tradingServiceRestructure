@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
+
 @RestController
 public class BankController {
     @Autowired
@@ -25,7 +27,7 @@ public class BankController {
     }
 
     @GetMapping("api/bank/volume")
-    public float getBankVolume() {
+    public BigDecimal getBankVolume() {
         Bank bank = bankService.getBank();
         return bank.getVolume();
     }
@@ -35,7 +37,7 @@ public class BankController {
             //Bank bank
     ) {
         Bank bankNew = bankService.addBankToDatabase(Bank.builder()
-                .volume(1000000000)
+                .volume(BigDecimal.valueOf(1000000000))
                 .build());
         System.out.println(bankNew);
         return bankNew;

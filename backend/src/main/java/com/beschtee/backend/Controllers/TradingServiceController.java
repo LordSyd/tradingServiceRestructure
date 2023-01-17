@@ -103,6 +103,7 @@ public class TradingServiceController {
             BuyResponse response = soapClient.buyStock("https://edu.dedisys.org/ds-finance/ws/TradingService",
                     objectFactory.createBuy(type));
             pricePerShare = response.getReturn().floatValue();
+            System.out.println("price per share during buy: "+pricePerShare);
 
             //500 net.froihofer.dsfinance.business.TradingException: Not enough shares available.
         } catch (Exception e) {
@@ -115,6 +116,7 @@ public class TradingServiceController {
 
         //bankVolume aktualisieren
         bankService.decreaseVolume(pricePerShare * shares);
+        System.out.println("current volume: "+bankService.getBank().volume);
 
         return ResponseEntity.ok("Customer id " + depot.getCustomer().getId());
     }
@@ -153,6 +155,8 @@ public class TradingServiceController {
                     objectFactory.createSell(type));
             stock = this.stockService.updateQuantity(stock, shares, depot);
             bankService.increaseVolume(response.getReturn().floatValue() * shares);
+            System.out.println("price per share during sell: "+response.getReturn().floatValue());
+            System.out.println("current volume: "+bankService.getBank().volume);
             return ResponseEntity.ok("Customer id " + depot.getCustomer().getId());
             //500 net.froihofer.dsfinance.business.TradingException: Not enough shares available.
         } catch (Exception e) {
