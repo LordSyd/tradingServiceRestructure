@@ -30,10 +30,21 @@ import ClickableStockTable from "../depotTable/ClickableStockTable";
 import bankVolumeContext from "../../context/bankVolume/bankVolumeContext";
 import BankVolumeContext from "../../context/bankVolume/bankVolumeContext";
 import getRoleByEmailContext from "../../context/getRoleByEmail/getRoleByEmailContext";
-import {Container} from "@mui/system";
+import {Container, useTheme} from "@mui/system";
 import {Grid} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
+
+import Drawer from '@mui/material/Drawer';
+
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
 
 const style = {
   position: 'absolute',
@@ -47,15 +58,33 @@ const style = {
   p: 4,
 };
 
-const Item = styled(Paper)(({ theme }) => ({
+
+
+/*const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
   color: theme.palette.text.secondary,
-}));
+}));*/
+
 
 const Home = (props) => {
+
+
+  const Item = styled(Paper)(({ theme }) => {
+
+    console.log("theme")
+    console.log(theme)
+
+    return ({
+      backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+      ...theme.typography.body2,
+      padding: theme.spacing(1),
+      textAlign: 'center',
+
+    })
+  })
 
   const buyShares = async () => {
     setAuthToken(localStorage.token)
@@ -484,13 +513,16 @@ const Home = (props) => {
         </div>
       ) : (
         <Fragment>
-         {/* <Box sx={{ flexGrow: 1 }}>
+          <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={2}>
               <Grid xs={8}>
-                <Item>xs=8</Item>
+                <Item> {customers
+                    ? <AktienDetails></AktienDetails>
+                    : <h2>Please Search for customers</h2>
+                }</Item>
               </Grid>
               <Grid xs={4}>
-                <Item>xs=4</Item>
+                <Item> <SearchBox></SearchBox></Item>
               </Grid>
               <Grid xs={4}>
                 <Item>xs=4</Item>
@@ -499,7 +531,7 @@ const Home = (props) => {
                 <Item>xs=8</Item>
               </Grid>
             </Grid>
-          </Box>*/}
+          </Box>
           <div key="weatherSmall">
             <SearchBox></SearchBox>
           </div>
@@ -554,17 +586,18 @@ const Home = (props) => {
   )
 
 
-  return (
+
+    return (
     <Fragment>
       <div>
 
+
         {!user
             ? <div className="spinner-placement">
-                <BeatLoader color={color} css={override} size={20}></BeatLoader>
-              </div>
+              <BeatLoader color={color} css={override} size={20}></BeatLoader>
+            </div>
 
             : user.userRole === "EMPLOYEE" ? authLayoutContent : unAuthLayoutContent()}
-
       </div>
     </Fragment>
   )

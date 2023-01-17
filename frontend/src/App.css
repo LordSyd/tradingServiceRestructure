@@ -1,10 +1,11 @@
+/*
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 @import url("https://fonts.googleapis.com/css?family=Tangerine");
 
-/* Global Styles 
+!* Global Styles
 
 NOTE colors need to be changed 
-*/
+*!
 :root {
   --primary-color: #ed800d;
   --dark-color: #333333;
@@ -15,8 +16,6 @@ NOTE colors need to be changed
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 body {
@@ -41,7 +40,7 @@ ul {
 }
 
 img {
-  /*  */
+  !*  *!
 }
 
 .note-input-wrapper{
@@ -78,7 +77,7 @@ img {
   display: flex;
   width: 100%;
   height: 90%;
-  /* align-items: baseline; */
+  !* align-items: baseline; *!
   justify-content: space-around;
 }
 
@@ -94,13 +93,13 @@ img {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* align-content: flex-start; */
-  /* margin: 0 auto; */
+  !* align-content: flex-start; *!
+  !* margin: 0 auto; *!
 }
 
 .about-us-person {
   display: flex;
-  /* margin: 3%; */
+  !* margin: 3%; *!
   width: 40%;
   margin-bottom: 4%;
 }
@@ -139,29 +138,29 @@ img {
 }
 
 .item-aboutus{
-/*   vertical-align: top;
+!*   vertical-align: top;
     display: inline-block;
     text-align: center;
-    width: 120px; */
+    width: 120px; *!
 }
 
 .item-aboutus-img{
-/*   display: flex;
+!*   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: stretch;
   height: 33vmax;
   align-content: flex-end;
-  flex-wrap: wrap; */
+  flex-wrap: wrap; *!
 }
 
 .item-aboutus-ul{
-/*   display: block;
+!*   display: block;
   align-items: baseline;
   height: 80%;
   height: 12rem;
   margin-bottom: 10px;
-  width: 40%; */
+  width: 40%; *!
 }
 
 .item-aboutus-text {
@@ -177,7 +176,7 @@ li.item-aboutus-li-italic{
   font-style: italic;
 }
 
-/*weather City Text*/
+!*weather City Text*!
 .weather-text-minmax{
   text-align: center;
   font-family: 'Roboto', sans-serif;
@@ -188,8 +187,8 @@ li.item-aboutus-li-italic{
 }
 .weather-text-icon{
   text-align: center;
-/*   padding-right: 4rem;
-  padding-top: 1rem; */
+!*   padding-right: 4rem;
+  padding-top: 1rem; *!
   font-family: 'Roboto', sans-serif;
   font-size: 3rem;
   line-height: 1.6;
@@ -222,13 +221,13 @@ li.item-aboutus-li-italic{
   margin-left:4%;
   max-width: 40%;
 }
-/*weather Icon*/
+!*weather Icon*!
 .weather-icon{
   width: 35%;
   height: 35%;
 }
 
-/*weather List*/
+!*weather List*!
 .weather-ul{
   text-align: left;
   padding-right: 15rem;
@@ -238,10 +237,10 @@ li.item-aboutus-li-italic{
   font-weight: bold;
 }
 
-/*weather*/
+!*weather*!
 .container-dash{
 
-  /* background-color: yellow; */
+  !* background-color: yellow; *!
   min-height: 100%;
   min-width: 100%;
   display: flex;
@@ -253,8 +252,8 @@ li.item-aboutus-li-italic{
   overflow: scroll;
   height: 70%;
   padding: 0 2rem 2rem 2rem;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  !* IE and Edge *!
+  scrollbar-width: none;  !* Firefox *!
   overflow-x:hidden
   
 }
@@ -282,8 +281,8 @@ li.item-aboutus-li-italic{
 .container-dash-rss{
   overflow: scroll;
   max-height: 70%;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  !* IE and Edge *!
+  scrollbar-width: none;  !* Firefox *!
   overflow-x:hidden;
   display: flex;
 }
@@ -294,8 +293,8 @@ li.item-aboutus-li-italic{
 
 .ul-newsroom-scroolbar{
   overflow-x: hidden;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  !* IE and Edge *!
+  scrollbar-width: none;  !* Firefox *!
   overflow-x:hidden
 }
 
@@ -303,12 +302,12 @@ li.item-aboutus-li-italic{
 .grid-smaller{
   padding:1rem;
 }
-/* Utilities */
+!* Utilities *!
 .container {
   max-width: 1200px;
   margin: auto;
   overflow: hidden;
- /*  padding: 4rem 4rem; */
+ !*  padding: 4rem 4rem; *!
 }
 
 .container-about{
@@ -318,7 +317,7 @@ li.item-aboutus-li-italic{
 
 }
 
-/* Text Styles*/
+!* Text Styles*!
 .x-large {
   font-size: 4rem;
   line-height: 1.2;
@@ -360,14 +359,14 @@ li.item-aboutus-li-italic{
   text-align: left;
 }
 
-/* Cards */
+!* Cards *!
 .card {
   padding: 1rem;
   border: #ccc 1px dotted;
   margin: 0.7rem 0;
 }
 
-/* List */
+!* List *!
 .list {
   margin: 0.5rem 0;
 }
@@ -376,7 +375,7 @@ li.item-aboutus-li-italic{
   padding-bottom: 0.3rem;
 }
 
-/* Padding */
+!* Padding *!
 .p {
   padding: 0.5rem;
 }
@@ -402,7 +401,7 @@ li.item-aboutus-li-italic{
   padding: 3rem 0;
 }
 
-/* grid layout home etc*/
+!* grid layout home etc*!
 .react-grid-item {
   background-color: #f4f4f4;
   border-radius: 4px;
@@ -421,7 +420,7 @@ li.item-aboutus-li-italic{
 .react-grid-layout{
   height: 100%;
 }
-/* Margin */
+!* Margin *!
 .m {
   margin: 0.5rem;
 }
@@ -469,7 +468,7 @@ li.item-aboutus-li-italic{
 
 .container-covid {
   display: flex;
-  /* margin-top: 5%; */
+  !* margin-top: 5%; *!
   flex-wrap: nowrap;
   flex-direction: row;
   align-items: center;
@@ -480,7 +479,7 @@ li.item-aboutus-li-italic{
   flex-basis: 100%;
   height: 1.5vw;
 }
-/* Grid */
+!* Grid *!
 .grid-2 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -617,7 +616,7 @@ li.item-aboutus-li-italic{
   border-radius: 50%;
 }
 
-/* Forms */
+!* Forms *!
 input {
   margin: 1.2rem 0;
 }
@@ -686,7 +685,7 @@ table th {
 
 }
 
-/* Navbar */
+!* Navbar *!
 .navbar {
   justify-content: space-between;
   flex-direction: row-reverse;
@@ -723,7 +722,7 @@ table th {
   margin-right: 0.6rem;
 }
 
-/* Animation (Add After) */
+!* Animation (Add After) *!
 .item-enter {
   opacity: 0;
 }
@@ -739,9 +738,9 @@ table th {
   transition: opacity 1000ms ease-in;
 }
 
-/*burger menu */
+!*burger menu *!
 
-/* Position and sizing of burger button */
+!* Position and sizing of burger button *!
 .bm-burger-button {
   position: fixed;
   width: 36px;
@@ -750,44 +749,44 @@ table th {
   top: 36px;
 }
 
-/* Color/shape of burger icon bars */
+!* Color/shape of burger icon bars *!
 .bm-burger-bars {
   background: var(--primary-color);
 }
 
-/* Color/shape of burger icon bars on hover*/
+!* Color/shape of burger icon bars on hover*!
 .bm-burger-bars-hover {
   background:var(--primary-color);
 }
 
-/* Position and sizing of clickable cross button */
+!* Position and sizing of clickable cross button *!
 .bm-cross-button {
   height: 24px;
   width: 24px;
 }
 
-/* Color/shape of close button cross */
+!* Color/shape of close button cross *!
 .bm-cross {
   background: #bdc3c7;
 }
 
-/*
+!*
 Sidebar wrapper styles
 Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
-*/
+*!
 .bm-menu-wrap {
   position: fixed;
   height: 100%;
 }
 
-/* General sidebar styles */
+!* General sidebar styles *!
 .bm-menu {
   background: #ffffff;
   padding: 2.5em 1.5em 0;
   font-size: 1.15em;
 }
 
-/* Morph shape necessary with bubble or elastic */
+!* Morph shape necessary with bubble or elastic *!
 .bm-morph-shape {
   fill: #373a47;
 }
@@ -801,18 +800,18 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 }
 
-/* Wrapper for item list */
+!* Wrapper for item list *!
 .bm-item-list {
   color: #b8b7ad;
   padding: 0.8em;
 }
 
-/* Individual item */
+!* Individual item *!
 .bm-item {
   display: inline-block;
 }
 
-/* Styling of overlay */
+!* Styling of overlay *!
 .bm-overlay {
   background: rgba(0, 0, 0, 0.3);
 }
@@ -874,7 +873,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 
 
-/* Mobile Styles */
+!* Mobile Styles *!
 @media (max-width: 770px) {
   .hide-sm {
     display: none;
@@ -920,7 +919,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
     flex-direction: row;
   }
 
-  /* Text Styles */
+  !* Text Styles *!
   .x-large {
     font-size: 3rem;
   }
@@ -933,7 +932,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
     font-size: 1rem;
   }
 
-  /* Navbar */
+  !* Navbar *!
   .navbar {
     display: block;
     text-align: center;
@@ -948,3 +947,4 @@ Note: Beware of modifying this element as it can break the animations - you shou
     justify-content: center;
   }
 }
+*/
