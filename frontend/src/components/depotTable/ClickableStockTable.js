@@ -89,9 +89,9 @@ export default function ClickableStockTable(props) {
                                             <StyledTableCell key={Math.random()} align="right" >
                                                 {stock.companyName}
                                             </StyledTableCell >
-                                            <StyledTableCell key={Math.random()} align="right">{stock.floatShares}</StyledTableCell>
-                                            <StyledTableCell key={Math.random()} align="right">{stock.lastTradePrice}</StyledTableCell>
-                                            <StyledTableCell key={Math.random()} align="right">{(stock.marketCapitalization/(Math.pow(10, 9))).toFixed(4)}</StyledTableCell>
+                                            <StyledTableCell key={Math.random()} align="right">{stock.floatShares.toLocaleString('de-DE')}</StyledTableCell>
+                                            <StyledTableCell key={Math.random()} align="right">{stock.lastTradePrice.toLocaleString('de-DE')}</StyledTableCell>
+                                            <StyledTableCell key={Math.random()} align="right">{(stock.marketCapitalization.toLocaleString('de-DE'))}</StyledTableCell>
                                         </StyledTableRow>
                                     </Fragment>
                                 )

@@ -29,7 +29,7 @@ const BankVolume = () => {
           </div>
         ) : (
             <div>
-              <h1>{bankVolume} €</h1>
+              <h1>{bankVolume.toLocaleString('de-DE')} €</h1>
             </div>
         )}
       </div>
