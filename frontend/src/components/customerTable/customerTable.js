@@ -11,7 +11,7 @@ import {Fragment, useContext} from "react";
 import {Checkbox} from "@mui/material";
 import GetCustomerContext from "../../context/getCustomer/getCustomerContext";
 import SelectedCustomerContext from "../../context/selectedCustomer/selectedCustomerContext";
-/*import SearchBoxContext from "../../context/searchBox/searchBoxContext";*/
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -33,10 +33,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-
-function createData(name, companyValue, price, quantity) {
-    return { name, companyValue, price, quantity };
-}
 
 export default function CustomerTable() {
     const getCustomerContext = useContext(GetCustomerContext);

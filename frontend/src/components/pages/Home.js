@@ -313,6 +313,7 @@ const Home = (props) => {
     setOpenSellModal(true);
   }
 
+  const lowerPadding = {paddingBottom: "10px"}
 
   const unAuthLayoutContent =  () => {
     if (!selectedCustomer) {
@@ -390,45 +391,43 @@ const Home = (props) => {
 
           <Fragment
           >
-            <div key="weatherSmall">
-              <SearchBox customer={true}></SearchBox>
-            </div>
 
-            <div key="spotify" className="wrapper-dash">
-              <h2>Buy Shares</h2>
+            <Box sx={{ flexGrow: 1 }}>
+              <Grid container spacing={0} >
 
-              <Fragment>
-                { stocks === undefined
-                    ? <h2>Please search for stocks</h2>
-                    :  <Fragment className="depot-wrapper">
-                      <ClickableStockTable stocks={stocks}></ClickableStockTable>
-                      <BuySharesButton handleClick={handleClick}/>
+                <Grid sx={{pb: 2}} xs={12}>
+                  <Item>
+                    <Fragment>
+                      <h2>{`${user.firstName} ${user.lastName}'s Depot, Id ${user.id}` }</h2>
+                      <div className="depot-wrapper">
+                        <Depot depot={selectedCustomer.depot} onClickSell={handleClickSell}></Depot>
+                      </div>
                     </Fragment>
-                }
-              </Fragment>
+                  </Item>
+                </Grid>
+                <Grid sx={{pb: 2}} xs={12}>
+                  <Grid  >
+                    <Item ><SearchBox  customer={true}></SearchBox></Item>
+                  </Grid>
 
+                </Grid>
+                <Grid xs={12}>
+                  <Item>
+                    <h2>Buy Shares</h2>
 
-            </div>
-
-            <div key="corona" className="wrapper-dash">
-
-              <Fragment>
-                <h2>{`${user.firstName} ${user.lastName}'s Depot, Id ${user.id}` }</h2>
-                <div className="depot-wrapper">
-                  <Depot depot={selectedCustomer.depot} onClickSell={handleClickSell}></Depot>
-                </div>
-              </Fragment>
-
-
-
-            </div>
-
-            <div key="gas" className="wrapper-dash">
-              <h2>Bank Volume</h2>
-              <div className="depot-wrapper">
-                <BankVolume></BankVolume>
-              </div>
-            </div>
+                    <Fragment>
+                      { stocks === undefined
+                          ? <h2>Please search for stocks</h2>
+                          :  <Fragment className="depot-wrapper">
+                            <ClickableStockTable stocks={stocks}></ClickableStockTable>
+                            <BuySharesButton handleClick={handleClick}/>
+                          </Fragment>
+                      }
+                    </Fragment>
+                  </Item>
+                </Grid>
+              </Grid>
+            </Box>
           </Fragment>
 
       )}
@@ -511,15 +510,15 @@ const Home = (props) => {
         <Fragment>
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={0}>
-              <Grid xs={3}>
+              <Grid sx={{pb: 2}}  xs={3}>
                 <Item> <SearchBox></SearchBox></Item>
               </Grid>
-              <Grid xs={9}>
-                <Item> {customers
+              <Grid sx={{pb: 2}}  xs={9}>
+                <Item sx={{mb: 2}}  > {customers
                     ? <CustomerDetails></CustomerDetails>
                     : <h2>Please Search for customers</h2>
                 }</Item>
-                <Item>
+                <Item sx={{mb: 2}}>
                   <div key="corona" className="wrapper-dash">
                     {selectedCustomer === undefined
                         ? <h2>No Customer Selected</h2>
@@ -564,9 +563,6 @@ const Home = (props) => {
             </Box>
           </Fragment>
 
-          <Grid xs={4}>
-            <Item>xs=4</Item>
-          </Grid>
 
           <Fragment>
             <Box sx={{ flexGrow: 1 }}>
@@ -578,21 +574,17 @@ const Home = (props) => {
             </Box>
           </Fragment>
 
-          <Grid xs={4}>
-            <Item>xs=4</Item>
-          </Grid>
-
           <Fragment>
             <Box sx={{ flexGrow: 1 }}>
               <Grid container spacing={0}>
                 <Grid xs={12}>
                   <Item>
-          <div key="gas" className="wrapper-dash">
+
             <h2>Bank Volume</h2>
             <div className="depot-wrapper">
               <BankVolume></BankVolume>
             </div>
-          </div>
+
                   </Item>
                 </Grid>
               </Grid>

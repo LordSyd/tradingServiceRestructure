@@ -42,16 +42,16 @@ const SearchBox = (props) => {
         getCustomerById(Number.parseInt(id))
     }
     return (
-        <div className="container-dash">
+        <Fragment >
             {loading ? (
                 <div className="spinner-placement">
                     <BeatLoader color={color} loading={loading} css={override} size={20}></BeatLoader>
                 </div>
             ) :
                 (
-                    <div>
+                    <Fragment>
                         <h3>Search Share</h3>
-                        <SearchShare onSubmit={onSubmit}/>
+                        <SearchShare customer={props.customer} onSubmit={onSubmit}/>
 
                         {props.customer
                             ? <Fragment/>
@@ -65,9 +65,9 @@ const SearchBox = (props) => {
                             </Fragment>
                         }
 
-                    </div>
+                    </Fragment>
                 )}
-        </div>
+        </Fragment>
     )
 };
 
