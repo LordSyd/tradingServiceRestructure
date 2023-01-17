@@ -8,7 +8,8 @@ import {
 
 const SelectedCustomerState = props => {
     const initialState = {
-        weather: [],
+        buyStockSelected: null,
+        sellStockSelected: null,
         loading: false
     };
     const [state, dispatch] = useReducer(SelectedStockReducer, initialState);

@@ -55,7 +55,7 @@ export default function ClickableStockTable(props) {
     console.log(stocks)
     return (
         <Fragment>
-            {stocks === undefined
+            {stocks == undefined
                 ? <Fragment/>
                 :<TableContainer sx={{overflow: "scroll"}} component={Paper}>
                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -77,14 +77,14 @@ export default function ClickableStockTable(props) {
                                             hover
                                             onClick={(event) => handleClick(event, stock)}
                                             role="checkbox"
-                                            aria-checked={stock.symbol === buyStockSelected?.symbol}
+                                            aria-checked={stock.symbol == buyStockSelected?.symbol}
                                             tabIndex={-1}
-                                            selected={stock.symbol === buyStockSelected?.symbol}
+                                            selected={stock.symbol == buyStockSelected?.symbol}
                                         >
                                             <TableCell padding="checkbox">
                                                 <Checkbox
                                                     color="primary"
-                                                    checked={stock.symbol === buyStockSelected?.symbol}
+                                                    checked={stock.symbol == buyStockSelected?.symbol}
                                                 />
                                             </TableCell>
                                             <StyledTableCell key={Math.random()} align="right" >

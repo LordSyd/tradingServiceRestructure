@@ -8,7 +8,7 @@ import axios from "axios";
 
 const SelectedCustomerState = props => {
     const initialState = {
-        weather: [],
+        selectedCustomer: null,
         loading: false
     };
     const [state, dispatch] = useReducer(SelectedCustomerReducer, initialState);
@@ -19,6 +19,11 @@ const SelectedCustomerState = props => {
         try {
             const res = await axios.get(`${global.BACKEND_URL}/api/user/depot?depotId=${customer.depotId}`);
             customer.depot = res.data;
+            /*const depotValue = customer.depot.reduce()*/
+            /*for (const stock of customer.depot) {
+
+            }*/
+
             dispatch({
                 type: CUSTOMER_SELECTED,
                 payload: customer
@@ -35,6 +40,7 @@ const SelectedCustomerState = props => {
     return (
         <SelectedCustomerContext.Provider value={{
             selectedCustomer: state.selectedCustomer,
+
             loading: state.loading,
             selectCustomer
         }}>

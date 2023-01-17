@@ -113,7 +113,7 @@ export default function CustomizedTablesAktien(props) {
 
     return (
         <Fragment>
-            {stocks === undefined
+            {stocks == undefined
                 ? <Fragment>
                     <h2>No Stocks in Depot</h2>
                 </Fragment>

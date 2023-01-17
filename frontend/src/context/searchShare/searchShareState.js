@@ -10,7 +10,7 @@ import setAuthToken from "../../utils/setAuthToken";
 
 const SearchShareState = props => {
     const initialState = {
-        weather: [],
+        stocks: [],
         loading: false
     };
     const [state, dispatch] = useReducer(SearchShareReducer, initialState);
@@ -31,25 +31,29 @@ const SearchShareState = props => {
         }
     }
 
-    /*const getWeather = async () => {
+    const getStocksBySymbol = async (symbols) => {
+        console.log("onSubmit " + symbols)
+        const symbolsArr = symbols.split(',');
+        setAuthToken(localStorage.token)
         try {
-            const res = await axios.get('/api/dashboard/tempCurrent');
+            const res = await axios.get(`${global.BACKEND_URL}/api/findStocksBySymbol?symbols=${symbols}`);
+
             dispatch({
                 type: GET_STOCKS,
                 payload: res.data
             })
-
-        } catch (err) {
-            console.error(err.message);
-            // res.status(500).send('Server Error');
+            console.log(res)
+        }catch (e) {
+            console.error(e)
         }
     }
-*/
+
 
     return (
         <SearchShareContext.Provider value={{
             stocks: state.stocks,
             loading: state.loading,
+            getStocksBySymbol,
             getStocks
         }}>
             {props.children}

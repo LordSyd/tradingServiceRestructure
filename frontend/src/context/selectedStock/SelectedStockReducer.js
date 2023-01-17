@@ -1,5 +1,5 @@
 import {
-    BUY_STOCK_SELECTED, SELL_STOCK_SELECTED
+    BUY_STOCK_SELECTED, LOGOUT, SELL_STOCK_SELECTED
 } from '../types'
 
 
@@ -17,6 +17,8 @@ export default (state, action) =>{
                 sellStockSelected: action.payload,
                 loading: false
             }
+        case LOGOUT:
+            return {}
         default:
             return state;
     }

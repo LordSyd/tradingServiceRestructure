@@ -9,7 +9,7 @@ import {
 
 const BankVolumeState = props => {
   const initialState = {
-    gasStation: [],
+    bankVolume: null,
     loading: false
   };
   const [state, dispatch] = useReducer(bankVolumeReducer, initialState);

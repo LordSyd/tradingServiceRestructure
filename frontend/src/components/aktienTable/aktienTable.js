@@ -42,7 +42,7 @@ export default function CustomizedTablesAktien() {
 
     return (
         <Fragment>
-            {stocks === undefined
+            {stocks == undefined
                 ? <Fragment/>
                 :<TableContainer component={Paper}>
                     <Table sx={{ minWidth: 700 }} aria-label="customized table">

@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import BeatLoader from "react-spinners/BeatLoader";
 import CustomizedTablesAktien from "../aktienTable/aktienTable"
 import CustomizedTablesDepot from "../depotTable/depotTable";
-import SellSharesButton from "../button/sellShareButton"
+import SellSharesButton from "../button/SellShareButton"
 import SelectedCustomerContext from "../../context/selectedCustomer/selectedCustomerContext";
 import ClickableStockTableSell from "../depotTable/ClickableStockTableSell";
 
@@ -32,7 +32,7 @@ const Depot = (props) => {
                 <Fragment>
                     {/*<CustomizedTablesDepot depot={props.depot}/>*/}
                     <ClickableStockTableSell depot={props.depot}/>
-                    {props.depot === undefined
+                    {props.depot == undefined
                         ? <Fragment/>
                         : <SellSharesButton onClick={props.onClickSell}/>
                     }
