@@ -110,6 +110,7 @@ export default function CustomizedTablesAktien(props) {
     console.log(props.depot)
 
     const stocks = props.depot; //todo change to selectedCustomer.stocks when endpoint done
+
     return (
         <Fragment>
             {stocks === undefined

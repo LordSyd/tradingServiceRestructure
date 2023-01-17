@@ -400,10 +400,10 @@ const Home = (props) => {
               <Fragment>
                 { stocks === undefined
                     ? <h2>Please search for stocks</h2>
-                    :  <div className="depot-wrapper">
+                    :  <Fragment className="depot-wrapper">
                       <ClickableStockTable stocks={stocks}></ClickableStockTable>
                       <BuySharesButton handleClick={handleClick}/>
-                    </div>
+                    </Fragment>
                 }
               </Fragment>
 
@@ -511,42 +511,55 @@ const Home = (props) => {
         <Fragment>
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={0}>
-              <Grid xs={8}>
+              <Grid xs={3}>
+                <Item> <SearchBox></SearchBox></Item>
+              </Grid>
+              <Grid xs={9}>
                 <Item> {customers
                     ? <CustomerDetails></CustomerDetails>
                     : <h2>Please Search for customers</h2>
                 }</Item>
+                <Item>
+                  <div key="corona" className="wrapper-dash">
+                    {selectedCustomer === undefined
+                        ? <h2>No Customer Selected</h2>
+                        : <Fragment>
+                          <h2>{`${selectedCustomer.firstName} ${selectedCustomer.lastName}'s Depot, Id ${selectedCustomer.id}` }</h2>
+                          <div className="depot-wrapper">
+                            <Depot depot={selectedCustomer.depot} onClickSell={handleClickSell}></Depot>
+                          </div>
+                        </Fragment>
+                    }
+                  </div>
+                </Item>
+                <Item>
+                  <div key="spotify" className="wrapper-dash">
+                    <h2>Buy Shares</h2>
+                    {selectedCustomer === undefined
+                        ? <h2>No Customer Selected</h2>
+                        :
+                        <Fragment>
+                          { stocks === undefined
+                              ? <h2>Please search for stocks</h2>
+                              :  <div className="depot-wrapper">
+                                <ClickableStockTable stocks={stocks}></ClickableStockTable>
+                                <BuySharesButton handleClick={handleClick}/>
+                              </div>
+                          }
+                        </Fragment>
+                    }
+                  </div>
+                </Item>
               </Grid>
-              <Grid xs={4}>
-                <Item> <SearchBox></SearchBox></Item>
-              </Grid>
-              <Grid xs={4}>
-                <Item>xs=4</Item>
-              </Grid>
-              <Grid xs={8}>
-                <Item>xs=8</Item>
-              </Grid>
+
+
             </Grid>
           </Box>
 
           <Fragment>
             <Box sx={{ flexGrow: 1 }}>
               <Grid container spacing={0}>
-                <Grid xs={12}>
-                  <Item>
-          <div key="corona" className="wrapper-dash">
-            {selectedCustomer === undefined
-                ? <h2>No Customer Selected</h2>
-                : <Fragment>
-                  <h2>{`${selectedCustomer.firstName} ${selectedCustomer.lastName}'s Depot, Id ${selectedCustomer.id}` }</h2>
-                  <div className="depot-wrapper">
-                    <Depot depot={selectedCustomer.depot} onClickSell={handleClickSell}></Depot>
-                  </div>
-                </Fragment>
-            }
-          </div>
-                  </Item>
-                </Grid>
+
               </Grid>
             </Box>
           </Fragment>
@@ -559,24 +572,7 @@ const Home = (props) => {
             <Box sx={{ flexGrow: 1 }}>
               <Grid container spacing={0}>
                 <Grid xs={12}>
-                  <Item>
-          <div key="spotify" className="wrapper-dash">
-            <h2>Buy Shares</h2>
-            {selectedCustomer === undefined
-                ? <h2>No Customer Selected</h2>
-                :
-                <Fragment>
-                  { stocks === undefined
-                      ? <h2>Please search for stocks</h2>
-                      :  <div className="depot-wrapper">
-                            <ClickableStockTable stocks={stocks}></ClickableStockTable>
-                            <BuySharesButton handleClick={handleClick}/>
-                         </div>
-                  }
-                </Fragment>
-            }
-          </div>
-                  </Item>
+
                 </Grid>
               </Grid>
             </Box>

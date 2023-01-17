@@ -51,7 +51,8 @@ export default function ClickableStockTable(props) {
         console.log(stock)
         buyStockSelect(stock);
     }
-
+    console.log("clickable stocks")
+    console.log(stocks)
     return (
         <Fragment>
             {stocks === undefined
@@ -89,9 +90,9 @@ export default function ClickableStockTable(props) {
                                             <StyledTableCell key={Math.random()} align="right" >
                                                 {stock.companyName}
                                             </StyledTableCell >
-                                            <StyledTableCell key={Math.random()} align="right">{stock.floatShares.toLocaleString('de-DE')}</StyledTableCell>
+                                            <StyledTableCell key={Math.random()} align="right">{stock.floatShares?.toLocaleString('de-DE')}</StyledTableCell>
                                             <StyledTableCell key={Math.random()} align="right">{stock.lastTradePrice.toLocaleString('de-DE')}</StyledTableCell>
-                                            <StyledTableCell key={Math.random()} align="right">{(stock.marketCapitalization.toLocaleString('de-DE'))}</StyledTableCell>
+                                            <StyledTableCell key={Math.random()} align="right">{stock.marketCapitalization?.toLocaleString('de-DE')}</StyledTableCell>
                                         </StyledTableRow>
                                     </Fragment>
                                 )

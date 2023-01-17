@@ -19,7 +19,8 @@ import {styled} from "@mui/material/styles";
 
 
     const {isAuthenticated, logout, user,loadUser} = authContext;
-
+     console.log("user")
+    console.log(user)
     const logOut = () =>{
         logout();
     }
@@ -28,57 +29,7 @@ import {styled} from "@mui/material/styles";
         // eslint-disable-next-line
     },[])
 
-  
 
-    const authLinks = (
-        <Fragment>
-            <li> Hey, {user && user.name} </li>
-            <li>
-                <Link to='/'>
-                    <i className="fas fa-home"></i>{' '}
-                    Home
-                </Link>
-            </li>
-            <li>
-                <Link to="/about">
-                <i className="fas fa-users"></i>{' '}
-                About
-                </Link>
-            </li>
-{/*            <li>
-                <Link to="/notes">
-                <i className="far fa-sticky-note"></i>{' '}
-                Notes
-                </Link>
-            </li>*/}
-            <li>
-                <a onClick={logOut} href="#!">
-                    <i className='fas fa-sign-out-alt' /> {' '}
-                  Logout
-                </a>
-            </li>
-        </Fragment>
-    );
-
-    const unauthLinks = (
-        <Fragment>
-            <li>
-                <Link to='/'>
-                <i className="fas fa-home"></i>{' '}
-                Home</Link>
-            </li>
-            <li>
-                <Link to="/about">
-                <i className="fas fa-users"></i>{' '}
-                About</Link>
-            </li>
-            <li>
-                <Link to="/login">
-                <i className="fas fa-sign-in-alt"></i>{' '}
-                Login</Link>
-            </li>
-        </Fragment>
-    );
      const [state, setState] = React.useState({
          top: false,
          left: false,
@@ -106,37 +57,38 @@ import {styled} from "@mui/material/styles";
          >
              <List>
                  <Fragment>
-                     <List> Hey, {user && user.name} </List>
+
+
+                     <List>  </List>
+                     <ListItem>
+                         Hey, {user?.firstName }
+                     </ListItem>
+                     <List>
                      <ListItem>
                          <Link to={'/'} component={RouterLink} variant="button" color={theme.palette.text.primary}>
                              <i className="fas fa-home"></i>{' '}
                              Home
                          </Link>
-                         {/*<Link color="inherit" to='/'>
-
-                             Home
-                         </Link>*/}
                      </ListItem>
-                     <List>
-                         <Link component={RouterLink} to="/about">
-                             <i className="fas fa-users"></i>{' '}
-                             About
-                         </Link>
                      </List>
-                     {/*            <li>
-                <Link to="/notes">
-                <i className="far fa-sticky-note"></i>{' '}
-                Notes
-                </Link>
-            </li>*/}
                      <List>
-                         <a onClick={logOut} href="#!">
-                             <i className='fas fa-sign-out-alt' /> {' '}
-                             Logout
-                         </a>
+                         <ListItem>
+                             <Link component={RouterLink}  color={theme.palette.text.primary} to="/about">
+                                 <i className="fas fa-users"></i>{' '}
+                                 About
+                             </Link>
+                         </ListItem>
                      </List>
+                     <List>
+                         <ListItem>
+                             <Link color={theme.palette.text.primary}  onClick={logOut} href="#!">
+                                 <i className='fas fa-sign-out-alt' /> {' '}
+                                 Logout
+                             </Link>
+                         </ListItem>
+                     </List>
+
                  </Fragment>
-                 );
              </List>
              <Divider/>
 
