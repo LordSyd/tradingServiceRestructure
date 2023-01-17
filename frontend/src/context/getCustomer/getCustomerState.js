@@ -11,7 +11,7 @@ import setAuthToken from "../../utils/setAuthToken";
 
 const GetCustomerState = props => {
     const initialState = {
-        weather: [],
+        customers: null,
         loading: false
     };
     const [state, dispatch] = useReducer(GetCustomerReducer, initialState);
@@ -100,21 +100,6 @@ const GetCustomerState = props => {
             })
         }
     }
-
-    /*const getWeather = async () => {
-        try {
-            const res = await axios.get('/api/dashboard/tempCurrent');
-            dispatch({
-                type: GET_STOCKS,
-                payload: res.data
-            })
-
-        } catch (err) {
-            console.error(err.message);
-            // res.status(500).send('Server Error');
-        }
-    }
-*/
 
 
     return (

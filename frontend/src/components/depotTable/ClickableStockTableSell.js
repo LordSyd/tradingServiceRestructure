@@ -55,7 +55,7 @@ export default function ClickableStockTableSell(props) {
 
     return (
         <Fragment>
-            {stocks === undefined
+            {stocks == undefined
                 ? <Fragment/>
                 :<TableContainer component={Paper}>
                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -77,14 +77,14 @@ export default function ClickableStockTableSell(props) {
                                             hover
                                             onClick={(event) => handleClick(event, stock)}
                                             role="checkbox"
-                                            aria-checked={stock.symbol === sellStockSelected?.symbol}
+                                            aria-checked={stock.symbol == sellStockSelected?.symbol}
                                             tabIndex={-1}
-                                            selected={stock.symbol === sellStockSelected?.symbol}
+                                            selected={stock.symbol == sellStockSelected?.symbol}
                                         >
                                             <TableCell padding="checkbox">
                                                 <Checkbox
                                                     color="primary"
-                                                    checked={stock.symbol === sellStockSelected?.symbol}
+                                                    checked={stock.symbol == sellStockSelected?.symbol}
                                                 />
                                             </TableCell>
                                             <StyledTableCell key={Math.random()}align="right" >

@@ -49,7 +49,7 @@ export default function CustomerTable() {
 
     return (
         <Fragment>
-            {costumers === undefined
+            {costumers == undefined
                 ? <Fragment/>
                 :<TableContainer component={Paper}>
                     <Table sx={{ minWidth: 700 }} aria-label="customized table">

@@ -29,7 +29,6 @@ import SearchBoxContext from "../../context/searchShare/searchShareContext";
 import ClickableStockTable from "../depotTable/ClickableStockTable";
 import bankVolumeContext from "../../context/bankVolume/bankVolumeContext";
 import BankVolumeContext from "../../context/bankVolume/bankVolumeContext";
-import getRoleByEmailContext from "../../context/getRoleByEmail/getRoleByEmailContext";
 import {Container, useTheme} from "@mui/system";
 import Grid from '@mui/material/Grid'; // Grid version 1
 import Grid2 from '@mui/material/Unstable_Grid2'; // Grid version 2
@@ -156,14 +155,14 @@ const Home = (props) => {
     const loadUserAsync = async () => {
       console.log('getUser')
       await loadUser();
-
+      getVolume()
     }
 
     if (!user) {
       console.log("pushback")
       loadUserAsync();
     }
-    if (!localStorage.token || isAuthenticated === false) {
+    if (!localStorage.token || isAuthenticated == false) {
       console.log("pushback")
       props.history.push('/login');
     }
@@ -268,8 +267,7 @@ const Home = (props) => {
     getAllCustomers()
   },[]  )*/
 
-  const {getRole} = getRoleByEmailContext
-  console.log(getRole)
+
 
   const config = {
       headers: { "Content-Type": 'application/javascript' }
@@ -304,8 +302,8 @@ const Home = (props) => {
   }
 
   useEffect(() => {
-    getVolume()
-  }, [bankVolume])
+
+  }, [])
 
 
   const handleClickSell = () => {
@@ -332,11 +330,11 @@ const Home = (props) => {
             <h4 >{`Buying Share: ${buyStockSelected?.companyName}`}</h4>
             <br/>
             <TextField
-                error={buySharesNumber === ""}
+                error={buySharesNumber == ""}
                 required
                 value={buySharesNumber}
                 id="outlined-required"
-                sx={{input: {color: 'black'} }}
+                sx={{input: {color: theme.palette.text.primary} }}
                 label="Number of Shares"
                 type="number"
                 InputLabelProps={{
@@ -344,7 +342,7 @@ const Home = (props) => {
                 }}
                 onChange={handleModalChange}
             />
-            <Button disabled={buySharesNumber === 0} onClick={buyShares}>Buy Shares</Button>
+            <Button disabled={buySharesNumber == 0} onClick={buyShares}>Buy Shares</Button>
             <Button onClick={handleBuyModalClose}>Abort</Button>
           </Typography>
 
@@ -362,11 +360,11 @@ const Home = (props) => {
             <h4 >{`Selling Share: ${sellStockSelected?.companyName}`}</h4>
             <br/>
             <TextField
-                error={sellSharesNumber === ""}
+                error={sellSharesNumber == ""}
                 required
                 value={sellSharesNumber}
                 id="outlined-required"
-                sx={{input: {color: 'black'} }}
+                sx={{input: {color: theme.palette.text.primary} }}
                 label="Number of Shares"
                 type="number"
                 InputLabelProps={{
@@ -374,9 +372,9 @@ const Home = (props) => {
                 }}
                 onChange={(e) => {
                   e.preventDefault()
-                  setSellSharesNumber(Math.min(Math.max(e.target.value, 0), sellStockSelected.quantity));}}
+                  setSellSharesNumber(Math.min(Math.max(e.target.value, 0), sellStockSelected?.quantity));}}
             />
-            <Button disabled={sellSharesNumber === 0} onClick={sellShares}>Sell Shares</Button>
+            <Button disabled={sellSharesNumber == 0} onClick={sellShares}>Sell Shares</Button>
             <Button onClick={handleSellModalClose}>Abort</Button>
           </Typography>
 
@@ -400,7 +398,7 @@ const Home = (props) => {
                     <Fragment>
                       <h2>{`${user.firstName} ${user.lastName}'s Depot, Id ${user.id}` }</h2>
                       <div className="depot-wrapper">
-                        <Depot depot={selectedCustomer.depot} onClickSell={handleClickSell}></Depot>
+                        <Depot depot={selectedCustomer?.depot} onClickSell={handleClickSell}></Depot>
                       </div>
                     </Fragment>
                   </Item>
@@ -416,7 +414,7 @@ const Home = (props) => {
                     <h2>Buy Shares</h2>
 
                     <Fragment>
-                      { stocks === undefined
+                      { stocks == undefined
                           ? <h2>Please search for stocks</h2>
                           :  <Fragment className="depot-wrapper">
                             <ClickableStockTable stocks={stocks}></ClickableStockTable>
@@ -435,7 +433,7 @@ const Home = (props) => {
   }
 
 
-
+  const theme = useTheme();
   const authLayoutContent = (
     <Fragment>
         <Modal
@@ -450,11 +448,11 @@ const Home = (props) => {
               <h5 >{`For Customer: ${selectedCustomer?.firstName} ${selectedCustomer?.lastName}`}</h5>
               <br/>
               <TextField
-                  error={buySharesNumber === ""}
+                  error={buySharesNumber == ""}
                   required
                   value={buySharesNumber}
                   id="outlined-required"
-                  sx={{input: {color: 'black'} }}
+                  sx={{input: {color: theme.palette.text.primary} }}
                   label="Number of Shares"
                   type="number"
                   InputLabelProps={{
@@ -462,7 +460,7 @@ const Home = (props) => {
                   }}
                   onChange={handleModalChange}
               />
-              <Button disabled={buySharesNumber === 0} onClick={buyShares}>Buy Shares</Button>
+              <Button disabled={buySharesNumber == 0} onClick={buyShares}>Buy Shares</Button>
               <Button onClick={handleBuyModalClose}>Abort</Button>
             </Typography>
 
@@ -481,11 +479,11 @@ const Home = (props) => {
               <h5 >{`For Customer: ${selectedCustomer?.firstName} ${selectedCustomer?.lastName}`}</h5>
               <br/>
               <TextField
-                  error={sellSharesNumber === ""}
+                  error={sellSharesNumber == ""}
                   required
                   value={sellSharesNumber}
                   id="outlined-required"
-                  sx={{input: {color: 'black'} }}
+                  sx={{input: {color: theme.palette.text.primary} }}
                   label="Number of Shares"
                   type="number"
                   InputLabelProps={{
@@ -495,7 +493,7 @@ const Home = (props) => {
                     e.preventDefault()
                     setSellSharesNumber(Math.min(Math.max(e.target.value, 0), sellStockSelected.quantity));}}
               />
-              <Button disabled={sellSharesNumber === 0} onClick={sellShares}>Sell Shares</Button>
+              <Button disabled={sellSharesNumber == 0} onClick={sellShares}>Sell Shares</Button>
               <Button onClick={handleSellModalClose}>Abort</Button>
             </Typography>
 
@@ -520,12 +518,12 @@ const Home = (props) => {
                 }</Item>
                 <Item sx={{mb: 2}}>
                   <div key="corona" className="wrapper-dash">
-                    {selectedCustomer === undefined
+                    {selectedCustomer == undefined
                         ? <h2>No Customer Selected</h2>
                         : <Fragment>
-                          <h2>{`${selectedCustomer.firstName} ${selectedCustomer.lastName}'s Depot, Id ${selectedCustomer.id}` }</h2>
+                          <h2>{`${selectedCustomer?.firstName} ${selectedCustomer?.lastName}'s Depot, Id ${selectedCustomer?.id}` }</h2>
                           <div className="depot-wrapper">
-                            <Depot depot={selectedCustomer.depot} onClickSell={handleClickSell}></Depot>
+                            <Depot depot={selectedCustomer?.depot} onClickSell={handleClickSell}></Depot>
                           </div>
                         </Fragment>
                     }
@@ -534,11 +532,11 @@ const Home = (props) => {
                 <Item>
                   <div key="spotify" className="wrapper-dash">
                     <h2>Buy Shares</h2>
-                    {selectedCustomer === undefined
+                    {selectedCustomer == undefined
                         ? <h2>No Customer Selected</h2>
                         :
                         <Fragment>
-                          { stocks === undefined
+                          { stocks == undefined
                               ? <h2>Please search for stocks</h2>
                               :  <div className="depot-wrapper">
                                 <ClickableStockTable stocks={stocks}></ClickableStockTable>
