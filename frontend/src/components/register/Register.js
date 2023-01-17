@@ -7,10 +7,15 @@ const Register = props => {
   const authContext = useContext(AuthContext);
 
   const { setAlert } = alertContext;
-  const { register, error, clearErrors, isAuthenticated } = authContext;
+  const { register, clearRegistered, registerSuccess, error, clearErrors, isAuthenticated, user} = authContext;
 
   useEffect(() => {
+    console.log("register user")
+    console.log(user)
     if (!isAuthenticated) {
+      props.history.push('/login');
+    }
+    if (user.userRole === "CUSTOMER"){
       props.history.push('/');
     }
 
@@ -18,10 +23,15 @@ const Register = props => {
       setAlert(error, 'danger');
       clearErrors();
     }
-    // eslint-disable-next-line
-  }, [error, isAuthenticated, props.history]);
+    if (registerSuccess) {
+      clearRegistered();
+      props.history.push('/');
+    }
 
-  const [user, setUser] = useState({
+    // eslint-disable-next-line
+  }, [error, registerSuccess, isAuthenticated, props.history]);
+
+  const [newUser, setNewUser] = useState({
     firstName: '',
     lastName: '',
     email: '',
@@ -30,9 +40,9 @@ const Register = props => {
     password2: ''
   });
 
-  const { firstName, lastName, email, adresse, password, password2 } = user;
+  const { firstName, lastName, email, adresse, password, password2 } = newUser;
 
-  const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
+  const onChange = e => setNewUser({ ...newUser, [e.target.name]: e.target.value });
 
   const onSubmit = e => {
     e.preventDefault();
@@ -47,7 +57,7 @@ const Register = props => {
         email: email,
         address: adresse,
         password: password,
-        userRole: 'EMPLOYEE'
+        userRole: 'CUSTOMER'
       });
     }
   };
@@ -61,7 +71,7 @@ const Register = props => {
         <div className='form-group'>
           <label htmlFor='name'>First Name</label>
           <input
-            id='name'
+            id='firstName'
             type='text'
             name='firstName'
             value={firstName}
@@ -72,7 +82,7 @@ const Register = props => {
         <div className='form-group'>
           <label htmlFor='name'>Last Name</label>
           <input
-              id='name'
+              id='lastName'
               type='text'
               name='lastName'
               value={lastName}
@@ -94,7 +104,7 @@ const Register = props => {
         <div className='form-group'>
           <label htmlFor='name'>Adresse</label>
           <input
-              id='name'
+              id='adresse'
               type='text'
               name='adresse'
               value={adresse}

@@ -9,11 +9,9 @@ export default function SellShareButton(props) {
     const selectedStockContext = useContext(SelectedStockContext)
     return (
         <Box sx={{ '& button': { m: 1 } }}>
-            <div>
                 <Button disabled={!selectedStockContext.sellStockSelected} variant="contained" size="small" onClick={props.onClick}>
                     Sell Share
                 </Button>
-            </div>
         </Box>
     );
 }

@@ -2,14 +2,14 @@ import React, { useReducer } from 'react'
 import SelectedStockContext from "./SelectedStockContext";
 import SelectedStockReducer from "./SelectedStockReducer";
 import {
-    BUY_STOCK_SELECTED, SELL_STOCK_SELECTED
+    BUY_STOCK_SELECTED, LOGOUT, SELL_STOCK_SELECTED
 } from '../types'
 
 
 const SelectedCustomerState = props => {
     const initialState = {
-        buyStockSelected: null,
-        sellStockSelected: null,
+        buyStockSelected: undefined,
+        sellStockSelected: undefined,
         loading: false
     };
     const [state, dispatch] = useReducer(SelectedStockReducer, initialState);
@@ -34,13 +34,16 @@ const SelectedCustomerState = props => {
 
     }
 
+    const logout = () => dispatch({ type: LOGOUT });
+
     return (
         <SelectedStockContext.Provider value={{
             buyStockSelected: state.buyStockSelected,
             sellStockSelected: state.sellStockSelected,
             loading: state.loading,
             buyStockSelect,
-            sellStockSelect
+            sellStockSelect,
+            logout
         }}>
             {props.children}
 

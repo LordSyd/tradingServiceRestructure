@@ -25,7 +25,7 @@ import BuySharesButton from "../button/BuySharesButton";
 import TextField from "@mui/material/TextField";
 import SelectedStockContext from "../../context/selectedStock/SelectedStockContext";
 import selectedStockContext from "../../context/selectedStock/SelectedStockContext";
-import SearchBoxContext from "../../context/searchShare/searchShareContext";
+import SearchShareContext from "../../context/searchShare/searchShareContext";
 import ClickableStockTable from "../depotTable/ClickableStockTable";
 import bankVolumeContext from "../../context/bankVolume/bankVolumeContext";
 import BankVolumeContext from "../../context/bankVolume/bankVolumeContext";
@@ -121,7 +121,7 @@ const Home = (props) => {
 
   }
   const authContext = useContext(AuthContext);
-  const { isAuthenticated, user, loadUser, loading, email} = authContext;
+  const { isAuthenticated, user, loadUser} = authContext;
   const getCustomerContext = useContext(GetCustomerContext)
   const selectedCustomerContext = useContext(SelectedCustomerContext);
 
@@ -132,8 +132,8 @@ const Home = (props) => {
   const [sellSharesNumber, setSellSharesNumber] = useState(0);
   const selectedStockContext = useContext(SelectedStockContext);
   const {buyStockSelected,sellStockSelected} = selectedStockContext
-  const searchBoxContext = useContext(SearchBoxContext)
-  const { stocks } = searchBoxContext;
+  const searchShareContext = useContext(SearchShareContext)
+  const { stocks } = searchShareContext;
   const [openBuyModal, setOpenBuyModal] = React.useState(false);
   const [openSellModal, setOpenSellModal] = React.useState(false);
 
@@ -230,12 +230,7 @@ const Home = (props) => {
 
 
 
-  /*const [unAuth, setLayout] = useState({
-    mounted: false,
-    currentBreakpoint: 'lg',
-  });*/
 
-  /*const { mounted, currentBreakpoint, layouts } = unAuth;*/
 
 
   const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -251,39 +246,13 @@ const Home = (props) => {
   let [color, setColor] = useState("#ffffff");
   //dt --> change Unix time stamp 
 
-  const onWidthChange = (width, all) => {
-    //console.log(width, 'current')
-
-
-  }
-
-  const onBreakpointChange = (all) => {
-    //console.log(all, 'breakpoint');
-  }
-
-
-
-/*  useEffect(() => {
-    getAllCustomers()
-  },[]  )*/
 
 
 
   const config = {
       headers: { "Content-Type": 'application/javascript' }
   };
-  /*const onStockSearchSubmit = async (namePart) => {
-    console.log("onSubmit " + namePart)
-    setAuthToken(localStorage.token)
-    try {
-      const res = await axios.get(`${global.BACKEND_URL}/api/findStockByName?namePart=${namePart}`);
 
-
-      console.log(res)
-    }catch (e) {
-      console.error(e)
-    }
-  }*/
 
 
 

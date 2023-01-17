@@ -11,8 +11,9 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  CLEAR_ERRORS
+  CLEAR_ERRORS, CLEAR_REGISTER_STATE
 } from '../types';
+
 
 const AuthState = props => {
 
@@ -25,7 +26,7 @@ const AuthState = props => {
     email: null
   };
 
-const authContext = useContext(AuthContext);
+
 
 
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -66,10 +67,8 @@ const authContext = useContext(AuthContext);
 
       dispatch({
         type: REGISTER_SUCCESS,
-        payload: res.data
       });
 
-      loadUser();
     } catch (err) {
       dispatch({
         type: REGISTER_FAIL,
@@ -105,10 +104,15 @@ const authContext = useContext(AuthContext);
   };
 
   // Logout
-  const logout = () => dispatch({ type: LOGOUT });
+  const logout = () => {
+
+
+    dispatch({type: LOGOUT});
+  }
 
   // Clear Errors
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
+  const clearRegistered = () => dispatch({type: CLEAR_REGISTER_STATE});
 
   return (
     <AuthContext.Provider
@@ -119,6 +123,8 @@ const authContext = useContext(AuthContext);
         user: state.user,
         error: state.error,
         email: state.email,
+        registerSuccess: state.registerSuccess,
+        clearRegistered,
         register,
         loadUser,
         login,

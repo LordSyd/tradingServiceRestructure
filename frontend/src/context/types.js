@@ -5,6 +5,7 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGIN_SUCCESS = 'LOGIN_SUCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
+export const CLEAR_REGISTER_STATE = 'CLEAR_REGISTER_STATE'
 export const CUSTOMER_SELECTED = "CUSTOMER_SELECTED"
 export const CLEAR_ERRORS = 'CLEAER_ERRORS';
 export const SET_ALERT = 'SET_ALERT';

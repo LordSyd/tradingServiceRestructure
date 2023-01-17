@@ -1,5 +1,5 @@
 import {
-    GET_STOCKS,
+    GET_STOCKS, LOGOUT,
 } from '../types'
 
 
@@ -10,6 +10,10 @@ export default (state, action) =>{
                 stocks: action.payload,
                 loading: false
             }
+        case LOGOUT:
+            return {
+                stocks: undefined,
+                loading: false}
         default:
             return state;
     }

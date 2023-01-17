@@ -2,8 +2,14 @@ import React, {Fragment, useContext, useEffect} from 'react'
 import PropTypes from 'prop-types';
 import {Link as RouterLink } from 'react-router-dom'
 import  Link from '@mui/material/Link';
-import { slide as Menu } from 'react-burger-menu'
+
+
 import AuthContext from '../../context/auth/authContext'
+import GetCustomerContext from "../../context/getCustomer/getCustomerContext";
+import SearchShareContext from "../../context/searchShare/searchShareContext";
+import SelectedCustomerContext from "../../context/selectedCustomer/selectedCustomerContext";
+import SelectedStockContext from "../../context/selectedStock/SelectedStockContext";
+
 import Button from "@mui/material/Button";
 import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
@@ -11,18 +17,27 @@ import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import {useTheme} from "@mui/system";
-import {styled} from "@mui/material/styles";
+
+
 
 
  const BurgerMenu = ({title, icon}) => {
-    const authContext = useContext(AuthContext);
 
+    const authContext = useContext(AuthContext);
+    const getCustomerContext = useContext(GetCustomerContext);
+    const searchShareContext = useContext(SearchShareContext);
+    const selectedCustomerContext = useContext(SelectedCustomerContext);
+    const selectedStockContext = useContext(SelectedStockContext);
 
     const {isAuthenticated, logout, user,loadUser} = authContext;
      console.log("user")
     console.log(user)
     const logOut = () =>{
-        logout();
+         getCustomerContext.logout();
+         searchShareContext.logout();
+         selectedCustomerContext.logout();
+         selectedStockContext.logout();
+         logout();
     }
     useEffect(()=>{
         /*loadUser();*/

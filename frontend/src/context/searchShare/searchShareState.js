@@ -3,14 +3,14 @@ import axios from 'axios';
 import SearchShareContext from './searchShareContext';
 import SearchShareReducer from './searchShareReducer';
 import {
-    GET_STOCKS,
+    GET_STOCKS, LOGOUT,
 } from '../types'
 import setAuthToken from "../../utils/setAuthToken";
 
 
 const SearchShareState = props => {
     const initialState = {
-        stocks: [],
+        stocks: undefined,
         loading: false
     };
     const [state, dispatch] = useReducer(SearchShareReducer, initialState);
@@ -48,13 +48,14 @@ const SearchShareState = props => {
         }
     }
 
-
+    const logout = () => dispatch({ type: LOGOUT });
     return (
         <SearchShareContext.Provider value={{
             stocks: state.stocks,
             loading: state.loading,
             getStocksBySymbol,
-            getStocks
+            getStocks,
+            logout
         }}>
             {props.children}
 

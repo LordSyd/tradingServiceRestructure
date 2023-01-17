@@ -4,7 +4,7 @@ import GetCustomerContext from './getCustomerContext';
 import GetCustomerReducer from './getCustomerReducer';
 import {
     CUSTOMER_SELECTED,
-    GET_CUSTOMER,
+    GET_CUSTOMER, LOGOUT,
 } from '../types'
 import setAuthToken from "../../utils/setAuthToken";
 
@@ -100,7 +100,7 @@ const GetCustomerState = props => {
             })
         }
     }
-
+    const logout = () => dispatch({ type: LOGOUT });
 
     return (
         <GetCustomerContext.Provider value={{
@@ -108,7 +108,8 @@ const GetCustomerState = props => {
             loading: state.loading,
             getAllCustomers,
             getCustomersByName,
-            getCustomerById
+            getCustomerById,
+            logout
         }}>
             {props.children}
 

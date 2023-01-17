@@ -6,7 +6,8 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAIL,
     LOGOUT,
-    CLEAR_ERRORS
+    CLEAR_ERRORS,
+    CLEAR_REGISTER_STATE
   } from '../types';
   
   export default (state, action) => {
@@ -19,6 +20,10 @@ import {
           user: action.payload
         };
       case REGISTER_SUCCESS:
+        return{
+          ...state,
+          registerSuccess: true,
+        }
       case LOGIN_SUCCESS:
         console.log("login success")
         console.log(action.payload)
@@ -32,6 +37,12 @@ import {
           loading: false
         };
       case REGISTER_FAIL:
+        console.log("reg Error")
+        return{
+          ...state,
+          registerSuccess: false,
+          error: action.payload
+        }
       case AUTH_ERROR:
       case LOGIN_FAIL:
       case LOGOUT:
@@ -46,6 +57,12 @@ import {
           user: null,
           error: action.payload,
           email:null
+        };
+      case CLEAR_REGISTER_STATE:
+        return {
+          ...state,
+          registerSuccess:false,
+          error: null
         };
       case CLEAR_ERRORS:
         return {

@@ -7,18 +7,21 @@ export default (state, action) =>{
     switch(action.type){
         case BUY_STOCK_SELECTED:
             return{
-                ...state,
+                sellStockSelected: state.sellStockSelected,
                 buyStockSelected: action.payload,
                 loading: false
             }
         case SELL_STOCK_SELECTED:
             return{
-                ...state,
+                buyStockSelected: state.buyStockSelected,
                 sellStockSelected: action.payload,
                 loading: false
             }
         case LOGOUT:
-            return {}
+            return {
+                buyStockSelected: undefined,
+                sellStockSelected: undefined,
+                loading: false}
         default:
             return state;
     }

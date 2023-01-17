@@ -46,7 +46,6 @@ export default function ClickableStockTable(props) {
 
     const stocks = props.stocks
     function handleClick(event, stock) {
-        event.preventDefault()
         console.log("selected STock" + buyStockSelected)
         console.log(stock)
         buyStockSelect(stock);

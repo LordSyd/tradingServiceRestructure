@@ -1,5 +1,5 @@
 import {
-    CUSTOMER_SELECTED,
+    CUSTOMER_SELECTED, LOGOUT,
 } from '../types'
 
 
@@ -10,6 +10,10 @@ export default (state, action) =>{
                 selectedCustomer: action.payload,
                 loading: false
             }
+        case LOGOUT:
+            return {
+                selectedCustomer: undefined,
+                loading: false}
         default:
             return state;
     }
