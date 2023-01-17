@@ -97,19 +97,24 @@ import {styled} from "@mui/material/styles";
     return (
 
         <Fragment>
-            {['left'].map((anchor) => (
-                <React.Fragment key={anchor}>
-                    <Button onClick={toggleDrawer(anchor, true)}>Menu</Button>
-                    <Drawer
-                        anchor={anchor}
-                        open={state[anchor]}
-                        onClose={toggleDrawer(anchor, false)}
-                    >
-                        {list(anchor)}
-                    </Drawer>
+            { isAuthenticated
+                ?   <Fragment>
+                        {['left'].map((anchor) => (
+                            <React.Fragment key={anchor}>
+                                <Button onClick={toggleDrawer(anchor, true)}>Menu</Button>
+                                <Drawer
+                                    anchor={anchor}
+                                    open={state[anchor]}
+                                    onClose={toggleDrawer(anchor, false)}
+                                >
+                                    {list(anchor)}
+                                </Drawer>
 
-                </React.Fragment>
-            ))}
+                            </React.Fragment>
+                        ))}
+                    </Fragment>
+                :<Fragment/>
+            }
         </Fragment>
  
     )

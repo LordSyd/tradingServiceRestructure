@@ -15,12 +15,10 @@ const SelectedCustomerState = props => {
 
     const buyStockSelect = (stock) => {
 
-
             dispatch({
                 type: BUY_STOCK_SELECTED,
                 payload: stock
             })
-
 
     }
 
