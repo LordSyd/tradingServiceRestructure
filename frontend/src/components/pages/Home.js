@@ -396,7 +396,7 @@ const Home = (props) => {
                 <Grid sx={{pb: 2}} xs={12}>
                   <Item>
                     <Fragment>
-                      <h2>{`${user.firstName} ${user.lastName}'s Depot, Id ${user.id}` }</h2>
+                      <h2>{`${user.firstName} ${user.lastName}'s Depot, Id ${user.id} Total Value: ${selectedCustomer.depotValue} €` }</h2>
                       <div className="depot-wrapper">
                         <Depot depot={selectedCustomer?.depot} onClickSell={handleClickSell}></Depot>
                       </div>
@@ -521,7 +521,7 @@ const Home = (props) => {
                     {selectedCustomer == undefined
                         ? <h2>No Customer Selected</h2>
                         : <Fragment>
-                          <h2>{`${selectedCustomer?.firstName} ${selectedCustomer?.lastName}'s Depot, Id ${selectedCustomer?.id}` }</h2>
+                          <h2>{`${selectedCustomer?.firstName} ${selectedCustomer?.lastName}'s Depot, Id ${selectedCustomer?.id} Total Value: ${selectedCustomer.depotValue} €` }</h2>
                           <div className="depot-wrapper">
                             <Depot depot={selectedCustomer?.depot} onClickSell={handleClickSell}></Depot>
                           </div>
