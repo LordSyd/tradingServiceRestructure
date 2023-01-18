@@ -1,13 +1,13 @@
-import React, { Fragment, useEffect, useContext, useState } from 'react';
+import React, { Fragment, useContext, useState } from 'react';
 import bankVolumeContext from '../../context/bankVolume/bankVolumeContext';
-import { v4 as uuidv4 } from 'uuid';
+
 import BeatLoader from "react-spinners/BeatLoader";
 import { css } from "@emotion/react";
 
 
 const BankVolume = () => {
   const bnkVolumeContext = useContext(bankVolumeContext);
-  const { getVolume, loading, bankVolume } = bnkVolumeContext;
+  const { loading, bankVolume } = bnkVolumeContext;
 
   let [color, setColor] = useState("#ffffff");
   const override = css`

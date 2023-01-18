@@ -1,29 +1,21 @@
 import React, {useState, useContext, useEffect} from 'react';
-import Register from '../register/Register'
 import AlertContext from '../../context/alert/alertContext';
 import AuthContext from '../../context/auth/authContext';
-import {Link} from 'react-router-dom'
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-
-//import DashboardContext from '../../context/dashboard/dashboardContext';
 
 const Login = (props) =>{
     const alertContext = useContext(AlertContext) 
     const{setAlert} = alertContext;
-
-    //const dasboardContext = useContext(DashboardContext);
     const authContext = useContext(AuthContext)
     const {login, error, clearErrors, isAuthenticated } = authContext;
 
 
     useEffect(()=>{
-        console.log(isAuthenticated)
+
         if(isAuthenticated){
             props.history.push('/')
 
-            //dasboardContext.loadDash();
         }
-        console.log(error, ' err')
+
         if(error ==='Invalid Credentials'){
             setAlert(error, 'danger');
             clearErrors();

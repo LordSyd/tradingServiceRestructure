@@ -9,11 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {Fragment, useContext} from "react";
 import {Checkbox} from "@mui/material";
-import GetCustomerContext from "../../context/getCustomer/getCustomerContext";
-import SelectedCustomerContext from "../../context/selectedCustomer/selectedCustomerContext";
 import SelectedStockContext from "../../context/selectedStock/SelectedStockContext";
-import SearchBoxContext from "../../context/searchShare/searchShareContext";
-/*import SearchBoxContext from "../../context/searchBox/searchBoxContext";*/
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -40,18 +36,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function ClickableStockTable(props) {
 
     const selectedStockContext = useContext(SelectedStockContext);
-
     const {buyStockSelect , buyStockSelected} = selectedStockContext;
-
 
     const stocks = props.stocks
     function handleClick(event, stock) {
-        console.log("selected STock" + buyStockSelected)
-        console.log(stock)
         buyStockSelect(stock);
     }
-    console.log("clickable stocks")
-    console.log(stocks)
+
     return (
         <Fragment>
             {stocks == undefined

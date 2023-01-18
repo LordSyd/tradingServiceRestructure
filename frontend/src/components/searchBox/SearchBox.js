@@ -41,11 +41,9 @@ const SearchBox = (props) => {
     }, []);
 
     const onSubmitCustomerName = (customer) => {
-        console.log(customer)
         getCustomersByName(customer)
     }
     const onSubmitCustomerId = (id) => {
-        console.log(Number.parseInt(id))
         getCustomerById(Number.parseInt(id))
     }
 

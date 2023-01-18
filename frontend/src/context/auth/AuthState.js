@@ -1,4 +1,4 @@
-import React, {useContext, useReducer} from 'react';
+import React, { useReducer} from 'react';
 import axios from 'axios';
 import AuthContext from './authContext';
 import authReducer from './authReducer';
@@ -26,11 +26,7 @@ const AuthState = props => {
     email: null
   };
 
-
-
-
   const [state, dispatch] = useReducer(authReducer, initialState);
-
 
   // Load User
   const loadUser = async (email, token) => {
@@ -38,10 +34,8 @@ const AuthState = props => {
     setAuthToken(token?? localStorage.token);
     let stateEmail = email?? localStorage.email
     try {
-
       const res = await axios.get(`${global.BACKEND_URL}/api/user/username?email=${stateEmail}`);
-      console.log("aut email")
-      console.log(res)
+
       dispatch({
         type: USER_LOADED,
         payload: res.data
@@ -63,7 +57,7 @@ const AuthState = props => {
     };
 
     try {
-      const res = await axios.post(`${global.BACKEND_URL}/api/register`, formData, config);
+      await axios.post(`${global.BACKEND_URL}/api/register`, formData, config);
 
       dispatch({
         type: REGISTER_SUCCESS,
@@ -87,14 +81,12 @@ const AuthState = props => {
 
     try {
       const res = await axios.post(`${global.BACKEND_URL}/api/auth`, formData, config);
-      console.log(formData)
+
       dispatch({
         type: LOGIN_SUCCESS,
         payload: {token : res.data, email: formData.email}
       });
 
-      /*loadUser(formData.email, res.data)*/
-      /*loadUser();*/
     } catch (err) {
       dispatch({
         type: LOGIN_FAIL,
@@ -105,8 +97,6 @@ const AuthState = props => {
 
   // Logout
   const logout = () => {
-
-
     dispatch({type: LOGOUT});
   }
 

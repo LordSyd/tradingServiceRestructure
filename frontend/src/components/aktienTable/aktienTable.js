@@ -30,10 +30,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-function createData(name, companyValue, price, quantity) {
-    return { name, companyValue, price, quantity };
-}
-
 
 export default function CustomizedTablesAktien() {
 

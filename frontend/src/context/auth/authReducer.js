@@ -25,8 +25,6 @@ import {
           registerSuccess: true,
         }
       case LOGIN_SUCCESS:
-        console.log("login success")
-        console.log(action.payload)
         localStorage.setItem('token', action.payload.token);
         localStorage.setItem('email', action.payload.email);
         return {

@@ -9,10 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {Fragment, useContext} from "react";
 import {Checkbox} from "@mui/material";
-import GetCustomerContext from "../../context/getCustomer/getCustomerContext";
-import SelectedCustomerContext from "../../context/selectedCustomer/selectedCustomerContext";
 import SelectedStockContext from "../../context/selectedStock/SelectedStockContext";
-import SearchBoxContext from "../../context/searchShare/searchShareContext";
 /*import SearchBoxContext from "../../context/searchBox/searchBoxContext";*/
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -45,18 +42,17 @@ export default function ClickableStockTableSell(props) {
 
 
     const stocks = props.depot
-    console.log("sell")
-    console.log(props)
+
     function handleClick(event, stock) {
-        console.log("selected sell STock" + sellStockSelected)
-        console.log(stock)
         sellStockSelect(stock);
     }
-
+    console.log(stocks)
     return (
         <Fragment>
-            {stocks == undefined
-                ? <Fragment/>
+            {stocks.length === 0
+                ? <Fragment>
+                    <h2>No Stocks in Depot</h2>
+                </Fragment>
                 :<TableContainer component={Paper}>
                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
                         <TableHead>

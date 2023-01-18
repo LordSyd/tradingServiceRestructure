@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -40,10 +40,9 @@ export default function CustomerTable() {
 
     const {selectCustomer, selectedCustomer} = selectedCustomerContext;
     const costumers = getCustomerContext.customers;
-    console.log("customers")
-    console.log(costumers)
+
+
     function handleClick(event, customer) {
-        console.log(customer)
         selectCustomer(customer);
     }
 

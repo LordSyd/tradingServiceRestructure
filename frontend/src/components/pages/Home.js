@@ -1,22 +1,16 @@
-import React, { useContext, useEffect, Fragment, useReducer, useState } from 'react'
+import React, { useContext, useEffect, Fragment, useState } from 'react'
 
-import GridLayout from 'react-grid-layout';
 import SearchBox from '../searchBox/SearchBox';
 import CustomerDetails from '../customer/customerDetails';
 import AuthContext from '../../context/auth/authContext';
-import { Responsive, WidthProvider } from 'react-grid-layout';
-import useForceUpdate from 'use-force-update';
 import BeatLoader from "react-spinners/BeatLoader";
 import { css } from "@emotion/react";
 import Depot from '../depot/Depot';
 import BankVolume from '../bankVolume/BankVolume';
-import SearchShare from '../searchbar/searchShare'
 import axios from "axios";
-import {REGISTER_SUCCESS} from "../../context/types";
 import setAuthToken from "../../utils/setAuthToken";
 import GetCustomerContext from "../../context/getCustomer/getCustomerContext";
 import SelectedCustomerContext from "../../context/selectedCustomer/selectedCustomerContext";
-import CustomizedTablesAktien from "../aktienTable/aktienTable";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
@@ -24,27 +18,16 @@ import Button from "@mui/material/Button";
 import BuySharesButton from "../button/BuySharesButton";
 import TextField from "@mui/material/TextField";
 import SelectedStockContext from "../../context/selectedStock/SelectedStockContext";
-import selectedStockContext from "../../context/selectedStock/SelectedStockContext";
 import SearchShareContext from "../../context/searchShare/searchShareContext";
 import ClickableStockTable from "../depotTable/ClickableStockTable";
 import bankVolumeContext from "../../context/bankVolume/bankVolumeContext";
-import BankVolumeContext from "../../context/bankVolume/bankVolumeContext";
-import {Container, useTheme} from "@mui/system";
+import {useTheme} from "@mui/system";
 import Grid from '@mui/material/Grid'; // Grid version 1
-import Grid2 from '@mui/material/Unstable_Grid2'; // Grid version 2
+// Grid version 2
 import {styled} from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 
-import Drawer from '@mui/material/Drawer';
-
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import {Alert} from "@mui/material";
 
 const style = {
   position: 'absolute',
@@ -77,9 +60,6 @@ const Home = (props) => {
   const { mounted, currentBreakpoint, layouts } = authLay;
   const Item = styled(Paper)(({ theme }) => {
 
-    console.log("theme")
-    console.log(theme)
-
     return ({
       backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
       ...theme.typography.body2,
@@ -89,6 +69,8 @@ const Home = (props) => {
     })
   })
 
+  const [buyError, setBuyError] = useState(false)
+
   const buyShares = async () => {
     setAuthToken(localStorage.token)
 
@@ -97,9 +79,13 @@ const Home = (props) => {
 
       selectCustomer(selectedCustomer)
       getVolume();
-      console.log(res)
+
       handleBuyModalClose()
     }catch (e) {
+      if(e.message === "Request failed with status code 500") {
+        setBuyError(true)
+      }
+
       console.error(e)
     }
 
@@ -113,7 +99,7 @@ const Home = (props) => {
 
       selectCustomer(selectedCustomer)
       getVolume();
-      console.log(res)
+
       handleSellModalClose()
     }catch (e) {
       console.error(e)
@@ -153,17 +139,17 @@ const Home = (props) => {
   useEffect(() => {
 
     const loadUserAsync = async () => {
-      console.log('getUser')
+
       await loadUser();
       getVolume()
     }
 
     if (!user) {
-      console.log("pushback")
+
       loadUserAsync();
     }
     if (!localStorage.token || isAuthenticated == false) {
-      console.log("pushback")
+
       props.history.push('/login');
     }
 
@@ -172,6 +158,7 @@ const Home = (props) => {
 
   const handleBuyModalClose = () => {
     setOpenBuyModal(false)
+    setBuyError(false)
   };
   const handleSellModalClose = () => {
     setOpenSellModal(false)
@@ -183,16 +170,6 @@ const Home = (props) => {
     setOpenBuyModal(true)
   };
 
-  const unAuthlayout = [
-    { i: 'SearchedAktien', x: 0, y: 0, w: 7, h: 3, minW: 6, minH:2},
-    { i: 'weatherSmall', x: 8, y: 0, w: 3, h: 2, minW: 4, maxW: 4,minH:2 },
-    { i: 'standardRss', x: 0, y: 1, w: 3, h: 2, minW: 3, maxW: 4,minH:2 },
-    { i: 'spotify', x: 3, y: 1, w: 3, h: 2, minW: 3, maxH: 3,minH:2 },
-    { i: 'quote', x: 6, y: 2, w: 4, h: 2, minW: 4, maxH: 3,minH:2 },
-    { i: 'corona', x: 0, y: 3, w: 10, h: 1.5, minW: 10, maxH: 2, maxW: 10 },
-    { i: 'gas', x: 0, y: 3, w: 10, h: 1.5, minW: 10, maxH: 2, maxW: 10 },
-
-  ]
 
   const authLayout = [
     { i: 'SearchedAktien', x: 0, y: 0, w: 7, h: 3, minW: 6,minH:2 },
@@ -204,16 +181,6 @@ const Home = (props) => {
     { i: 'quote', x: 6, y: 2, w: 4, h: 2, minW: 4, maxH: 3,minH:2 },
     { i: 'corona', x: 0, y: 3, w: 12, h: 2, minW: 12, maxH: 2 },
     { i: 'gas', x: 0, y: 3, w: 12, h: 2, minW: 12, maxH: 2 },
-  ]
-
-  const unAuthlayoutMD = [
-    { i: 'SearchedAktien', x: 0, y: 0, w: 8, h: 2, minW: 10,minH:2 },
-    { i: 'weatherSmall', x: 5, y: 1, w: 2, h: 2, minW: 4, maxW: 4,minH:2 },
-    { i: 'standardRss', x: 0, y: 1, w: 3, h: 2, minW: 4, maxW: 4,minH:2 },
-    { i: 'spotify', x: 0, y: 3, w: 10, h: 2, minW: 10, maxH: 2},
-    { i: 'quote', x: 5, y: 3, w: 2, h: 2, minW: 4, maxH: 3,minH:2 },
-    { i: 'corona', x: 0, y: 2, w: 10, h: 2, minW: 10, maxH: 2 },
-    { i: 'gas', x: 0, y: 2, w: 10, h: 2, minW: 10, maxH: 2 },
   ]
 
   const authLayoutMD = [
@@ -228,15 +195,6 @@ const Home = (props) => {
     { i: 'gas', x: 4, y: 4, w: 2, h: 2, minW: 2, maxH: 3 },
   ]
 
-
-
-
-
-
-  const ResponsiveReactGridLayout = WidthProvider(Responsive);
-
-
-
   const override = css`
       display: block;
       margin: 0 auto;
@@ -247,40 +205,19 @@ const Home = (props) => {
   //dt --> change Unix time stamp 
 
 
-
-
-  const config = {
-      headers: { "Content-Type": 'application/javascript' }
-  };
-
-
-
-
-
-
-
-
-
-  console.log(selectedCustomer)
   const bnkVolumeContext = useContext(bankVolumeContext);
-  const { getVolume, bankVolume } = bnkVolumeContext;
+  const { getVolume } = bnkVolumeContext;
 
   const handleModalChange = (event ) => {
       event.preventDefault()
       setBuySharesNumber(Math.min(Math.max(event.target.value, 0), 999999999))
   }
 
-  useEffect(() => {
-
-  }, [])
-
 
   const handleClickSell = () => {
 
     setOpenSellModal(true);
   }
-
-  const lowerPadding = {paddingBottom: "10px"}
 
   const unAuthLayoutContent =  () => {
     if (!selectedCustomer) {
@@ -311,6 +248,12 @@ const Home = (props) => {
                 }}
                 onChange={handleModalChange}
             />
+            <Fragment>
+              { buyError
+                  ?  <Alert severity="error" >Not enough shares available for purchase</Alert>
+                  : <Fragment/>
+              }
+            </Fragment>
             <Button disabled={buySharesNumber == 0} onClick={buyShares}>Buy Shares</Button>
             <Button onClick={handleBuyModalClose}>Abort</Button>
           </Typography>
@@ -415,7 +358,14 @@ const Home = (props) => {
             <Typography id="buy-modal-title" variant="h6" component="h4">
               <h4 >{`Buying Share: ${buyStockSelected?.companyName}`}</h4>
               <h5 >{`For Customer: ${selectedCustomer?.firstName} ${selectedCustomer?.lastName}`}</h5>
+              <Fragment>
+                { buyError
+                    ?  <Alert severity="error" >Not enough shares available for purchase</Alert>
+                    : <Fragment/>
+                }
+              </Fragment>
               <br/>
+
               <TextField
                   error={buySharesNumber == ""}
                   required
@@ -429,6 +379,8 @@ const Home = (props) => {
                   }}
                   onChange={handleModalChange}
               />
+
+
               <Button disabled={buySharesNumber == 0} onClick={buyShares}>Buy Shares</Button>
               <Button onClick={handleBuyModalClose}>Abort</Button>
             </Typography>

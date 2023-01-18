@@ -1,9 +1,8 @@
-import React, { useState, useContext, useEffect, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import { css } from "@emotion/react";
 import BeatLoader from "react-spinners/BeatLoader";
-import CustomizedTablesAktien from "../aktienTable/aktienTable"
 import CustomizedTablesCustomer from "../customerTable/customerTable";
-import SelectedCustomerContext from "../../context/selectedCustomer/selectedCustomerContext";
+
 
 
 const CustomerDetails = () => {

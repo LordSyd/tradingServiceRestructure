@@ -1,10 +1,9 @@
   import React, { Fragment} from 'react';
 
   import mainLogoBlack from "../../res/img/logo_transparent.png";
-  import mainLogoWhite from "../../res/img/Trading_White.jpg";
 
 
-const Header = (props) => {
+  const Header = (props) => {
 
   const {themeSelected} = props;
    return (

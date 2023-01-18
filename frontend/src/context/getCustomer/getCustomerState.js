@@ -21,15 +21,12 @@ const GetCustomerState = props => {
         setAuthToken(localStorage.token)
         try {
             const res = await axios.get(`${global.BACKEND_URL}/api/user/customer/name?firstName=${customer.firstName}&lastName=${customer.lastName}`);
-            console.log("after call")
-
-            console.log(res.data)
 
             dispatch({
                 type: GET_CUSTOMER,
                 payload: res.data
             })
-            console.log(res.data)
+
         }catch (e) {
             console.error(e)
 
@@ -49,15 +46,11 @@ const GetCustomerState = props => {
         setAuthToken(localStorage.token)
         try {
             const res = await axios.get(`${global.BACKEND_URL}/api/user/customer/all`);
-            console.log("after call")
-
-            console.log(res.data)
 
             dispatch({
                 type: GET_CUSTOMER,
                 payload: res.data
             })
-            console.log(res.data)
         }catch (e) {
             console.error(e)
 
@@ -77,15 +70,12 @@ const GetCustomerState = props => {
         setAuthToken(localStorage.token)
         try {
             const res = await axios.get(`${global.BACKEND_URL}/api/user/customer/id?id=${id}`);
-            console.log("after call")
-
-            console.log(res.data)
 
             dispatch({
                 type: GET_CUSTOMER,
                 payload: [res.data]
             })
-            console.log(res.data)
+
         }catch (e) {
 
             console.error(e)

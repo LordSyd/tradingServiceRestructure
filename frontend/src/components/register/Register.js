@@ -10,8 +10,6 @@ const Register = props => {
   const { register, clearRegistered, registerSuccess, error, clearErrors, isAuthenticated, user} = authContext;
 
   useEffect(() => {
-    console.log("register user")
-    console.log(user)
     if (!isAuthenticated) {
       props.history.push('/login');
     }

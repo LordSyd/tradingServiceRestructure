@@ -21,7 +21,7 @@ import {useTheme} from "@mui/system";
 
 
 
- const BurgerMenu = ({title, icon}) => {
+ const BurgerMenu = () => {
 
     const authContext = useContext(AuthContext);
     const getCustomerContext = useContext(GetCustomerContext);
@@ -30,8 +30,6 @@ import {useTheme} from "@mui/system";
     const selectedStockContext = useContext(SelectedStockContext);
 
     const {isAuthenticated, logout, user,loadUser} = authContext;
-     console.log("user")
-    console.log(user)
     const logOut = () =>{
          getCustomerContext.logout();
          searchShareContext.logout();

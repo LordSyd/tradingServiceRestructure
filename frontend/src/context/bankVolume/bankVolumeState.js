@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, Fragment, useReducer } from 'react'
+import React, { useReducer } from 'react'
 import axios from 'axios';
 import bankVolumeContext from './bankVolumeContext';
 import bankVolumeReducer from './bankVolumeReducer';
@@ -17,14 +17,12 @@ const BankVolumeState = props => {
   const getVolume = async () => {
     try {
       const res = await axios.get(`${global.BACKEND_URL}/api/bank/volume`);
-      console.log("bankvolume " + res.data)
       dispatch({
         type: GET_BANK_VOLUME,
         payload: res.data
       })
     } catch (err) {
       console.error(err.message, 'my err?');
-      // res.status(500).send('Server Error');
     }
   }
 

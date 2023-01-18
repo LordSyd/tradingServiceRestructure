@@ -1,14 +1,10 @@
 
 import React, {useContext, useState} from 'react';
 import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
-import { lighten, darken, styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
-import {Link} from "react-router-dom";
 import Box from "@mui/material/Box";
 import {Fragment} from "react";
 import SelectedCustomerContext from "../../context/selectedCustomer/selectedCustomerContext";
-import {Tooltip} from "chart.js";
 
 export default function SearchSymbol(props) {
     const [text, setText] = useState("");
@@ -17,12 +13,9 @@ export default function SearchSymbol(props) {
 
     const {selectedCustomer} = selectedCustomerContext;
     const handleClick = () => {
-
         props.onSubmit(text)
-
     }
-    console.log("selectedCustomer in button")
-    console.log(selectedCustomer)
+
     const disabled = () => {
         if (props.customer) {
             return false

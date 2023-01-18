@@ -12,8 +12,6 @@ const SelectedCustomerState = props => {
     const [state, dispatch] = useReducer(SelectedCustomerReducer, initialState);
 
     const selectCustomer = async (customer) => {
-    //todo make call to endpoint for customer depot
-        console.log(customer)
         try {
             const res = await axios.get(`${global.BACKEND_URL}/api/user/depot?depotId=${customer.depotId}`);
             customer.depot = res.data;
@@ -25,7 +23,6 @@ const SelectedCustomerState = props => {
                 payload: customer
             })
 
-            console.log(res)
         }catch (e) {
             console.error(e)
         }
