@@ -42,20 +42,6 @@ public class SecurityConfig {
                 .and()
                 .csrf().disable()
                 //all users (anonymous and logged in) can access this route
-                //TODO: for now, access to the register route is not constrained
-                //TODO: after FE and BE are finished, remove register route and uncomment the below constraint for employees only
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/register")
-                        .permitAll()
-                )
-                //all authenticated users with authority EMPLOYEE can access this route
-                /*
-                .authorizeHttpRequests(auth -> auth
-                    .requestMatchers( HttpMethod.POST, "/api/register")
-                        .hasAuthority(UserRole.EMPLOYEE.name())
-                )
-                 */
-                //all users (anonymous and logged in) can access this route
                 .authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers(HttpMethod.POST, "/api/auth")
@@ -67,7 +53,7 @@ public class SecurityConfig {
                         .authenticated()
                 )
                 .authorizeHttpRequests( auth -> auth
-                    .requestMatchers( "/api/user/**" )
+                    .requestMatchers( "/api/user/**", "/api/register" )
                         .hasAuthority(UserRole.EMPLOYEE.name())
                 )
                 //only authenticated users can access the rest of the URL space
